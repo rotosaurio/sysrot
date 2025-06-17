@@ -116,7 +116,7 @@ const questions = [
   {
     type: 'confirm',
     name: 'cloudinary',
-    message: '¿Deseas integración con Cloudinary para gestión de imágenes?',
+    message: '¿Deseas integración con Cloudinary para carga de imágenes?',
     default: false
   },
 
@@ -238,7 +238,7 @@ Opciones:
 }
 
 async function showVersion() {
-  console.log(chalk.cyan('SysRot Base v2.1.3'));
+  console.log(chalk.cyan('SysrotCore v2.1.4'));
 }
 
 async function init() {

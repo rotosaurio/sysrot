@@ -157,24 +157,44 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 
 ## [2.1.4] - 2025-06-17
 
-### 🔄 Breaking Changes
+### 🔄 **Breaking Changes**
 - **Nombre del proyecto cambiado** de `sysrot-base` a `sysrotcore`
-- **Comando actualizado** de `npx sysrot-base` a `npx sysrot create`
+- **Comando CLI actualizado** de `npx sysrot-base` a `npx sysrot create`
+- **Repositorio movido** a https://github.com/rotosaurio/sysrot
 
-### ✨ Características
-- CLI completamente funcional con 11 ejemplos
-- 3 modelos de IA integrados: GPT-4o, Claude 3.5 Sonnet, Gemini Flash Pro
-- Soporte para MongoDB, Supabase y Firebase
-- 50+ componentes UI production-ready
+### ✅ **Funcionalidades Verificadas y Confirmadas**
+- **11 ejemplos funcionales** realmente implementados
+- **3 modelos de IA** con versiones específicas: OpenAI v4.24.1, Anthropic v0.12.0, Google v0.2.0
+- **3 bases de datos** soportadas: MongoDB v6.3.0, Supabase v2.39.1, Firebase v10.7.1
+- **Solo Cloudinary** implementado para upload de archivos (v1.41.1 + next-cloudinary v5.13.0)
+- **50+ componentes UI** en 6 categorías organizadas
 
-### 🎯 Roadmap Actualizado
-- Roadmap enfocado en mejoras reales de plantilla
-- Eliminadas funcionalidades irreales o no implementadas
-- Enfoque en documentación, testing, performance y seguridad
+### 🔧 **Correcciones Importantes**
+- ❌ **Eliminadas menciones falsas:** AWS S3, Vercel Blob, Local Storage para upload
+- ❌ **Removido deployment no implementado:** Configuraciones de Vercel, Railway, DigitalOcean, etc.
+- ❌ **Eliminado CI/CD no implementado:** GitHub Actions, automated testing, etc.
+- ❌ **Removidas tecnologías no soportadas:** PlanetScale, Redis, Prisma, DeepSeek models
+- ❌ **Estadísticas falsas eliminadas:** +15,000 proyectos, trending GitHub, etc.
 
-### 🔧 Correcciones
-- Eliminadas estadísticas falsas del README
-- Removidas tecnologías no implementadas (PlanetScale, Redis, Prisma, DeepSeek)
-- Actualizado .gitignore para excluir node_modules
-- Corregidos todos los links y referencias del proyecto
+### 📋 **Documentación Mejorada**
+- **Versiones específicas** de todas las dependencias documentadas
+- **README actualizado** con información 100% precisa
+- **Roadmap realista** enfocado en mejoras de plantilla
+- **URLs de repositorio** actualizadas a la ubicación correcta
+- **Información técnica detallada** de cada característica
+
+### 🎯 **CLI Simplificado**
+- Eliminadas opciones no implementadas de deployment y CI/CD
+- Solo opciones realmente funcionales disponibles
+- Mejor experiencia de usuario con opciones verificadas
+
+### 📁 **Estructura de Archivos**
+- `.gitignore` mejorado para excluir node_modules y archivos innecesarios
+- URLs y referencias actualizadas en todos los archivos
+- Consistencia en nombres y comandos
+
+### 🚀 **Roadmap Realista 2025-2026**
+- Enfocado en mejoras reales de plantilla de desarrollo
+- Eliminadas visiones irreales de IA, quantum computing, etc.
+- Concentrado en documentación, testing, performance, seguridad
  

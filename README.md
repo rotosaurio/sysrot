@@ -10,7 +10,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%2B-black.svg)](https://nextjs.org/)
 
-**🚀 CLI Avanzado para Next.js 14+ | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
+**🚀 Comando: `npx sysrot create` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
 
 </div>
 
@@ -24,26 +24,28 @@ En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creac
 - 🎯 **11 ejemplos funcionales** - Código real que puedes usar inmediatamente
 - ⚡ **Zero-config** - Funciona perfecto desde el primer `npm run dev`
 
+**💡 Nota:** El paquete se llama `sysrotcore` pero el comando es `sysrot create` para mayor simplicidad.
+
 ## 🔥 **Características Implementadas**
 
 ### 🤖 **Modelos de IA Integrados**
-- **GPT-4o (OpenAI)** - Razonamiento avanzado y generación de código
-- **Claude 3.5 Sonnet (Anthropic)** - Análisis profundo y documentación
-- **Gemini Flash Pro (Google)** - Procesamiento multimodal rápido
+- **GPT-4o (OpenAI v4.24.1)** - Razonamiento avanzado y generación de código
+- **Claude 3.5 Sonnet (Anthropic v0.12.0)** - Análisis profundo y documentación
+- **Gemini Flash Pro (Google v0.2.0)** - Procesamiento multimodal rápido
 - **Interfaz unificada** - Un componente para todos los modelos
 - **Streaming real-time** - Respuestas en vivo
 - **Fallback automático** - Resiliencia ante errores de API
 
 ### 🎨 **Sistema de Diseño Moderno**
 - **TailwindCSS 3.4+** - Utilidades CSS de última generación
-- **Dark/Light/System** - Tema adaptativo inteligente
+- **Dark/Light/System** - Tema adaptativo inteligente con next-themes v0.2.1
 - **Responsive First** - Mobile, tablet, desktop perfecto
-- **Animaciones Fluidas** - Framer Motion integrado
+- **Animaciones Fluidas** - Framer Motion v10.16.16 integrado
 - **Accessibility A11Y** - WCAG 2.1 AA compliant
 - **Performance Optimized** - Core Web Vitals perfectos
 
 ### 🛡️ **Autenticación Robusta**
-- **NextAuth.js 4.24+** - Autenticación robusta y segura
+- **NextAuth.js 4.24.5** - Autenticación robusta y segura
 - **OAuth Providers** - Google, GitHub, Apple, Discord, LinkedIn
 - **Magic Links** - Login sin contraseña
 - **Multi-Factor Auth** - 2FA/TOTP integrado
@@ -52,16 +54,60 @@ En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creac
 - **CSRF Protection** - Seguridad automática
 
 ### 📊 **Bases de Datos Soportadas**
-- **MongoDB** - NoSQL con Mongoose ODM
-- **Supabase** - PostgreSQL con Edge Functions
-- **Firebase** - Real-time + Analytics
+- **MongoDB v6.3.0** - NoSQL con Mongoose ODM v8.0.3
+- **Supabase v2.39.1** - PostgreSQL con Edge Functions
+- **Firebase v10.7.1** - Real-time + Analytics + Admin v11.11.1
+
+### 📝 **Formularios y Validación**
+- **React Hook Form v7.49.2** - Performance optimizada
+- **Zod v3.22.4** - Validación TypeScript-first
+- **Hookform Resolvers v3.3.3** - Integración perfecta
+- **Validación en tiempo real** - UX optimizada
+- **Error handling** - Mensajes personalizados
+
+### 🎨 **UI/UX Avanzada**
+- **50+ Componentes** - Production-ready
+- **6 Categorías organizadas** - Básicos, Formularios, Navegación, Feedback, Layout, Datos
+- **Copy-paste friendly** - Código reutilizable
+- **TypeScript estricto** - Type safety completa
+- **Responsive design** - Mobile-first approach
+
+### 📤 **Gestión de Archivos**
+- **Cloudinary v1.41.1** - CDN global optimizado
+- **Next-Cloudinary v5.13.0** - Integración Next.js
+- **Drag & Drop** - Interfaz intuitiva
+- **Múltiples formatos** - Imágenes, videos, documentos
+- **Optimización automática** - WebP, AVIF, resize
+- **Preview en tiempo real** - UX mejorada
+
+### 📚 **Sistema de Blog/CMS**
+- **MDX Support** - Markdown + React components
+- **Gray Matter v4.0.3** - Frontmatter parsing
+- **Next MDX Remote v4.4.1** - Renderizado dinámico
+- **Remark v15.0.1** - Markdown processing
+- **Rehype Highlight v7.0.0** - Syntax highlighting
+- **Remark GFM v4.0.0** - GitHub Flavored Markdown
+- **Date-fns v2.30.0** - Manejo de fechas
+- **SEO optimizado** - Meta tags automáticos
 
 ## 🛠️ **Instalación y Uso**
+
+### **⚠️ Aclaración Importante**
+Este directorio (`base/`) contiene el **CLI generator** de SysrotCore, **NO** es un proyecto Next.js. 
+
+- ❌ **No ejecutes** `npm run dev` aquí
+- ✅ **Usa** `npx sysrot create mi-proyecto` para generar un proyecto Next.js
+- ✅ **El script `dev`** estará disponible en el proyecto generado
+
+### **📝 Importante: Nombre vs Comando**
+- **Nombre del paquete NPM:** `sysrotcore`
+- **Comando CLI:** `sysrot create` 
+- **¿Por qué?** Para mayor simplicidad y facilidad de uso del comando
 
 ### **Crear un Proyecto**
 
 ```bash
-# Opción 1: NPX (Recomendado)
+# Opción 1: NPX (Recomendado) - Siempre última versión
 npx sysrot create mi-proyecto
 
 # Opción 2: Con nombre específico
@@ -81,6 +127,8 @@ npx sysrot create --help
 # Ver versión actual
 npx sysrot create --version
 ```
+
+**💡 Tip:** Usa siempre `npx sysrot create` para obtener automáticamente la última versión sin instalación global.
 
 ## 🎮 **Configuración Interactiva Completa**
 
@@ -140,12 +188,10 @@ El CLI incluye un asistente inteligente con **15 categorías de configuración**
 
 ### 📤 **Gestión de Archivos & Media**
 ```bash
-? ¿Deseas integración con Cloudinary para gestión de imágenes? (Y/n)
-  - CDN global optimizado
-  - Transformaciones automáticas de imágenes
-  - Soporte para múltiples formatos (WebP, AVIF)
-  - Drag & drop file upload
-  - Preview en tiempo real
+? ¿Deseas integración de upload de archivos? (Y/n)
+? ¿Deseas integración con Cloudinary para carga de imágenes? (y/N)
+? ¿Deseas optimización automática de imágenes? (Y/n)
+? ¿Deseas soporte para múltiples formatos? (WebP, AVIF) (Y/n)
 ```
 
 ### 📝 **Content Management**
@@ -708,7 +754,6 @@ Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
 
 - **Desarrollado por**: SysRot Team
 - **GitHub**: [github.com/rotosaurio/sysrot](https://github.com/rotosaurio/sysrot)
-- **NPM**: [npmjs.com/package/sysrotcore](https://www.npmjs.com/package/sysrotcore)
 - **Licencia**: MIT License
 
 ## ⭐ **Si te gusta el proyecto, ¡dale una estrella!**
@@ -721,7 +766,7 @@ Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
 
 **Hecho con ❤️ por SysRot Team**
 
-[GitHub Repository](https://github.com/rotosaurio/sysrot) • [NPM Package](https://www.npmjs.com/package/sysrotcore)
+[GitHub Repository](https://github.com/rotosaurio/sysrot)
 
 </div>
 
