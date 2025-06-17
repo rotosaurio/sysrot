@@ -1,0 +1,67 @@
+{
+  "name": "sysrotcore",
+  "version": "2.1.4",
+  "description": "🚀 CLI de nueva generación para crear proyectos Next.js 14+ con Pages Router, 3 modelos de IA integrados, 11 ejemplos funcionales y componentes production-ready. Plantilla completa para desarrollo web moderno.",
+  "main": "cli.js",
+  "bin": {
+    "sysrot": "./cli.js",
+    "sysrot-create": "./cli.js"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "cli.js",
+    "createProject.js",
+    "fix-nextconfig.js",
+    "template/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node cli.js test-project",
+    "prepublishOnly": "echo 'Ready to publish'"
+  },
+  "keywords": [
+    "nextjs",
+    "cli",
+    "boilerplate",
+    "starter",
+    "template",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "pages-router",
+    "ai",
+    "gpt-4",
+    "claude",
+    "gemini",
+    "create-app",
+    "scaffold",
+    "framer-motion",
+    "react-hook-form",
+    "zod",
+    "hot-toast",
+    "next-themes",
+    "mongodb",
+    "supabase",
+    "firebase",
+    "cloudinary"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sysrot/sysrotcore.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sysrot/sysrotcore/issues"
+  },
+  "homepage": "https://github.com/sysrot/sysrotcore#readme",
+  "author": "SysRot Team",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "fs-extra": "^11.1.1",
+    "inquirer": "^8.2.5",
+    "ora": "^5.4.1",
+    "degit": "^2.8.4"
+  }
+} 
