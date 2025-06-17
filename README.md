@@ -140,15 +140,12 @@ El CLI incluye un asistente inteligente con **15 categorías de configuración**
 
 ### 📤 **Gestión de Archivos & Media**
 ```bash
-? ¿Deseas integración de upload de archivos? (Y/n)
-? Selecciona el proveedor:
-  ❯ Cloudinary (Recomendado - CDN global)
-    AWS S3 (Enterprise)
-    Vercel Blob (Simple)
-    Local Storage (Desarrollo)
-    
-? ¿Deseas optimización automática de imágenes? (Y/n)
-? ¿Deseas soporte para múltiples formatos? (WebP, AVIF) (Y/n)
+? ¿Deseas integración con Cloudinary para gestión de imágenes? (Y/n)
+  - CDN global optimizado
+  - Transformaciones automáticas de imágenes
+  - Soporte para múltiples formatos (WebP, AVIF)
+  - Drag & drop file upload
+  - Preview en tiempo real
 ```
 
 ### 📝 **Content Management**
@@ -243,23 +240,6 @@ El CLI incluye un asistente inteligente con **15 categorías de configuración**
   ◯ TypeScript Avanzado - Patterns y best practices
   ◯ API Rest Completa - Endpoints documentados
   ◯ Página 404 Personalizada - Error handling elegante
-```
-
-### 🚀 **Configuración de Despliegue**
-```bash
-? ¿Deseas configuración de deployment? (Y/n)
-? Plataformas soportadas:
-  ◯ Vercel (Recomendado para Next.js)
-  ◯ Netlify (JAMstack optimized)
-  ◯ Railway (Full-stack)
-  ◯ DigitalOcean App Platform
-  ◯ AWS Amplify
-  ◯ Docker + cualquier cloud
-  
-? ¿Deseas CI/CD automático? (y/N)
-  - GitHub Actions
-  - Vercel Previews
-  - Automated testing
 ```
 
 ### 📚 **Documentación & Configuración**
@@ -727,7 +707,8 @@ Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
 ## 👥 **Equipo y Comunidad**
 
 - **Desarrollado por**: SysRot Team
-- **GitHub**: [github.com/sysrot/sysrotcore](https://github.com/sysrot/sysrotcore)
+- **GitHub**: [github.com/rotosaurio/sysrot](https://github.com/rotosaurio/sysrot)
+- **NPM**: [npmjs.com/package/sysrotcore](https://www.npmjs.com/package/sysrotcore)
 - **Licencia**: MIT License
 
 ## ⭐ **Si te gusta el proyecto, ¡dale una estrella!**
@@ -740,7 +721,7 @@ Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
 
 **Hecho con ❤️ por SysRot Team**
 
-[GitHub Repository](https://github.com/sysrot/sysrotcore)
+[GitHub Repository](https://github.com/rotosaurio/sysrot) • [NPM Package](https://www.npmjs.com/package/sysrotcore)
 
 </div>
 

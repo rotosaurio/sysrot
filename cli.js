@@ -116,7 +116,7 @@ const questions = [
   {
     type: 'confirm',
     name: 'cloudinary',
-    message: '¿Deseas integración con Cloudinary para carga de imágenes?',
+    message: '¿Deseas integración con Cloudinary para gestión de imágenes?',
     default: false
   },
 
