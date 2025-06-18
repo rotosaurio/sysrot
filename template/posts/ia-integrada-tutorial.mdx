@@ -1,0 +1,512 @@
+---
+title: "IA Integrada: Tutorial Completo para Developers"
+description: "Aprende a integrar y utilizar los 3 modelos de IA incluidos en SysrotCore: GPT-4o, Claude 3.5 Sonnet y Gemini Flash Pro con ejemplos prácticos."
+date: "2025-06-15"
+author: "Dr. Alex Chen, AI Research Lead"
+tags: ["ia", "gpt", "claude", "gemini", "machine-learning", "api"]
+image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+readingTime: "12 min"
+featured: true
+---
+
+# IA Integrada: Tutorial Completo para Developers
+
+La **Inteligencia Artificial** ha dejado de ser una tecnología futurista para convertirse en una herramienta esencial del desarrollo moderno. SysrotCore es el **primer CLI** que incluye 3 modelos de IA completamente integrados y listos para usar en producción.
+
+## 🤖 Los Tres Pilares de IA
+
+### 1. **GPT-4o (OpenAI)**
+- **Fortaleza**: Razonamiento lógico y generación de código
+- **Casos de uso**: Code generation, debugging, documentation
+- **Velocidad**: ~2-3 segundos por respuesta
+- **Contexto**: 128K tokens
+
+### 2. **Claude 3.5 Sonnet (Anthropic)** 
+- **Fortaleza**: Análisis profundo y contenido largo
+- **Casos de uso**: Code review, arquitectura, escritura técnica
+- **Velocidad**: ~3-4 segundos por respuesta  
+- **Contexto**: 200K tokens
+
+### 3. **Gemini Flash Pro (Google)**
+- **Fortaleza**: Procesamiento multimodal ultrarrápido
+- **Casos de uso**: Análisis de imágenes, respuestas rápidas
+- **Velocidad**: ~1-2 segundos por respuesta
+- **Contexto**: 1M tokens
+
+## ⚡ Quick Start: Tu Primera Integración
+
+### Configuración Inicial
+```typescript
+// .env.local
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GOOGLE_AI_API_KEY=AIza...
+
+// Opcional: Configuración avanzada
+AI_DEFAULT_MODEL=gpt-4o
+AI_FALLBACK_ENABLED=true
+AI_RATE_LIMIT=100
+```
+
+### Hook Básico
+```typescript
+import { useAI } from '@/hooks/useAI';
+
+export function ChatExample() {
+  const { sendMessage, messages, isLoading, error } = useAI({
+    model: 'gpt-4o', // o 'claude' o 'gemini'
+    maxTokens: 1000,
+    temperature: 0.7
+  });
+
+  const handleSubmit = async (prompt: string) => {
+    await sendMessage(prompt);
+  };
+
+  return (
+    <div className="chat-container">
+      <MessageList messages={messages} />
+      {isLoading && <LoadingIndicator />}
+      {error && <ErrorMessage error={error} />}
+      <PromptInput onSubmit={handleSubmit} />
+    </div>
+  );
+}
+```
+
+## 🎯 Casos de Uso Prácticos
+
+### 1. Code Generation Assistant
+
+```typescript
+'use client';
+
+import { useState } from 'react';
+import { useAI } from '@/hooks/useAI';
+
+export function CodeGenerator() {
+  const [requirement, setRequirement] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
+  const { sendMessage, isLoading } = useAI({ model: 'gpt-4o' });
+
+  const generateCode = async () => {
+    const prompt = `
+    Genera un componente React TypeScript para: ${requirement}
+    
+    Requisitos:
+    - Usa TailwindCSS para estilos
+    - Incluye TypeScript types estrictos
+    - Sigue mejores prácticas de accesibilidad
+    - Añade comentarios explicativos
+    `;
+
+    const response = await sendMessage(prompt);
+    setGeneratedCode(response.content);
+  };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Input Panel */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Describe tu componente</h2>
+        <textarea
+          value={requirement}
+          onChange={(e) => setRequirement(e.target.value)}
+          placeholder="Ej: Un modal de confirmación con animaciones suaves y botones de acción"
+          className="w-full h-32 p-4 border rounded-lg"
+        />
+        <button
+          onClick={generateCode}
+          disabled={isLoading || !requirement.trim()}
+          className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        >
+          {isLoading ? 'Generando...' : 'Generar Código'}
+        </button>
+      </div>
+
+      {/* Output Panel */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Código Generado</h2>
+        <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto h-96 text-sm">
+          <code>{generatedCode || 'El código aparecerá aquí...'}</code>
+        </pre>
+        {generatedCode && (
+          <button
+            onClick={() => navigator.clipboard.writeText(generatedCode)}
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          >
+            Copiar Código
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+### 2. Smart Documentation Writer
+
+```typescript
+export function DocumentationGenerator() {
+  const { sendMessage } = useAI({ model: 'claude' }); // Claude es mejor para documentación
+
+  const generateDocs = async (codeSnippet: string) => {
+    const prompt = `
+    Analiza este código y genera documentación completa:
+
+    \`\`\`typescript
+    ${codeSnippet}
+    \`\`\`
+
+    Incluye:
+    1. Descripción general del propósito
+    2. Parámetros y tipos
+    3. Ejemplos de uso
+    4. Casos edge y consideraciones
+    5. JSDoc comments para el código
+    `;
+
+    return await sendMessage(prompt);
+  };
+
+  // ... UI implementation
+}
+```
+
+### 3. Image Analysis Tool
+
+```typescript
+export function ImageAnalyzer() {
+  const { sendMessage } = useAI({ model: 'gemini' }); // Gemini para multimodal
+
+  const analyzeImage = async (imageFile: File) => {
+    const base64 = await fileToBase64(imageFile);
+    
+    const prompt = `
+    Analiza esta imagen de UI/mockup y genera:
+    1. Descripción de los componentes visibles
+    2. Estructura HTML/React sugerida
+    3. Clases TailwindCSS aproximadas
+    4. Mejoras de UX recomendadas
+    `;
+
+    return await sendMessage(prompt, { 
+      image: base64,
+      mimeType: imageFile.type 
+    });
+  };
+
+  // ... UI implementation
+}
+```
+
+## 🚀 Funciones Avanzadas
+
+### Auto-Fallback System
+```typescript
+// El sistema automáticamente cambia de modelo si uno falla
+const { sendMessage } = useAI({
+  models: ['gpt-4o', 'claude', 'gemini'], // Orden de preferencia
+  fallbackEnabled: true,
+  retryAttempts: 2
+});
+
+// Si GPT-4o falla, automáticamente prueba Claude, luego Gemini
+await sendMessage("Explica React hooks");
+```
+
+### Context Management
+```typescript
+const { sendMessage, setContext } = useAI();
+
+// Establecer contexto para conversaciones largas
+setContext(`
+Eres un senior developer especializado en Next.js y TypeScript.
+Responde siempre con código production-ready y explica tus decisiones.
+Formato: Siempre incluye ejemplos de código cuando sea relevante.
+`);
+
+await sendMessage("¿Cómo optimizar el rendimiento de una página de blog?");
+```
+
+### Streaming Responses
+```typescript
+export function StreamingChat() {
+  const [response, setResponse] = useState('');
+  
+  const handleStream = async (prompt: string) => {
+    const stream = await streamAIResponse(prompt, {
+      model: 'gpt-4o',
+      onChunk: (chunk) => {
+        setResponse(prev => prev + chunk);
+      },
+      onComplete: () => {
+        console.log('Stream completed');
+      }
+    });
+  };
+
+  return (
+    <div>
+      <div className="response-area min-h-32 p-4 border rounded">
+        {response}
+        {response && <BlinkingCursor />}
+      </div>
+    </div>
+  );
+}
+```
+
+## 🔧 APIs Personalizadas
+
+### Custom AI Endpoint
+```typescript
+// pages/api/ai/custom.ts
+import { NextApiRequest, NextApiResponse } from 'next';
+import { AIService } from '@/lib/ai';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { prompt, context, model = 'gpt-4o' } = req.body;
+
+  try {
+    // Preprocessing personalizado
+    const enhancedPrompt = `
+    Context: ${context}
+    Task: ${prompt}
+    Output format: JSON with structure { code: string, explanation: string, examples: string[] }
+    `;
+
+    const response = await AIService.generate({
+      model,
+      prompt: enhancedPrompt,
+      maxTokens: 2000,
+      temperature: 0.3
+    });
+
+    // Postprocessing
+    const parsedResponse = JSON.parse(response.content);
+    
+    res.status(200).json({
+      success: true,
+      data: parsedResponse,
+      metadata: {
+        model: response.model,
+        tokens: response.usage.totalTokens,
+        cost: calculateCost(response.usage, model)
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      error: 'AI service error', 
+      details: error.message 
+    });
+  }
+}
+```
+
+### Batch Processing
+```typescript
+export async function processBatchRequests(requests: AIRequest[]) {
+  const results = await Promise.allSettled(
+    requests.map(async (request) => {
+      return await AIService.generate({
+        model: request.preferredModel,
+        prompt: request.prompt,
+        timeout: 30000 // 30 segundos max por request
+      });
+    })
+  );
+
+  return results.map((result, index) => ({
+    requestId: requests[index].id,
+    status: result.status,
+    data: result.status === 'fulfilled' ? result.value : null,
+    error: result.status === 'rejected' ? result.reason : null
+  }));
+}
+```
+
+## 📊 Monitoring y Analytics
+
+### Usage Tracking
+```typescript
+// hooks/useAIAnalytics.ts
+export function useAIAnalytics() {
+  const trackUsage = async (event: AIUsageEvent) => {
+    await fetch('/api/analytics/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: event.model,
+        tokens: event.tokens,
+        latency: event.latency,
+        success: event.success,
+        userId: event.userId,
+        timestamp: new Date().toISOString()
+      })
+    });
+  };
+
+  return { trackUsage };
+}
+```
+
+### Cost Optimization
+```typescript
+// Selección automática del modelo más económico según la tarea
+export function selectOptimalModel(task: AITask): AIModel {
+  const preferences = {
+    'code-generation': 'gpt-4o',
+    'content-writing': 'claude',
+    'quick-response': 'gemini',
+    'image-analysis': 'gemini',
+    'long-form': 'claude'
+  };
+
+  return preferences[task.type] || 'gpt-4o';
+}
+```
+
+## 🎯 Mejores Prácticas
+
+### 1. Prompt Engineering
+```typescript
+// ❌ Prompt vago
+const badPrompt = "Ayúdame con React";
+
+// ✅ Prompt específico y estructurado
+const goodPrompt = `
+Actúa como un senior React developer.
+
+Tarea: Crear un hook personalizado para manejar formularios
+Contexto: Aplicación Next.js con TypeScript
+Requisitos:
+- Validación en tiempo real
+- Manejo de errores
+- TypeScript types estrictos
+- Compatible con React Hook Form
+
+Output esperado:
+1. Código del hook
+2. Tipos TypeScript
+3. Ejemplo de uso
+4. Tests unitarios
+
+Formato: Markdown con bloques de código
+`;
+```
+
+### 2. Error Handling
+```typescript
+export function useAIWithErrorHandling() {
+  const [error, setError] = useState<AIError | null>(null);
+  
+  const sendMessage = async (prompt: string) => {
+    try {
+      setError(null);
+      return await AIService.generate({ prompt });
+    } catch (err) {
+      if (err instanceof RateLimitError) {
+        setError({ type: 'rate_limit', message: 'Too many requests. Please wait.' });
+      } else if (err instanceof InvalidAPIKeyError) {
+        setError({ type: 'auth', message: 'Invalid API key configuration.' });
+      } else if (err instanceof NetworkError) {
+        setError({ type: 'network', message: 'Network connection failed.' });
+      } else {
+        setError({ type: 'unknown', message: 'An unexpected error occurred.' });
+      }
+      throw err;
+    }
+  };
+
+  return { sendMessage, error };
+}
+```
+
+### 3. Performance Optimization
+```typescript
+// Caché de respuestas frecuentes
+const aiCache = new Map<string, AIResponse>();
+
+export async function cachedAIRequest(prompt: string): Promise<AIResponse> {
+  const cacheKey = hashPrompt(prompt);
+  
+  if (aiCache.has(cacheKey)) {
+    return aiCache.get(cacheKey)!;
+  }
+
+  const response = await AIService.generate({ prompt });
+  
+  // Cache por 1 hora
+  aiCache.set(cacheKey, response);
+  setTimeout(() => aiCache.delete(cacheKey), 3600000);
+  
+  return response;
+}
+```
+
+## 🔮 Casos de Uso Futuros
+
+### Code Review Automático
+```typescript
+// Próximamente en SysrotCore v2.2.0
+export async function reviewCode(codeChanges: GitDiff[]): Promise<ReviewResult> {
+  const review = await AIService.generate({
+    model: 'claude',
+    prompt: `
+    Revisa estos cambios de código y proporciona:
+    1. Issues de seguridad
+    2. Problemas de performance
+    3. Mejoras de arquitectura
+    4. Adherencia a best practices
+    
+    ${codeChanges.map(change => change.diff).join('\n\n')}
+    `
+  });
+
+  return parseReviewResult(review.content);
+}
+```
+
+### Auto-Testing Generator
+```typescript
+// Generación automática de tests
+export async function generateTests(component: string): Promise<TestSuite> {
+  const tests = await AIService.generate({
+    model: 'gpt-4o',
+    prompt: `
+    Genera tests completos para este componente React:
+    ${component}
+    
+    Incluye:
+    - Unit tests (Jest + Testing Library)
+    - Integration tests
+    - Edge cases
+    - Accessibility tests
+    `
+  });
+
+  return parseTestSuite(tests.content);
+}
+```
+
+## 🎯 Próximos Pasos
+
+1. **Configura tus API keys** - Sigue la documentación de configuración
+2. **Experimenta con los ejemplos** - Ve a `/ejemplos/ai` en tu proyecto
+3. **Personaliza los prompts** - Adapta los ejemplos a tu dominio
+4. **Monitorea el uso** - Implementa analytics para optimizar costos
+
+---
+
+La IA integrada en SysrotCore no es solo una característica más: es el **futuro del desarrollo**. Con estos modelos a tu disposición, puedes automatizar tareas repetitivas, generar código de calidad y acelerar tu flujo de trabajo como nunca antes.
+
+**¿Estás listo para desarrollar con superpoderes de IA?**
+
+```bash
+npx sysrotcore mi-app-con-ia
+``` 

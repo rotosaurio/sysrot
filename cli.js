@@ -10,7 +10,7 @@ const args = process.argv.slice(2);
 const projectNameArg = args[0];
 
 console.log(chalk.cyan(`
-🚀 Bienvenido a SysrotCore v2.1.4 🚀
+🚀 Bienvenido a SysrotCore v2.1.8 🚀
 Vamos a crear un proyecto Next.js 14+ con Pages Router y todas las configuraciones modernas
 `));
 
@@ -238,7 +238,7 @@ Opciones:
 }
 
 async function showVersion() {
-  console.log(chalk.cyan('SysrotCore v2.1.4'));
+  console.log(chalk.cyan('SysrotCore v2.1.5'));
 }
 
 async function init() {

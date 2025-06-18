@@ -1,12 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { MDXRemote } from "next-mdx-remote/rsc";
+import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { getAllPosts, getPostBySlug, Post } from "@/lib/mdx";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import rehypeHighlight from "rehype-highlight";
-import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
 
 interface BlogPostProps {
   post: Post;
@@ -36,11 +33,11 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) 
     };
   }
   
-  // Serializar el contenido MDX
+  // Serializar el contenido MDX sin plugins problemáticos
   const mdxSource = await serialize(post.content, {
     mdxOptions: {
-      rehypePlugins: [rehypeHighlight, rehypeSlug],
-      remarkPlugins: [remarkGfm],
+      remarkPlugins: [],
+      rehypePlugins: [],
     },
   });
   
@@ -112,7 +109,7 @@ export default function BlogPostPage({ post, mdxSource }: BlogPostProps) {
           </div>
         )}
         
-        <div className="mdx-content">
+        <div className="mdx-content prose prose-gray dark:prose-invert">
           <MDXRemote {...mdxSource} />
         </div>
       </article>

@@ -5,6 +5,9 @@ import { useTheme } from 'next-themes';
 export default function UITemasExample(): React.ReactElement {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  const [activeTab, setActiveTab] = useState('componentes');
+  const [showModal, setShowModal] = useState(false);
+  const [progress, setProgress] = useState(65);
 
   // Evitar hidration mismatch
   React.useEffect(() => {
@@ -20,378 +23,372 @@ export default function UITemasExample(): React.ReactElement {
   }
 
   return (
-    <div className="container mx-auto py-12">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Sistema de Temas y UI</h1>
-        <p className="text-muted-foreground text-lg">
-          Demostración del sistema de temas claro/oscuro y componentes UI reutilizables con <strong>TailwindCSS</strong>.
+    <div className="container mx-auto py-12 space-y-12">
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+          Sistema UI & Temas
+        </h1>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          Componentes modernos, animaciones fluidas y sistema de temas completo con TailwindCSS
         </p>
       </div>
 
-      {/* Sección 1: Control de Tema */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">1. Control de Tema</h2>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <div className="flex items-center justify-between mb-6">
+      {/* Control de Tema Avanzado */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-8 rounded-2xl">
+        <div className="absolute inset-0 bg-grid opacity-5"></div>
+        <div className="relative">
+          <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+            <span className="animate-spin">🎨</span>
+            Control de Tema
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-lg font-semibold">Tema Actual: {theme}</h3>
-              <p className="text-muted-foreground">Tema resuelto: {resolvedTheme}</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setTheme('light')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  theme === 'light'
-                    ? 'bg-yellow-500 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
-                }`}
-              >
-                🌞 Claro
-              </button>
-              <button
-                onClick={() => setTheme('dark')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  theme === 'dark'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
-                }`}
-              >
-                🌙 Oscuro
-              </button>
-              <button
-                onClick={() => setTheme('system')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  theme === 'system'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
-                }`}
-              >
-                💻 Sistema
-              </button>
-            </div>
-          </div>
-          
-          {/* Código del toggle */}
-          <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-            <pre>{`// components/theme-toggle.tsx
-import { useTheme } from 'next-themes';
-
-export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  
-  return (
-    <button 
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 rounded-lg transition-colors"
-    >
-      {theme === 'dark' ? '🌞' : '🌙'}
-    </button>
-  );
-}`}</pre>
-          </div>
-        </div>
-      </section>
-
-      {/* Sección 2: Paleta de Colores */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">2. Paleta de Colores</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Primarios */}
-          <div className="space-y-3">
-            <h3 className="font-semibold">Primarios</h3>
-            <div className="space-y-2">
-              <div className="bg-blue-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Blue 500
-              </div>
-              <div className="bg-purple-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Purple 500
-              </div>
-              <div className="bg-indigo-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Indigo 500
+              <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm p-6 rounded-xl shadow-lg">
+                <h3 className="text-xl font-semibold mb-4">Tema Actual: {resolvedTheme}</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    onClick={() => setTheme('light')}
+                    className={`group p-4 rounded-xl transition-all duration-300 ${
+                      theme === 'light'
+                        ? 'bg-yellow-500 text-white shadow-lg scale-105'
+                        : 'bg-gray-100 dark:bg-gray-700 hover:scale-105 hover:shadow-md'
+                    }`}
+                  >
+                    <div className="text-2xl mb-2 group-hover:animate-bounce">🌞</div>
+                    <div className="text-sm font-medium">Claro</div>
+                  </button>
+                  <button
+                    onClick={() => setTheme('dark')}
+                    className={`group p-4 rounded-xl transition-all duration-300 ${
+                      theme === 'dark'
+                        ? 'bg-blue-600 text-white shadow-lg scale-105'
+                        : 'bg-gray-100 dark:bg-gray-700 hover:scale-105 hover:shadow-md'
+                    }`}
+                  >
+                    <div className="text-2xl mb-2 group-hover:animate-pulse">🌙</div>
+                    <div className="text-sm font-medium">Oscuro</div>
+                  </button>
+                  <button
+                    onClick={() => setTheme('system')}
+                    className={`group p-4 rounded-xl transition-all duration-300 ${
+                      theme === 'system'
+                        ? 'bg-purple-600 text-white shadow-lg scale-105'
+                        : 'bg-gray-100 dark:bg-gray-700 hover:scale-105 hover:shadow-md'
+                    }`}
+                  >
+                    <div className="text-2xl mb-2 group-hover:animate-spin">💻</div>
+                    <div className="text-sm font-medium">Sistema</div>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+            <div className="bg-gray-900 p-6 rounded-xl overflow-hidden">
+              <div className="text-green-400 text-sm mb-2">// next-themes implementation</div>
+              <pre className="text-gray-300 text-sm leading-relaxed">{`import { useTheme } from 'next-themes';
 
-          {/* Secundarios */}
-          <div className="space-y-3">
-            <h3 className="font-semibold">Secundarios</h3>
-            <div className="space-y-2">
-              <div className="bg-green-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Green 500
-              </div>
-              <div className="bg-yellow-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Yellow 500
-              </div>
-              <div className="bg-orange-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Orange 500
-              </div>
-            </div>
-          </div>
+const { theme, setTheme } = useTheme();
 
-          {/* Estados */}
-          <div className="space-y-3">
-            <h3 className="font-semibold">Estados</h3>
-            <div className="space-y-2">
-              <div className="bg-red-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Error
-              </div>
-              <div className="bg-green-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Success
-              </div>
-              <div className="bg-yellow-500 h-12 rounded flex items-center justify-center text-white font-medium">
-                Warning
-              </div>
-            </div>
-          </div>
-
-          {/* Grises */}
-          <div className="space-y-3">
-            <h3 className="font-semibold">Grises</h3>
-            <div className="space-y-2">
-              <div className="bg-gray-200 dark:bg-gray-700 h-12 rounded flex items-center justify-center font-medium">
-                Background
-              </div>
-              <div className="bg-gray-300 dark:bg-gray-600 h-12 rounded flex items-center justify-center font-medium">
-                Border
-              </div>
-              <div className="bg-gray-800 dark:bg-gray-200 h-12 rounded flex items-center justify-center text-white dark:text-gray-800 font-medium">
-                Text
-              </div>
+// Auto theme switching
+setTheme('system'); // follows OS
+setTheme('light');  // force light
+setTheme('dark');   // force dark`}</pre>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Sección 3: Componentes UI */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">3. Componentes UI</h2>
-        
-        {/* Botones */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4">Botones</h3>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
-                Primary
-              </button>
-              <button className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors">
-                Secondary
-              </button>
-              <button className="px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg font-medium transition-colors">
-                Outline
-              </button>
-              <button className="px-4 py-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg font-medium transition-colors">
-                Ghost
-              </button>
-            </div>
-          </div>
+      {/* Tabs de Navegación */}
+      <section>
+        <div className="flex flex-wrap gap-2 mb-8 p-2 bg-gray-100 dark:bg-gray-800 rounded-xl">
+          {[
+            { id: 'componentes', label: '🧩 Componentes', icon: '🧩' },
+            { id: 'animaciones', label: '✨ Animaciones', icon: '✨' },
+            { id: 'colores', label: '🎨 Colores', icon: '🎨' },
+            { id: 'layouts', label: '📱 Layouts', icon: '📱' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+                activeTab === tab.id
+                  ? 'bg-white dark:bg-gray-700 shadow-lg scale-105 text-blue-600 dark:text-blue-400'
+                  : 'hover:bg-white/50 dark:hover:bg-gray-700/50'
+              }`}
+            >
+              <span className="mr-2">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {/* Cards */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4">Cards</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-              <h4 className="text-lg font-semibold mb-2">Card Básica</h4>
-              <p className="text-muted-foreground mb-4">
-                Una card simple con bordes y sombra sutil.
-              </p>
-              <button className="text-blue-600 hover:text-blue-700 font-medium">
-                Leer más →
-              </button>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-6 rounded-lg text-white">
-              <h4 className="text-lg font-semibold mb-2">Card Gradiente</h4>
-              <p className="text-blue-100 mb-4">
-                Card con fondo degradado colorido.
-              </p>
-              <button className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded font-medium transition-colors">
-                Acción
-              </button>
-            </div>
-
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
-              <h4 className="text-lg font-semibold mb-2">Card Destacada</h4>
-              <p className="text-muted-foreground mb-4">
-                Card con borde lateral de color.
-              </p>
-              <div className="flex gap-2">
-                <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 text-xs rounded">
-                  Tag 1
-                </span>
-                <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-xs rounded">
-                  Tag 2
-                </span>
+        {/* Contenido de Tabs */}
+        {activeTab === 'componentes' && (
+          <div className="space-y-8 animate-in slide-in-from-right duration-500">
+            {/* Botones Avanzados */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold mb-6">Botones Interactivos</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <button className="group px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                  <span className="group-hover:animate-pulse">🚀 Gradiente</span>
+                </button>
+                <button className="px-6 py-3 bg-transparent border-2 border-green-500 text-green-500 rounded-xl hover:bg-green-500 hover:text-white transition-all duration-300 hover:shadow-lg">
+                  ✅ Outline
+                </button>
+                <button className="group px-6 py-3 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-all duration-300 relative overflow-hidden">
+                  <span className="relative z-10">❌ Danger</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+                </button>
+                <button 
+                  onClick={() => setShowModal(true)}
+                  className="px-6 py-3 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-all duration-300 hover:scale-105 active:scale-95"
+                >
+                  🎭 Modal
+                </button>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Inputs */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4">Inputs</h3>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium mb-2">Input Básico</label>
-                <input
-                  type="text"
-                  placeholder="Escribe aquí..."
-                  className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Select</label>
-                <select className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
-                  <option>Opción 1</option>
-                  <option>Opción 2</option>
-                  <option>Opción 3</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Textarea</label>
-                <textarea
-                  rows={3}
-                  placeholder="Mensaje más largo..."
-                  className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Checkbox y Radio</label>
-                <div className="space-y-3">
-                  <div className="flex items-center">
-                    <input type="checkbox" id="check1" className="mr-2" />
-                    <label htmlFor="check1" className="text-sm">Opción con checkbox</label>
+            {/* Cards Avanzadas */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 border border-gray-200 dark:border-gray-700">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center text-white text-xl mb-4 group-hover:rotate-12 transition-transform duration-300">
+                  📊
+                </div>
+                <h4 className="text-xl font-semibold mb-2">Analytics Card</h4>
+                <p className="text-muted-foreground mb-4">Tarjeta con animaciones hover y efectos de profundidad.</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-2xl font-bold text-blue-600">+24%</span>
+                  <div className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="w-3/4 h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
                   </div>
-                  <div className="flex items-center">
-                    <input type="radio" id="radio1" name="radio" className="mr-2" />
-                    <label htmlFor="radio1" className="text-sm">Opción radio 1</label>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 p-6 rounded-2xl text-white shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                <div className="text-3xl mb-4">🎨</div>
+                <h4 className="text-xl font-semibold mb-2">Gradient Card</h4>
+                <p className="text-purple-100 mb-4">Efectos visuales con gradientes dinámicos.</p>
+                <button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm px-4 py-2 rounded-lg transition-all duration-300">
+                  Explorar
+                </button>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 border-l-4 border-green-500">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                    <span className="text-green-600 text-xl">✅</span>
                   </div>
-                  <div className="flex items-center">
-                    <input type="radio" id="radio2" name="radio" className="mr-2" />
-                    <label htmlFor="radio2" className="text-sm">Opción radio 2</label>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-green-600">{progress}%</div>
+                    <div className="text-sm text-muted-foreground">Progreso</div>
+                  </div>
+                </div>
+                <h4 className="text-xl font-semibold mb-2">Progress Card</h4>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+                  <div 
+                    className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full transition-all duration-1000"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+                <button 
+                  onClick={() => setProgress(Math.min(100, progress + 10))}
+                  className="text-green-600 hover:text-green-700 font-medium"
+                >
+                  Incrementar →
+                </button>
+              </div>
+            </div>
+
+            {/* Inputs Modernos */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold mb-6">Inputs Modernos</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder=" "
+                      className="peer w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-transparent focus:border-blue-500 focus:outline-none transition-colors duration-300"
+                    />
+                    <label className="absolute left-4 -top-2.5 bg-white dark:bg-gray-800 px-2 text-sm font-medium text-gray-600 dark:text-gray-400 transition-all duration-300 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-blue-500">
+                      Floating Label
+                    </label>
+                  </div>
+                  
+                  <div className="relative">
+                    <select className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 focus:border-purple-500 focus:outline-none transition-colors duration-300 appearance-none">
+                      <option>🚀 Opción Completa</option>
+                      <option>Opción Estándar</option>
+                      <option>Opción Básica</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="relative">
+                    <textarea
+                      rows={4}
+                      placeholder="Escribe tu mensaje aquí..."
+                      className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-transparent focus:border-green-500 focus:outline-none transition-colors duration-300 resize-none"
+                    />
+                  </div>
+                  
+                  <div className="flex items-center space-x-4">
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                      <span className="ml-3 text-sm font-medium">Toggle Switch</span>
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Badges y Tags */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4">Badges y Tags</h3>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <div className="space-y-4">
-              <div>
-                <h4 className="text-sm font-medium mb-2">Estados</h4>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-sm rounded-full">
-                    ✅ Activo
-                  </span>
-                  <span className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 text-sm rounded-full">
-                    ⏳ Pendiente
-                  </span>
-                  <span className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-sm rounded-full">
-                    ❌ Inactivo
-                  </span>
-                  <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm rounded-full">
-                    ⚪ Neutral
-                  </span>
+        {activeTab === 'animaciones' && (
+          <div className="space-y-8 animate-in slide-in-from-left duration-500">
+            {/* Animaciones CSS */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold mb-6">Animaciones CSS</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-blue-500 rounded-full mx-auto animate-bounce"></div>
+                  <p className="font-medium">Bounce</p>
+                  <code className="text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">animate-bounce</code>
                 </div>
-              </div>
-              <div>
-                <h4 className="text-sm font-medium mb-2">Categorías</h4>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-blue-500 text-white text-sm rounded">
-                    Frontend
-                  </span>
-                  <span className="px-3 py-1 bg-purple-500 text-white text-sm rounded">
-                    Backend
-                  </span>
-                  <span className="px-3 py-1 bg-indigo-500 text-white text-sm rounded">
-                    DevOps
-                  </span>
-                  <span className="px-3 py-1 bg-pink-500 text-white text-sm rounded">
-                    Design
-                  </span>
+                
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-purple-500 rounded-full mx-auto animate-spin"></div>
+                  <p className="font-medium">Spin</p>
+                  <code className="text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">animate-spin</code>
+                </div>
+                
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-green-500 rounded-full mx-auto animate-ping"></div>
+                  <p className="font-medium">Ping</p>
+                  <code className="text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">animate-ping</code>
+                </div>
+                
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-red-500 rounded-full mx-auto animate-pulse"></div>
+                  <p className="font-medium">Pulse</p>
+                  <code className="text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">animate-pulse</code>
                 </div>
               </div>
             </div>
+
+            {/* Hover Effects */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold mb-6">Efectos Hover</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="group p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 cursor-pointer">
+                  <div className="text-4xl mb-4 group-hover:scale-125 transition-transform duration-300">🎯</div>
+                  <h4 className="font-semibold mb-2">Scale Effect</h4>
+                  <p className="text-sm text-muted-foreground">Hover para escalar</p>
+                </div>
+                
+                <div className="group p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300 cursor-pointer">
+                  <div className="text-4xl mb-4 group-hover:rotate-12 transition-transform duration-300">🔄</div>
+                  <h4 className="font-semibold mb-2">Rotate Effect</h4>
+                  <p className="text-sm text-muted-foreground">Hover para rotar</p>
+                </div>
+                
+                <div className="group p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300 cursor-pointer overflow-hidden relative">
+                  <div className="text-4xl mb-4 group-hover:animate-bounce">⚡</div>
+                  <h4 className="font-semibold mb-2">Slide Effect</h4>
+                  <p className="text-sm text-muted-foreground">Hover para deslizar</p>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+
+        {activeTab === 'colores' && (
+          <div className="space-y-8 animate-in slide-in-from-bottom duration-500">
+            {/* Paleta de Colores */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold mb-6">Paleta de Colores</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { name: 'Primary', colors: ['bg-blue-100', 'bg-blue-300', 'bg-blue-500', 'bg-blue-700', 'bg-blue-900'] },
+                  { name: 'Success', colors: ['bg-green-100', 'bg-green-300', 'bg-green-500', 'bg-green-700', 'bg-green-900'] },
+                  { name: 'Warning', colors: ['bg-yellow-100', 'bg-yellow-300', 'bg-yellow-500', 'bg-yellow-700', 'bg-yellow-900'] },
+                  { name: 'Danger', colors: ['bg-red-100', 'bg-red-300', 'bg-red-500', 'bg-red-700', 'bg-red-900'] }
+                ].map((palette) => (
+                  <div key={palette.name} className="space-y-3">
+                    <h4 className="font-semibold">{palette.name}</h4>
+                    <div className="space-y-2">
+                      {palette.colors.map((color, index) => (
+                        <div key={index} className={`${color} h-10 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group relative`}>
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span className="text-white font-medium text-sm">
+                              {color.replace('bg-', '')}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'layouts' && (
+          <div className="space-y-8 animate-in slide-in-from-top duration-500">
+            {/* Layouts Responsivos */}
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-bold mb-6">Layouts Responsivos</h3>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {Array.from({ length: 4 }, (_, i) => (
+                    <div key={i} className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 p-6 rounded-xl text-center hover:scale-105 transition-transform duration-300">
+                      <div className="text-2xl mb-2">📱</div>
+                      <div className="font-medium">Grid {i + 1}</div>
+                      <div className="text-sm text-muted-foreground">Responsive</div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="bg-gray-900 text-white p-6 rounded-xl overflow-x-auto">
+                  <pre className="text-sm">{`<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  {/* Responsive: 1 col mobile, 2 tablet, 4 desktop */}
+</div>`}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
-      {/* Sección 4: Layout Responsivo */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">4. Layout Responsivo</h2>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="bg-red-100 dark:bg-red-900/20 p-4 rounded text-center">
-              <div className="text-red-600 font-semibold">Mobile</div>
-              <div className="text-sm text-muted-foreground">< 768px</div>
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full animate-in zoom-in duration-300">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🎉</div>
+              <h3 className="text-2xl font-bold mb-4">¡Modal Animado!</h3>
+              <p className="text-muted-foreground mb-6">
+                Este modal aparece con animaciones suaves y backdrop blur.
+              </p>
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors duration-300"
+              >
+                Cerrar Modal
+              </button>
             </div>
-            <div className="bg-yellow-100 dark:bg-yellow-900/20 p-4 rounded text-center">
-              <div className="text-yellow-600 font-semibold">Tablet</div>
-              <div className="text-sm text-muted-foreground">768px - 1024px</div>
-            </div>
-            <div className="bg-green-100 dark:bg-green-900/20 p-4 rounded text-center">
-              <div className="text-green-600 font-semibold">Desktop</div>
-              <div className="text-sm text-muted-foreground">1024px - 1280px</div>
-            </div>
-            <div className="bg-blue-100 dark:bg-blue-900/20 p-4 rounded text-center">
-              <div className="text-blue-600 font-semibold">Large</div>
-              <div className="text-sm text-muted-foreground">> 1280px</div>
-            </div>
-          </div>
-          
-          <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-            <pre>{`// Clases responsivas de Tailwind
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-  <div className="p-4">Mobile: 1 columna</div>
-  <div className="p-4">Tablet: 2 columnas</div>
-  <div className="p-4">Desktop: 4 columnas</div>
-  <div className="p-4">Responsive automático</div>
-</div>
-
-// Breakpoints personalizados en tailwind.config.js
-module.exports = {
-  theme: {
-    screens: {
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1536px',
-    }
-  }
-}`}</pre>
           </div>
         </div>
-      </section>
-
-      {/* Información adicional */}
-      <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
-        <h3 className="font-semibold mb-4">Características del Sistema de Temas:</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
-          <div>
-            <ul className="space-y-2">
-              <li>✅ Cambio automático según preferencia del sistema</li>
-              <li>✅ Persistencia en localStorage</li>
-              <li>✅ Sin flash de contenido sin estilo (FOUC)</li>
-              <li>✅ Soporte para múltiples temas</li>
-            </ul>
-          </div>
-          <div>
-            <ul className="space-y-2">
-              <li>✅ Clases CSS automáticas (dark:)</li>
-              <li>✅ Componentes totalmente responsivos</li>
-              <li>✅ Paleta de colores consistente</li>
-              <li>✅ Accesibilidad completa</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 } 

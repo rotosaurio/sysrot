@@ -1,12 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { compileMDX } from 'next-mdx-remote/rsc';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
+import matter from 'gray-matter';
 
 // Definir la ruta donde se almacenarán los posts del blog
-const rootDirectory = path.join(process.cwd(), 'content/blog');
+const rootDirectory = path.join(process.cwd(), 'posts');
 
 // Tipo para los metadatos del post
 export interface PostMetadata {
@@ -17,6 +14,8 @@ export interface PostMetadata {
   tags?: string[];
   author?: string;
   image?: string;
+  readingTime?: string;
+  featured?: boolean;
 }
 
 // Tipo para el post completo
@@ -34,38 +33,34 @@ export async function getAllPosts(): Promise<PostMetadata[]> {
   const files = fs.readdirSync(rootDirectory);
   const markdownFiles = files.filter((file) => file.endsWith('.mdx'));
 
-  const posts = [];
+  const posts: PostMetadata[] = [];
 
   for (const file of markdownFiles) {
     const filePath = path.join(rootDirectory, file);
     const fileContent = fs.readFileSync(filePath, 'utf8');
     
-    // Extraer metadatos del frontmatter
-    const { frontmatter } = await compileMDX<PostMetadata>({
-      source: fileContent,
-      options: { 
-        parseFrontmatter: true,
-        mdxOptions: {
-          rehypePlugins: [rehypeHighlight, rehypeSlug],
-          remarkPlugins: [remarkGfm],
-        } 
-      },
-    });
+    // Extraer metadatos del frontmatter usando gray-matter
+    const { data } = matter(fileContent);
 
     // Crear slug a partir del nombre del archivo
     const slug = file.replace(/\.mdx$/, '');
     
     posts.push({
-      ...frontmatter,
+      title: data.title || 'Sin título',
+      description: data.description || '',
+      date: data.date || new Date().toISOString(),
+      author: data.author,
+      tags: data.tags || [],
+      image: data.image,
+      readingTime: data.readingTime,
+      featured: data.featured || false,
       slug,
     });
   }
 
   // Ordenar por fecha descendente
   return posts.sort((a, b) => {
-    if (new Date(a.date) > new Date(b.date)) return -1;
-    if (new Date(a.date) < new Date(b.date)) return 1;
-    return 0;
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 }
 
@@ -80,21 +75,19 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   
   const fileContent = fs.readFileSync(filePath, 'utf8');
   
-  // Extraer metadatos y contenido
-  const { content, frontmatter } = await compileMDX<PostMetadata>({
-    source: fileContent,
-    options: { 
-      parseFrontmatter: true,
-      mdxOptions: {
-        rehypePlugins: [rehypeHighlight, rehypeSlug],
-        remarkPlugins: [remarkGfm],
-      } 
-    },
-  });
+  // Extraer metadatos y contenido usando gray-matter
+  const { data, content } = matter(fileContent);
   
   return {
-    ...frontmatter,
+    title: data.title || 'Sin título',
+    description: data.description || '',
+    date: data.date || new Date().toISOString(),
+    author: data.author,
+    tags: data.tags || [],
+    image: data.image,
+    readingTime: data.readingTime,
+    featured: data.featured || false,
     slug,
-    content: fileContent,
+    content,
   };
 } 

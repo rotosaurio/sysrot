@@ -1,0 +1,473 @@
+---
+title: "Guía Completa: Componentes Avanzados en SysrotCore"
+description: "Aprende a utilizar los 50+ componentes incluidos en SysrotCore para crear interfaces profesionales con ejemplos prácticos y código reutilizable."
+date: "2025-06-16"
+author: "María González, Senior UI Developer"
+tags: ["componentes", "ui", "tailwindcss", "react", "design-system"]
+image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+readingTime: "8 min"
+featured: false
+---
+
+# Guía Completa: Componentes Avanzados en SysrotCore
+
+Los componentes son el **corazón** de cualquier aplicación moderna. SysrotCore incluye más de **50 componentes production-ready** organizados en 7 categorías, cada uno diseñado con las mejores prácticas de UX y accesibilidad.
+
+## 🎯 Filosofía de Diseño
+
+Nuestros componentes siguen tres principios fundamentales:
+
+### 1. **Accesibilidad Primero**
+Todos los componentes incluyen:
+- ARIA labels completos
+- Navegación por teclado
+- Soporte para screen readers
+- High contrast mode compatible
+
+### 2. **Performance Optimizada**
+- Lazy loading automático
+- Code splitting inteligente
+- Minimal re-renders
+- GPU acceleration donde corresponde
+
+### 3. **Flexibilidad Total**
+- Props customizables
+- Theming system integrado
+- Variants preconstruidos
+- Extensibilidad garantizada
+
+## 📋 Categorías de Componentes
+
+### 🎯 Básicos (12 componentes)
+
+Los foundation components que usarás en cada proyecto:
+
+#### Botones Premium
+```tsx
+// Botón con gradiente animado
+<Button variant="gradient" size="lg" className="group">
+  <span className="relative z-10">Acción Principal</span>
+  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-75 group-hover:opacity-100 transition-opacity" />
+</Button>
+
+// Botón con loading state
+<Button loading={isSubmitting} disabled={isSubmitting}>
+  {isSubmitting ? 'Procesando...' : 'Enviar'}
+</Button>
+
+// Floating Action Button
+<Button variant="fab" className="fixed bottom-6 right-6">
+  <PlusIcon className="w-6 h-6" />
+</Button>
+```
+
+#### Cards Interactivas
+```tsx
+// Pricing Card
+<Card className="pricing-card group hover:scale-105 transition-transform">
+  <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600">
+    <CardTitle className="text-white">Plan Pro</CardTitle>
+    <div className="text-3xl font-bold text-white">
+      $29<span className="text-sm opacity-75">/mes</span>
+    </div>
+  </CardHeader>
+  
+  <CardContent className="p-6">
+    <ul className="space-y-3">
+      {features.map((feature, index) => (
+        <li key={index} className="flex items-center gap-2">
+          <CheckIcon className="w-5 h-5 text-green-500" />
+          <span>{feature}</span>
+        </li>
+      ))}
+    </ul>
+  </CardContent>
+  
+  <CardFooter>
+    <Button className="w-full">Comenzar Ahora</Button>
+  </CardFooter>
+</Card>
+```
+
+### 📝 Formularios (10 componentes)
+
+Formularios que los usuarios **aman** usar:
+
+#### Input con Floating Label
+```tsx
+<div className="floating-input-group">
+  <Input 
+    id="email"
+    type="email"
+    placeholder=" "
+    className="peer"
+  />
+  <Label 
+    htmlFor="email"
+    className="floating-label peer-placeholder-shown:translate-y-4 peer-focus:-translate-y-2 peer-focus:text-blue-500"
+  >
+    Correo Electrónico
+  </Label>
+</div>
+```
+
+#### Multi-Step Form
+```tsx
+const steps = [
+  { id: 'personal', title: 'Información Personal', icon: UserIcon },
+  { id: 'company', title: 'Empresa', icon: BuildingIcon },
+  { id: 'preferences', title: 'Preferencias', icon: CogIcon }
+];
+
+<MultiStepForm 
+  steps={steps} 
+  onComplete={handleSubmit}
+  validation={zodSchema}
+>
+  <FormStep id="personal">
+    <PersonalInfoFields />
+  </FormStep>
+  
+  <FormStep id="company">
+    <CompanyInfoFields />
+  </FormStep>
+  
+  <FormStep id="preferences">
+    <PreferencesFields />
+  </FormStep>
+</MultiStepForm>
+```
+
+### 🧭 Navegación (8 componentes)
+
+Navegación intuitiva y responsive:
+
+#### Breadcrumbs Inteligentes
+```tsx
+<Breadcrumbs 
+  items={[
+    { label: 'Dashboard', href: '/dashboard' },
+    { label: 'Proyectos', href: '/proyectos' },
+    { label: 'Proyecto Alpha', href: '/proyectos/alpha' },
+    { label: 'Configuración' } // Current page
+  ]}
+  separator={<ChevronRightIcon className="w-4 h-4" />}
+  maxItems={4}
+  showHome={true}
+/>
+```
+
+#### Sidebar Adaptativo
+```tsx
+<Sidebar 
+  collapsed={isMobile}
+  collapsible={true}
+  className="h-screen"
+>
+  <SidebarHeader>
+    <Logo />
+  </SidebarHeader>
+  
+  <SidebarContent>
+    <NavigationMenu>
+      <NavigationItem icon={DashboardIcon} href="/dashboard">
+        Dashboard
+      </NavigationItem>
+      <NavigationItem icon={ProjectsIcon} href="/projects">
+        Proyectos
+      </NavigationItem>
+      <NavigationItem icon={SettingsIcon} href="/settings">
+        Configuración
+      </NavigationItem>
+    </NavigationMenu>
+  </SidebarContent>
+  
+  <SidebarFooter>
+    <UserProfile />
+  </SidebarFooter>
+</Sidebar>
+```
+
+### 💬 Feedback (8 componentes)
+
+Comunicación clara con los usuarios:
+
+#### Toast Notifications
+```tsx
+// Basic toast
+toast.success('¡Proyecto creado exitosamente!');
+
+// Custom toast with actions
+toast.custom(
+  <div className="flex items-center gap-4">
+    <CheckCircleIcon className="w-6 h-6 text-green-500" />
+    <div>
+      <h4 className="font-semibold">Proyecto guardado</h4>
+      <p className="text-sm text-gray-600">Todos los cambios han sido guardados automáticamente.</p>
+    </div>
+    <Button size="sm" onClick={() => window.open('/project/123')}>
+      Ver Proyecto
+    </Button>
+  </div>,
+  { duration: 5000 }
+);
+
+// Promise toast (loading → success/error)
+toast.promise(
+  apiCall(),
+  {
+    loading: 'Guardando proyecto...',
+    success: '¡Proyecto guardado!',
+    error: 'Error al guardar el proyecto'
+  }
+);
+```
+
+#### Modal System
+```tsx
+<Modal 
+  isOpen={showModal} 
+  onClose={() => setShowModal(false)}
+  size="lg"
+  closeOnOverlayClick={true}
+  showCloseButton={true}
+>
+  <ModalHeader>
+    <h2 className="text-2xl font-bold">Crear Nuevo Proyecto</h2>
+  </ModalHeader>
+  
+  <ModalBody>
+    <ProjectForm onSubmit={handleCreateProject} />
+  </ModalBody>
+  
+  <ModalFooter>
+    <Button variant="outline" onClick={() => setShowModal(false)}>
+      Cancelar
+    </Button>
+    <Button onClick={handleSubmit}>
+      Crear Proyecto
+    </Button>
+  </ModalFooter>
+</Modal>
+```
+
+## 🎨 Sistema de Temas
+
+### Dark Mode Automático
+```tsx
+// Automáticamente detecta preferencias del usuario
+<ThemeProvider defaultTheme="system" enableSystem>
+  <App />
+</ThemeProvider>
+
+// Manual theme switching
+const { theme, setTheme } = useTheme();
+
+<Button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+  {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+</Button>
+```
+
+### Customización de Colores
+```css
+/* CSS Variables para theming */
+:root {
+  --primary: 220 100% 50%;
+  --secondary: 210 40% 50%;
+  --accent: 210 40% 50%;
+  --destructive: 0 85% 60%;
+}
+
+[data-theme="dark"] {
+  --primary: 220 100% 60%;
+  --secondary: 210 40% 60%;
+  /* ... */
+}
+```
+
+## 🚀 Performance Tips
+
+### 1. Lazy Loading
+```tsx
+// Componentes pesados con lazy loading
+const DataTable = lazy(() => import('@/components/DataTable'));
+const Charts = lazy(() => import('@/components/Charts'));
+
+<Suspense fallback={<ComponentSkeleton />}>
+  <DataTable data={data} />
+</Suspense>
+```
+
+### 2. Memoización Inteligente
+```tsx
+// Componentes memoizados automáticamente
+const ExpensiveComponent = memo(({ data, onUpdate }) => {
+  const processedData = useMemo(() => {
+    return data.map(item => heavyProcessing(item));
+  }, [data]);
+  
+  return <ComplexVisualization data={processedData} />;
+});
+```
+
+### 3. Virtual Scrolling
+```tsx
+// Para listas grandes (1000+ elementos)
+<VirtualizedList 
+  items={massiveDataset}
+  itemHeight={60}
+  containerHeight={400}
+  renderItem={({ item, index }) => (
+    <ListItem key={item.id} data={item} />
+  )}
+/>
+```
+
+## 🎯 Ejemplos Prácticos
+
+### Dashboard Completo
+```tsx
+function Dashboard() {
+  return (
+    <div className="dashboard-layout">
+      <Sidebar>
+        <Navigation />
+      </Sidebar>
+      
+      <main className="dashboard-main">
+        <Header>
+          <Breadcrumbs />
+          <UserMenu />
+        </Header>
+        
+        <div className="dashboard-content">
+          <StatsCards data={statsData} />
+          <ChartsSection charts={chartsData} />
+          <RecentActivity activities={activities} />
+        </div>
+      </main>
+    </div>
+  );
+}
+```
+
+### E-commerce Card
+```tsx
+<ProductCard className="group">
+  <ProductImage 
+    src={product.image}
+    alt={product.name}
+    className="group-hover:scale-105 transition-transform"
+  />
+  
+  <ProductInfo>
+    <ProductName>{product.name}</ProductName>
+    <ProductPrice>
+      <span className="text-2xl font-bold">${product.price}</span>
+      {product.originalPrice && (
+        <span className="text-sm line-through text-gray-500">
+          ${product.originalPrice}
+        </span>
+      )}
+    </ProductPrice>
+    
+    <ProductRating rating={product.rating} reviews={product.reviews} />
+  </ProductInfo>
+  
+  <ProductActions>
+    <Button variant="outline" size="sm">
+      <HeartIcon className="w-4 h-4" />
+    </Button>
+    <Button size="sm" className="flex-1">
+      Agregar al Carrito
+    </Button>
+  </ProductActions>
+</ProductCard>
+```
+
+## 🔧 Mejores Prácticas
+
+### 1. Composition Pattern
+```tsx
+// ❌ Monolithic component
+<ComplexForm 
+  showTitle={true}
+  showDescription={true}
+  fields={fields}
+  submitButton="Guardar"
+  cancelButton="Cancelar"
+/>
+
+// ✅ Composable components
+<Form onSubmit={handleSubmit}>
+  <FormHeader>
+    <FormTitle>Crear Proyecto</FormTitle>
+    <FormDescription>Complete los datos del nuevo proyecto</FormDescription>
+  </FormHeader>
+  
+  <FormContent>
+    <FormFields fields={fields} />
+  </FormContent>
+  
+  <FormFooter>
+    <Button variant="outline">Cancelar</Button>
+    <Button type="submit">Guardar</Button>
+  </FormFooter>
+</Form>
+```
+
+### 2. TypeScript First
+```tsx
+// Tipos estrictos para mejor DX
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'outline' | 'ghost' | 'gradient';
+  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ variant = 'default', size = 'md', loading, children, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        className={buttonVariants({ variant, size })}
+        disabled={loading || props.disabled}
+        {...props}
+      >
+        {loading && <Spinner className="mr-2" />}
+        {children}
+      </button>
+    );
+  }
+);
+```
+
+### 3. Accessibility
+```tsx
+// ARIA labels automáticos
+<Button 
+  aria-label="Eliminar proyecto Alpha"
+  aria-describedby="delete-warning"
+>
+  <TrashIcon className="w-4 h-4" />
+</Button>
+
+<div id="delete-warning" className="sr-only">
+  Esta acción no se puede deshacer
+</div>
+```
+
+## 🎯 Próximos Pasos
+
+1. **Explora los ejemplos** - Ve a `/ejemplos/componentes` en tu proyecto
+2. **Personaliza el theme** - Modifica las CSS variables
+3. **Crea componentes custom** - Extiende la biblioteca base
+4. **Contribuye** - Comparte tus componentes con la comunidad
+
+---
+
+Con estos componentes en tu arsenal, puedes crear interfaces profesionales que deleiten a tus usuarios y aceleren tu desarrollo. ¡El límite es tu creatividad!
+
+**¿Listo para crear tu próxima interfaz extraordinaria?** 

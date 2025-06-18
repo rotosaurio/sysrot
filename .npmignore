@@ -1,0 +1,39 @@
+# Archivos de desarrollo
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# Directorios de desarrollo
+node_modules/
+coverage/
+.nyc_output/
+.cache/
+
+# Archivos de configuración local
+.env
+.env.local
+.env.*.local
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Archivos de prueba
+test/
+tests/
+spec/
+__tests__/
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Otros
+.git/
+.gitignore 

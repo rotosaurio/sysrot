@@ -1,4 +1,4 @@
-﻿# 🚀 SysrotCore v2.1.4
+﻿# �� SysrotCore v2.1.14
 
 <div align="center">
 
@@ -10,7 +10,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%2B-black.svg)](https://nextjs.org/)
 
-**🚀 Comando: `npx sysrot create` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
+**🚀 Comando: `npx sysrotcore` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
 
 </div>
 
@@ -20,11 +20,13 @@ En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creac
 
 - 🚀 **Proyecto completo en 30 segundos** - De idea a aplicación funcional
 - 🤖 **3 modelos de IA integrados** - GPT-4o, Claude 3.5 Sonnet, Gemini Flash Pro
-- 📦 **50+ componentes production-ready** - Biblioteca completa de UI
+- 📦 **50+ componentes production-ready** - Biblioteca completa de UI/UX
 - 🎯 **11 ejemplos funcionales** - Código real que puedes usar inmediatamente
 - ⚡ **Zero-config** - Funciona perfecto desde el primer `npm run dev`
+- 🎨 **60+ animaciones fluidas** - CSS3, Framer Motion, micro-interacciones
+- 📚 **Blog MDX integrado** - 3 artículos de ejemplo incluidos
 
-**💡 Nota:** El paquete se llama `sysrotcore` pero el comando es `sysrot create` para mayor simplicidad.
+**💡 Nota:** El paquete se llama `sysrotcore` y el comando principal es `npx sysrotcore` para máxima simplicidad.
 
 ## 🔥 **Características Implementadas**
 
@@ -33,62 +35,141 @@ En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creac
 - **Claude 3.5 Sonnet (Anthropic v0.12.0)** - Análisis profundo y documentación
 - **Gemini Flash Pro (Google v0.2.0)** - Procesamiento multimodal rápido
 - **Interfaz unificada** - Un componente para todos los modelos
-- **Streaming real-time** - Respuestas en vivo
+- **Streaming real-time** - Respuestas en vivo con typing indicator
 - **Fallback automático** - Resiliencia ante errores de API
+- **Context switching** - Cambio dinámico entre modelos
 
 ### 🎨 **Sistema de Diseño Moderno**
 - **TailwindCSS 3.4+** - Utilidades CSS de última generación
 - **Dark/Light/System** - Tema adaptativo inteligente con next-themes v0.2.1
 - **Responsive First** - Mobile, tablet, desktop perfecto
-- **Animaciones Fluidas** - Framer Motion v10.16.16 integrado
+- **50+ Componentes UI** - Organizados en 6 categorías production-ready
+- **60+ Animaciones** - CSS3, Framer Motion, micro-interacciones
 - **Accessibility A11Y** - WCAG 2.1 AA compliant
-- **Performance Optimized** - Core Web Vitals perfectos
+- **Performance Optimized** - Core Web Vitals perfectos, 60 FPS garantizados
 
-### 🛡️ **Autenticación Robusta**
+### 🧩 **Biblioteca de Componentes Completa**
+
+#### **🎯 Básicos (12 componentes)**
+- **Botones Avanzados** - Gradientes animados, outline effects, magnetic hover
+- **Cards Modernas** - Pricing, stats, interactive con efectos 3D
+- **Badges Interactivos** - Estados, colores, animaciones
+
+#### **📝 Formularios (10 componentes)**
+- **Floating Labels** - Inputs modernos con animaciones suaves
+- **Inputs con Iconos** - Validación visual en tiempo real
+- **Selects Modernos** - Dropdown customizados con búsqueda
+- **Toggle Switches** - Animaciones fluidas y estados múltiples
+
+#### **🧭 Navegación (8 componentes)**
+- **Breadcrumbs Interactivos** - Con iconos y hover effects
+- **Sidebar Moderno** - Adaptativo con animaciones de estado
+- **Tabs Animados** - Transiciones suaves entre secciones
+
+#### **💬 Feedback (12 componentes)**
+- **Sistema de Alertas** - Success, warning, error con iconos
+- **Modales Modernos** - Backdrop blur, animaciones de entrada
+- **Progress Indicators** - Barras lineales y circulares animadas
+- **Loading States** - Spinners, dots, skeletons optimizados
+
+#### **📊 Datos (10 componentes)**
+- **Tablas Interactivas** - Sorting, filtros, paginación
+- **Stats Cards** - Métricas con gráficos integrados
+- **Data Visualization** - Charts básicos con Chart.js ready
+
+#### **📐 Layout (8 componentes)**
+- **Grid Systems** - Responsive con breakpoints optimizados
+- **Flexbox Layouts** - Center, space-between, wrap patterns
+- **Container Sizes** - sm, md, lg, xl, 2xl con max-width
+
+### ✨ **Showcase de Animaciones Masivo**
+
+#### **🎯 Básicas (8 animaciones)**
+- **Fade, Slide, Scale, Rotate** - Entradas suaves optimizadas
+- **CSS Keyframes** - Pulse, bounce, shake con timing perfecto
+
+#### **⭐ Hover Effects (12 efectos)**
+- **Lift Effect** - Elevación con sombra dinámica
+- **Glow Effect** - Resplandor de color al hover
+- **Slide Content** - Revelado de contenido oculto
+- **Magnetic Buttons** - Atracción visual al cursor
+
+#### **🔮 Micro-interacciones (15 efectos)**
+- **Ripple Effect** - Ondas al hacer click
+- **Magnetic Effect** - Elementos que siguen el cursor
+- **Morphing Icons** - Iconos que cambian forma
+- **Floating Inputs** - Labels que flotan suavemente
+- **Toggle Moderno** - Switches con gradientes animados
+- **Heart Animation** - Like buttons con efectos
+
+#### **🚀 Avanzadas (25+ animaciones)**
+- **Floating Elements** - Partículas que flotan orgánicamente
+- **Morphing Shapes** - Formas que cambian geometría
+- **Particle Systems** - Efectos de lluvia y partículas
+- **Matrix Rain** - Caracteres cayendo estilo matrix
+- **Holographic Effects** - Colores holográficos cambiantes
+- **DNA Helix** - Animación 3D de doble hélice
+- **Physics-based** - Pendulum, spring bounce realistas
+- **3D Effects** - Tilt cards, flip cards, glassmorphism
+
+### 🎮 **Mouse Follower Perfecto**
+- **Cursor centrado** - Posicionamiento perfecto con offset calculado
+- **Transiciones suaves** - 75ms ease-out para fluidez
+- **Mix-blend-mode** - Efecto de fusión con el contenido
+- **Responsive** - Se activa/desactiva según la interacción
+
+### 🛡️ **Autenticación Enterprise-Grade**
 - **NextAuth.js 4.24.5** - Autenticación robusta y segura
-- **OAuth Providers** - Google, GitHub, Apple, Discord, LinkedIn
+- **6 OAuth Providers** - Google, GitHub, Apple, Discord, LinkedIn, Email
 - **Magic Links** - Login sin contraseña
 - **Multi-Factor Auth** - 2FA/TOTP integrado
 - **Role-Based Access** - Admin, User, Moderator, Custom
 - **Session Management** - JWT + Database sessions
-- **CSRF Protection** - Seguridad automática
+- **CSRF Protection** - Seguridad automática contra ataques
 
-### 📊 **Bases de Datos Soportadas**
+### 📊 **Multi-Database Support**
 - **MongoDB v6.3.0** - NoSQL con Mongoose ODM v8.0.3
-- **Supabase v2.39.1** - PostgreSQL con Edge Functions
+- **Supabase v2.39.1** - PostgreSQL con Edge Functions y Auth
 - **Firebase v10.7.1** - Real-time + Analytics + Admin v11.11.1
+- **Connection pooling** - Optimización de conexiones
+- **Migration support** - Esquemas versionados
 
-### 📝 **Formularios y Validación**
-- **React Hook Form v7.49.2** - Performance optimizada
-- **Zod v3.22.4** - Validación TypeScript-first
+### 📝 **Formularios y Validación Avanzada**
+- **React Hook Form v7.49.2** - Performance optimizada sin re-renders
+- **Zod v3.22.4** - Validación TypeScript-first con inferencia
 - **Hookform Resolvers v3.3.3** - Integración perfecta
-- **Validación en tiempo real** - UX optimizada
-- **Error handling** - Mensajes personalizados
+- **Validación en tiempo real** - UX optimizada con debounce
+- **Error handling** - Mensajes personalizados con i18n
 
-### 🎨 **UI/UX Avanzada**
-- **50+ Componentes** - Production-ready
-- **6 Categorías organizadas** - Básicos, Formularios, Navegación, Feedback, Layout, Datos
-- **Copy-paste friendly** - Código reutilizable
-- **TypeScript estricto** - Type safety completa
-- **Responsive design** - Mobile-first approach
-
-### 📤 **Gestión de Archivos**
-- **Cloudinary v1.41.1** - CDN global optimizado
-- **Next-Cloudinary v5.13.0** - Integración Next.js
-- **Drag & Drop** - Interfaz intuitiva
+### 📤 **Gestión de Archivos Premium**
+- **Cloudinary v1.41.1** - CDN global con 99.9% uptime
+- **Next-Cloudinary v5.13.0** - Integración Next.js optimizada
+- **Drag & Drop** - Interfaz intuitiva con preview
 - **Múltiples formatos** - Imágenes, videos, documentos
-- **Optimización automática** - WebP, AVIF, resize
-- **Preview en tiempo real** - UX mejorada
+- **Optimización automática** - WebP, AVIF, resize dinámico
+- **Upload progress** - Barras de progreso en tiempo real
 
-### 📚 **Sistema de Blog/CMS**
+### 📚 **Sistema de Blog/CMS Completo**
 - **MDX Support** - Markdown + React components
-- **Gray Matter v4.0.3** - Frontmatter parsing
-- **Next MDX Remote v4.4.1** - Renderizado dinámico
-- **Remark v15.0.1** - Markdown processing
-- **Rehype Highlight v7.0.0** - Syntax highlighting
+- **Gray Matter v4.0.3** - Frontmatter parsing optimizado
+- **3 Artículos Incluidos** - Contenido profesional de ejemplo
+- **Remark v15.0.1** - Markdown processing avanzado
+- **Rehype Highlight v7.0.0** - Syntax highlighting con temas
 - **Remark GFM v4.0.0** - GitHub Flavored Markdown
-- **Date-fns v2.30.0** - Manejo de fechas
-- **SEO optimizado** - Meta tags automáticos
+- **Date-fns v2.30.0** - Manejo de fechas internacional
+- **SEO optimizado** - Meta tags automáticos, Open Graph, Twitter Cards
+
+### 🎨 **Títulos con Shadow Degradado**
+- **Gradiente de resplandor** - Efecto suave detrás del texto
+- **Blur optimizado** - 3xl blur con scale-110 para mejor efecto
+- **Z-index correcto** - Posicionamiento perfecto sin interferencias
+- **Responsive** - Se adapta a todos los tamaños de pantalla
+
+### 🏷️ **Terminología Neutral**
+- **Sin términos comerciales** - Eliminados "Premium", "Pro", términos de pago
+- **Accesibilidad mejorada** - Interfaz sin implicaciones de costos
+- **Open source friendly** - Terminología alineada con proyectos libres
+- **Experiencia unificada** - Todos los usuarios tienen acceso completo
 
 ## 🛠️ **Instalación y Uso**
 
@@ -96,39 +177,39 @@ En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creac
 Este directorio (`base/`) contiene el **CLI generator** de SysrotCore, **NO** es un proyecto Next.js. 
 
 - ❌ **No ejecutes** `npm run dev` aquí
-- ✅ **Usa** `npx sysrot create mi-proyecto` para generar un proyecto Next.js
+- ✅ **Usa** `npx sysrotcore mi-proyecto` para generar un proyecto Next.js
 - ✅ **El script `dev`** estará disponible en el proyecto generado
 
-### **📝 Importante: Nombre vs Comando**
+### **📝 Importante: Comando Simplificado**
 - **Nombre del paquete NPM:** `sysrotcore`
-- **Comando CLI:** `sysrot create` 
-- **¿Por qué?** Para mayor simplicidad y facilidad de uso del comando
+- **Comando CLI:** `npx sysrotcore` 
+- **¿Por qué?** Un solo comando simple y memorable
 
 ### **Crear un Proyecto**
 
 ```bash
 # Opción 1: NPX (Recomendado) - Siempre última versión
-npx sysrot create mi-proyecto
+npx sysrotcore mi-proyecto
 
 # Opción 2: Con nombre específico
-npx sysrot create nombre-de-tu-app
+npx sysrotcore nombre-de-tu-app
 
 # Opción 3: Instalación global
 npm install -g sysrotcore
-sysrot create mi-proyecto
+sysrotcore mi-proyecto
 ```
 
 ### **Opciones de CLI**
 
 ```bash
 # Ver ayuda completa
-npx sysrot create --help
+npx sysrotcore --help
 
 # Ver versión actual
-npx sysrot create --version
+npx sysrotcore --version
 ```
 
-**💡 Tip:** Usa siempre `npx sysrot create` para obtener automáticamente la última versión sin instalación global.
+**💡 Tip:** Usa siempre `npx sysrotcore` para obtener automáticamente la última versión sin instalación global.
 
 ## 🎮 **Configuración Interactiva Completa**
 
@@ -589,72 +670,33 @@ const handleSuccess = () => {
 
 ## 🚀 **Roadmap de Plantilla 2025-2026**
 
-*Actualizado en Junio 2025 - Mejorando la plantilla base para desarrollo web moderno*
+*Actualizado en Junio 2025 - v2.2.0 - Prioridades reorganizadas para desarrollo web moderno*
 
-### **🎯 Q3 2025 (Julio - Septiembre)**
+### **🔥 Prioridad Inmediata: Integraciones de Ecosistema**
 
-#### **📚 v2.2.0 - Documentación y Ejemplos Avanzados (Julio)**
-- **📖 Documentación Mejorada**
-  - Guías paso a paso para cada ejemplo
-  - Video tutoriales integrados en el README
-  - Mejores prácticas de desarrollo con Next.js 14+
-  - Troubleshooting guide expandido
-  - Comentarios detallados en todo el código
+#### **🔮 v2.2.0 - Integración de Ecosistema (Julio 2025)**
+- **🤝 Third-party Integrations**
+  - CMS headless (Contentful, Strapi) configurado
+  - Payment processors (Stripe, PayPal) listos para usar
+  - Email services (SendGrid, Mailgun) integrados
+  - Analytics avanzado (Mixpanel, Amplitude) configurado
+  - Customer support (Intercom, Zendesk) embebido
+  - Social auth (Auth0, Firebase Auth) expandido
+  - File storage (AWS S3, Cloudinary) mejorado
+  - Push notifications (FCM, OneSignal) implementado
 
-- **🎨 Nuevos Ejemplos de UI**
-  - Dashboard de analytics con gráficos
-  - Landing page moderna con secciones
-  - E-commerce básico con carrito de compras
-  - Portfolio personal responsive
-  - App de tareas con local storage
+### **⚡ Optimización y Performance**
 
-#### **🛠️ v2.3.0 - Herramientas de Desarrollo (Agosto)**
-- **🔧 CLI Mejorado**
-  - Setup automático de variables de entorno
-  - Validación de configuración en tiempo real
-  - Templates adicionales para proyectos específicos
-  - Comandos para generar componentes automáticamente
-  - Integración con linters y formatters
-
-- **🧪 Testing Suite Completa**
-  - Jest configurado con ejemplos de tests
-  - Testing Library para componentes React
-  - Cypress para tests end-to-end
-  - Coverage reports automáticos
-  - GitHub Actions para CI/CD
-
-#### **🎨 v2.4.0 - Componentes UI Expandidos (Septiembre)**
-- **📦 Biblioteca de Componentes Ampliada**
-  - 25+ nuevos componentes (Total: 75+)
-  - Componentes de data visualization
-  - Forms complejos con validación avanzada
-  - Layouts responsivos predefinidos
-  - Componentes de navegación avanzados
-
-### **🔥 Q4 2025 (Octubre - Diciembre)**
-
-#### **🌐 v2.5.0 - Internacionalización y Accesibilidad (Octubre)**
-- **🌍 Soporte Multi-idioma**
-  - React-i18next configurado y listo
-  - Ejemplos en inglés y español
-  - Detección automática de idioma del navegador
-  - Cambio dinámico de idiomas
-  - Formateo de fechas y números por locale
-
-- **♿ Accesibilidad Mejorada**
-  - Todos los componentes WCAG 2.1 AA compliant
-  - Screen reader optimization
-  - Keyboard navigation en todos los elementos
-  - High contrast mode support
-  - Focus indicators mejorados
-
-#### **⚡ v2.6.0 - Optimización de Performance (Noviembre)**
+#### **🚀 v2.3.0 - Web Performance & Mobile (Agosto 2025)**
 - **🚀 Web Performance**
   - Lazy loading de componentes implementado
   - Image optimization con Next.js Image
   - Bundle analyzer integrado
   - Service Workers para caching
   - Core Web Vitals optimization
+  - Critical CSS inlining
+  - Resource hints (prefetch, preload)
+  - Performance monitoring dashboard
 
 - **📱 Mobile-First Improvements**
   - Touch gestures optimizados
@@ -662,14 +704,105 @@ const handleSuccess = () => {
   - Offline functionality básica
   - Mobile navigation patterns
   - Responsive images automáticas
+  - App-like animations
+  - Touch feedback optimizado
+  - Battery usage optimization
 
-#### **🔐 v2.7.0 - Seguridad y DevOps (Diciembre)**
+### **📚 Documentación y Ejemplos Premium**
+
+#### **📖 v2.4.0 - Documentación y Ejemplos Avanzados (Septiembre 2025)**
+- **📖 Documentación Mejorada**
+  - Guías paso a paso para cada ejemplo
+  - Video tutoriales integrados en el README
+  - Mejores prácticas de desarrollo con Next.js 14+
+  - Troubleshooting guide expandido
+  - Comentarios detallados en todo el código
+  - API documentation con OpenAPI
+  - Architecture decision records (ADRs)
+  - Performance optimization guides
+
+- **🎨 Nuevos Ejemplos de UI**
+  - Dashboard de analytics con gráficos (Chart.js, D3.js)
+  - Landing page moderna con secciones
+  - E-commerce básico con carrito de compras
+  - Portfolio personal responsive
+  - App de tareas con local storage
+  - Chat en tiempo real con WebSockets
+  - Multi-tenant SaaS example
+  - Marketplace con ratings y reviews
+
+### **🛠️ Herramientas de Desarrollo Premium**
+
+#### **🔧 v2.5.0 - CLI y Testing Suite (Octubre 2025)**
+- **🔧 CLI Mejorado**
+  - Setup automático de variables de entorno
+  - Validación de configuración en tiempo real
+  - Templates adicionales para proyectos específicos
+  - Comandos para generar componentes automáticamente
+  - Integración con linters y formatters
+  - Database schema generators
+  - API endpoint generators
+  - Component story generators (Storybook)
+
+- **🧪 Testing Suite Completa**
+  - Jest configurado con ejemplos de tests
+  - Testing Library para componentes React
+  - Cypress para tests end-to-end
+  - Coverage reports automáticos
+  - GitHub Actions para CI/CD
+  - Visual regression testing
+  - Performance testing suite
+  - Accessibility testing automático
+
+### **🎨 Expansión de Componentes**
+
+#### **📦 v2.6.0 - Biblioteca de Componentes Expandida (Noviembre 2025)**
+- **📦 Biblioteca de Componentes Ampliada**
+  - 25+ nuevos componentes (Total: 75+)
+  - Componentes de data visualization (Charts, Graphs)
+  - Forms complejos con validación avanzada
+  - Layouts responsivos predefinidos
+  - Componentes de navegación avanzados
+  - Rich text editor (WYSIWYG)
+  - File upload con preview
+  - Advanced calendar components
+  - Audio/Video players customizados
+
+### **🌐 Internacionalización y Accesibilidad**
+
+#### **♿ v2.7.0 - i18n y Accesibilidad (Diciembre 2025)**
+- **🌍 Soporte Multi-idioma**
+  - React-i18next configurado y listo
+  - Ejemplos en inglés y español
+  - Detección automática de idioma del navegador
+  - Cambio dinámico de idiomas
+  - Formateo de fechas y números por locale
+  - RTL (Right-to-Left) support
+  - Plural forms handling
+  - Context-aware translations
+
+- **♿ Accesibilidad Mejorada**
+  - Todos los componentes WCAG 2.1 AA compliant
+  - Screen reader optimization
+  - Keyboard navigation en todos los elementos
+  - High contrast mode support
+  - Focus indicators mejorados
+  - Color blind friendly palettes
+  - Voice navigation support
+  - Reduced motion preferences
+
+### **🔐 Seguridad y DevOps Enterprise**
+
+#### **🛡️ v2.8.0 - Seguridad y DevOps (Enero 2026)**
 - **🛡️ Seguridad Mejorada**
   - CSRF protection implementado
   - Rate limiting en APIs
   - Input sanitization automática
   - Security headers configurados
   - Audit de dependencias automatizado
+  - SQL injection prevention
+  - XSS protection avanzada
+  - Content Security Policy configurado
 
 - **🚀 DevOps Ready**
   - Docker configuration incluida
@@ -677,40 +810,74 @@ const handleSuccess = () => {
   - Deployment scripts para múltiples plataformas
   - Health check endpoints
   - Logging y monitoring básico
+  - Kubernetes manifests
+  - CI/CD pipelines optimizados
+  - Blue-green deployment strategies
 
-### **🌟 2026 - Plantilla Enterprise-Ready**
+### **📊 Analytics y Monitoring Avanzado**
 
-#### **📊 Q1 2026 - Analytics y Monitoring**
+#### **📈 v2.9.0 - Analytics Integration (Febrero 2026)**
 - **📈 Analytics Integration**
   - Google Analytics 4 configurado
   - Custom event tracking
   - Performance monitoring con Web Vitals
   - Error tracking con Sentry
   - User behavior analytics
+  - A/B testing framework
+  - Conversion funnel tracking
+  - Real-time dashboard metrics
 
-#### **🏗️ Q2 2026 - Arquitectura Escalable**
+### **🏗️ Arquitectura Enterprise**
+
+#### **🔧 v2.10.0 - Arquitectura Escalable (Marzo 2026)**
 - **🔧 Code Organization**
   - Atomic design patterns implementados
   - Custom hooks library expandida
   - Utils functions organizadas
   - Constants y configurations centralizadas
   - Type definitions mejoradas
+  - Micro-frontends architecture
+  - Module federation setup
+  - Clean architecture patterns
 
-#### **🎯 Q3 2026 - Casos de Uso Específicos**
+### **💼 Templates Especializados**
+
+#### **🎯 v2.11.0 - Templates por Industria (Abril 2026)**
 - **💼 Templates por Industria**
   - SaaS dashboard template
   - E-commerce completo template
   - Blog/CMS template avanzado
   - Portfolio/Agency template
   - Corporate website template
+  - Learning Management System (LMS)
+  - Real estate platform
+  - Healthcare management system
 
-#### **🔮 Q4 2026 - Integración de Ecosistema**
-- **🤝 Third-party Integrations**
-  - CMS headless (Contentful, Strapi)
-  - Payment processors (Stripe, PayPal)
-  - Email services (SendGrid, Mailgun)
-  - Analytics avanzado (Mixpanel, Amplitude)
-  - Customer support (Intercom, Zendesk)
+### **🤖 AI y Automatización Avanzada**
+
+#### **🧠 v2.12.0 - AI-Powered Development (Mayo 2026)**
+- **🤖 AI Integration Expandida**
+  - Code generation automático
+  - Design system generation
+  - Content generation con IA
+  - Bug detection automático
+  - Performance optimization suggestions
+  - Automated refactoring tools
+  - Smart component recommendations
+  - AI-powered testing generation
+
+### **🌟 Integraciones Avanzadas de Futuro**
+
+#### **🔮 v3.0.0 - Next-Gen Integrations (Junio 2026)**
+- **🚀 Emerging Technologies**
+  - Web3 and Blockchain integration
+  - AR/VR components (WebXR)
+  - IoT device connectivity
+  - Machine Learning models integration
+  - Voice interfaces (Web Speech API)
+  - Biometric authentication
+  - Quantum computing readiness
+  - Neural interface preparation
 
 ---
 
