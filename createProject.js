@@ -38,8 +38,7 @@ async function createProject(options) {
     // Generar archivo README personalizado
     await generateReadme(projectPath, options);
     
-    // Generar .env.example
-    await generateEnvExample(projectPath, options);
+    // El archivo .env.example ya está incluido en el template
     
     return true;
   } catch (error) {
@@ -563,92 +562,6 @@ async function generateReadme(projectPath, options) {
     spinner.succeed('README generado correctamente');
   } catch (error) {
     spinner.fail('Error al generar el README');
-    throw error;
-  }
-}
-
-async function generateEnvExample(projectPath, options) {
-  const spinner = ora('Generando archivo .env.example...').start();
-  
-  try {
-    const envPath = path.join(projectPath, '.env.example');
-    
-    let envContent = `# Variables de entorno para ${options.projectName}\n\n`;
-    
-    // Variables básicas
-    envContent += `# URL base\n`;
-    envContent += `NEXT_PUBLIC_APP_URL=http://localhost:3000\n\n`;
-    
-    // Variables según opciones
-    if (options.database === 'MongoDB') {
-      envContent += `# MongoDB\n`;
-      envContent += `MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/database\n\n`;
-    } else if (options.database === 'Supabase') {
-      envContent += `# Supabase\n`;
-      envContent += `NEXT_PUBLIC_SUPABASE_URL=your-supabase-url\n`;
-      envContent += `NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key\n\n`;
-    } else if (options.database === 'Firebase') {
-      envContent += `# Firebase\n`;
-      envContent += `NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key\n`;
-      envContent += `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain\n`;
-      envContent += `NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id\n`;
-      envContent += `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-storage-bucket\n`;
-      envContent += `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id\n`;
-      envContent += `NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id\n\n`;
-    }
-    
-    if (options.auth) {
-      envContent += `# NextAuth.js\n`;
-      envContent += `NEXTAUTH_SECRET=your-nextauth-secret\n`;
-      envContent += `NEXTAUTH_URL=http://localhost:3000\n\n`;
-      
-      if (options.authProviders.includes('Google')) {
-        envContent += `# Google Auth\n`;
-        envContent += `GOOGLE_CLIENT_ID=your-google-client-id\n`;
-        envContent += `GOOGLE_CLIENT_SECRET=your-google-client-secret\n\n`;
-      }
-      
-      if (options.authProviders.includes('GitHub')) {
-        envContent += `# GitHub Auth\n`;
-        envContent += `GITHUB_ID=your-github-id\n`;
-        envContent += `GITHUB_SECRET=your-github-secret\n\n`;
-      }
-    }
-    
-    if (options.cloudinary) {
-      envContent += `# Cloudinary\n`;
-      envContent += `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name\n`;
-      envContent += `CLOUDINARY_API_KEY=your-api-key\n`;
-      envContent += `CLOUDINARY_API_SECRET=your-api-secret\n\n`;
-    }
-    
-    if (options.ai) {
-      if (options.aiModels.includes('GPT-4o (OpenAI)')) {
-        envContent += `# OpenAI\n`;
-        envContent += `OPENAI_API_KEY=your-openai-api-key\n\n`;
-      }
-      
-      if (options.aiModels.includes('Claude 3.5 (Anthropic)')) {
-        envContent += `# Anthropic (Claude)\n`;
-        envContent += `ANTHROPIC_API_KEY=your-anthropic-api-key\n\n`;
-      }
-      
-      if (options.aiModels.includes('Gemini Flash Pro (Google)')) {
-        envContent += `# Google (Gemini)\n`;
-        envContent += `GOOGLE_API_KEY=your-google-api-key\n\n`;
-      }
-      
-      if (options.aiModels.includes('DeepSeek V3 Chat') || options.aiModels.includes('DeepSeek R1 Reasoner')) {
-        envContent += `# DeepSeek\n`;
-        envContent += `DEEPSEEK_API_KEY=your-deepseek-api-key\n\n`;
-      }
-    }
-    
-    await fs.writeFile(envPath, envContent);
-    
-    spinner.succeed('Archivo .env.example generado correctamente');
-  } catch (error) {
-    spinner.fail('Error al generar el archivo .env.example');
     throw error;
   }
 }

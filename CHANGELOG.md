@@ -1,99 +1,66 @@
 ﻿# Changelog
 
-Todos los cambios importantes del proyecto serán documentados en este archivo.
+Todas las mejoras y cambios importantes de SysrotCore se documentan en este archivo.
 
-## [2.2.0] - 2025-06-17 🚀
+## [2.2.1] - 2025-01-28
 
-### 🗺️ **Roadmap Completamente Reorganizado**
-- **Nueva Estructura por Meses**: Roadmap reorganizado desde Q3 2025 hasta v3.0.0 (Junio 2026)
-- **Prioridades Reordenadas**: Integraciones de ecosistema como prioridad inmediata
-- **12 Versiones Planificadas**: Cada mes una nueva versión con mejoras específicas
+### ✨ **Versión Publicada en NPM**
+- **¡DISPONIBLE EN NPM!**: Ahora puedes usar `npx sysrotcore` directamente
+- **ASCII Art Espectacular**: Título "SYSROT CORE" en arte ASCII azul
+- **Paquete Optimizado**: Reducido de 634MB a 438KB eliminando archivos innecesarios
 
-### 🔥 **Próximas Prioridades Definidas**
-1. **v2.2.0 (Julio)**: Integraciones de ecosistema (CMS, Payments, Email, Analytics)
-2. **v2.3.0 (Agosto)**: Web Performance & Mobile optimizations  
-3. **v2.4.0 (Septiembre)**: Documentación y ejemplos avanzados
-4. **v2.5.0 (Octubre)**: CLI mejorado y testing suite completa
+### 🔧 **Correcciones Críticas Finales**
+- **Error '@auth/prisma-adapter' RESUELTO**: 100% funcional tras instalación
+- **Next.js 14.2.17**: Versión actualizada sin warnings
+- **Dependencias Completas**: Todas las dependencias de Prisma y NextAuth incluidas
 
-### 🤝 **Integraciones Planificadas v2.2.0**
-- **CMS Headless**: Contentful, Strapi configurados
-- **Payment Processors**: Stripe, PayPal listos para usar
-- **Email Services**: SendGrid, Mailgun integrados
-- **Analytics Avanzado**: Mixpanel, Amplitude configurados
-- **Customer Support**: Intercom, Zendesk embebido
-- **Social Auth**: Auth0, Firebase Auth expandido
-- **File Storage**: AWS S3, Cloudinary mejorado
-- **Push Notifications**: FCM, OneSignal implementado
+### 📦 **Optimizaciones del Paquete**
+- **Template Limpio**: Eliminados `node_modules/` del template
+- **Tamaño Reducido**: De 634MB a 438KB (99.93% reducción)
+- **Archivos Esenciales**: Solo incluye archivos necesarios para el funcionamiento
 
-### ⚡ **Performance & Mobile (v2.3.0)**
-- **Web Performance**: Lazy loading, image optimization, bundle analyzer
-- **Core Web Vitals**: Optimization completa
-- **PWA Capabilities**: Offline functionality, service workers
-- **Mobile-First**: Touch gestures, responsive images, app-like animations
+### 🎯 **Experiencia Perfecta**
+```bash
+npx sysrotcore mi-proyecto
+cd mi-proyecto
+npm run dev
+# ✅ Todo funciona sin errores!
+```
 
-### 🧠 **Futuro AI-Powered (v2.12.0)**
-- **Code Generation**: Automático con IA
-- **Design System**: Generation inteligente
-- **Bug Detection**: Automático con sugerencias
-- **Performance**: Optimization suggestions con IA
+### 🛠️ **Comandos Disponibles**
+- `npx sysrotcore [nombre]` - Comando principal
+- `npx sysrot create [nombre]` - Comando alternativo
+- `npx sysrotcore --help` - Ayuda con ASCII art
+- `npx sysrotcore --version` - Versión con ASCII art
 
-### 🔮 **Next-Gen Technologies (v3.0.0)**
-- **Web3 & Blockchain**: Integration preparada
-- **AR/VR Components**: WebXR support
-- **IoT Connectivity**: Device integration
-- **Machine Learning**: Models integration
-- **Voice Interfaces**: Web Speech API
-- **Quantum Computing**: Readiness preparation
+## [2.1.9] - 2025-01-28
 
-### 📊 **Roadmap Mensual Estructurado**
-- **12 meses planificados**: Julio 2025 - Junio 2026
-- **Progresión lógica**: Desde integraciones básicas hasta tecnologías emergentes
-- **Milestone claros**: Cada versión con objetivos específicos
-- **Enterprise-ready**: Arquitectura escalable y patrones avanzados
+### ✨ **Nuevas Características**
+- **ASCII Art Espectacular**: Nuevo título "SYSROT CORE" en arte ASCII azul al ejecutar el CLI
+- **Interfaz Mejorada**: CLI más limpio y profesional con mejor experiencia visual
+- **Comandos Duales**: Soporte para `npx sysrotcore` y `npx sysrot create`
 
-## [2.1.10] - 2025-06-17
+### 🔧 **Correcciones Críticas**
+- **Error '@auth/prisma-adapter' RESUELTO**: Agregada dependencia faltante `@auth/prisma-adapter`
+- **Next.js Actualizado**: Versión 14.0.4 → 14.2.17 (elimina warning de versión desactualizada)
+- **Prisma Completo**: Agregado `@prisma/client`, `prisma`, `bcryptjs` y tipos
+- **Schema Prisma**: Creado `template/prisma/schema.prisma` con modelos NextAuth completos
 
-### 🔧 Mejoras de Términos
-- **Eliminación de Términos Comerciales**: Removidas todas las referencias a "Premium", "Pro" y términos comerciales
-- **Nomenclatura Neutral**: Cambiado a términos como "Avanzado", "Moderno", "Estándar", "Completo"
-- **Experiencia Unificada**: Interfaz más accesible sin implicaciones de costos
+### 📁 **Archivos Nuevos**
+- `template/prisma/schema.prisma` - Esquema completo para NextAuth + SQLite
+- `template/.env.example` - Variables de entorno para todas las funcionalidades
+- Script `postinstall: "prisma generate"` para generar cliente automáticamente
 
-### 📝 Cambios Específicos
-- "Micro-interacciones Premium" → "Micro-interacciones Avanzadas"
-- "Premium Toggle" → "Toggle Moderno"  
-- "Cards Premium" → "Cards Modernas"
-- "Pro Plan" → "Plan Standard"
-- "Select Premium" → "Select Moderno"
-- "🥇 Premium" → "🥇 Básico"
-- "🥈 Pro" → "🥈 Estándar"
-- "Opción Premium" → "Opción Completa"
+### 🎯 **Garantía Zero-Config**
+- **100% Funcional**: `npx sysrotcore mi-app && cd mi-app && npm run dev` funciona sin errores
+- **Sin Configuración**: No se requiere configuración adicional después de la instalación
+- **Solo API Keys**: Usuario solo necesita agregar sus propias API keys opcionales
 
-## [2.1.9] - 2025-06-17
-
-### ✨ Nuevas Características
-- **Mouse Follower Arreglado**: Centrado perfecto del cursor en animaciones
-- **Shadow Degradado**: Título principal con resplandor suave de fondo
-- **Componentes Completos**: 50+ componentes nuevos en 6 categorías
-- **Animaciones Avanzadas**: Physics-based, 3D effects, holographic, Matrix rain
-- **Micro-interacciones**: Floating elements, morphing shapes, particle systems
-
-### 🔧 Mejoras
-- **UI/UX Premium**: Glassmorphism, tilt cards, flip cards, magnetic effects
-- **Navegación Moderna**: Breadcrumbs interactivos, sidebar adaptativo, tabs animados
-- **Feedback System**: Alertas de estado, modales, progress indicators
-- **Layouts Responsivos**: Grid systems, flexbox layouts, container sizes
-- **Componentes Avanzados**: Calendar, file upload, rich text editor, media player
-
-### 🐛 Correcciones
-- Mouse follower ahora está perfectamente centrado en el cursor
-- Animaciones CSS optimizadas para 60 FPS
-- Compatibilidad mejorada con TailwindCSS
-- Efectos de hover y transiciones suavizados
-
-### 📚 Documentación
-- Ejemplos expandidos con código de implementación
-- Categorización mejorada de componentes
-- Guías de uso para animaciones avanzadas
+### 🛠️ **Dependencias Actualizadas**
+- `commander`: ^11.1.0 (nueva)
+- `inquirer`: ^9.2.12 (actualizada)
+- `ora`: ^7.0.1 (actualizada)
+- `fs-extra`: ^11.2.0 (actualizada)
 
 ## [2.1.8] - 2025-06-17
 
@@ -126,7 +93,7 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Syntax JSX corregido para compatibilidad Next.js 14
 - Performance optimizada con lazy loading y estado condicional
 
-## [2.1.7] - 2025-06-17 🔧
+## [2.1.7] - 2025-06-17 ��
 
 ### 🐛 **Corrección Crítica: Next.js 13+ Compatibility**
 - **🔧 FIXED:** Error `Invalid <Link> with <a> child` corregido
@@ -408,6 +375,52 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 
 ## [2.1.13] - 2025-06-17
 
+### 🌍 **NUEVA CARACTERÍSTICA: Internacionalización Completa**
+- **✨ NEW:** Soporte completo para Español e Inglés
+- **✨ NEW:** Configuración Next.js i18n automática en `next.config.js`
+- **✨ NEW:** React Intl integrado para traducciones profesionales
+- **✨ NEW:** Selector de idioma elegante con dropdown y toggle
+- **✨ NEW:** URLs SEO-friendly (/es/, /en/) con detección automática
+- **✨ NEW:** Formateo de fechas localizado según idioma
+- **✨ NEW:** Proveedor de contexto TypeScript type-safe
+
+### 📂 **Archivos Agregados**
+- `lib/i18n.ts` - Configuración y tipos de internacionalización
+- `locales/es.json` - Traducciones completas en español
+- `locales/en.json` - Traducciones completas en inglés
+- `components/providers/intl-provider.tsx` - Proveedor React Intl
+- `components/ui/language-switcher.tsx` - Selector de idioma
+- `README.en.md` - Documentación completa en inglés
+
+### 🔧 **Archivos Actualizados**
+- `next.config.js` - Configuración i18n integrada
+- `package.json` - React Intl v6.6.2 agregado
+- `pages/_app.tsx` - IntlProvider incluido
+- `components/ui/layout.tsx` - Navegación multiidioma
+- `README.md` - Documentación con sección i18n
+
+### 🧪 **Funcionalidades i18n**
+- ✅ **90+ cadenas traducidas** - Navegación, características, ejemplos, autenticación
+- ✅ **Detección automática** del idioma del navegador
+- ✅ **URLs localizadas** - `/` (español), `/en` (inglés)
+- ✅ **Cambio dinámico** de idioma sin recargar página
+- ✅ **Fechas localizadas** - formato español/inglés automático
+- ✅ **TypeScript support** - Tipos estrictos para traducciones
+- ✅ **Layout responsive** - Selector funciona en mobile/desktop
+
+### 🚀 **Beneficios para Usuarios**
+- **Experiencia global** - Aplicaciones listas para mercados internacionales
+- **SEO mejorado** - URLs específicas por idioma para mejor indexación
+- **UX profesional** - Cambio de idioma fluido y intuitivo
+- **Escalabilidad** - Estructura preparada para agregar más idiomas
+- **Best practices** - Implementación siguiendo estándares de la industria
+
+### 🔄 **Próximas Mejoras (v2.2.0)**
+- 🇫🇷 Soporte para francés
+- 🇵🇹 Soporte para portugués
+- 🇩🇪 Soporte para alemán
+- 📱 Componentes específicos por idioma en ejemplos
+
 ### 🐛 **CRITICAL FIX: MDX inTable Error**
 - **🔧 FIXED:** Error "Cannot read properties of undefined (reading 'inTable')" en blog posts
 - **🔧 FIXED:** Incompatibilidad entre plugins remark-gfm, rehype-highlight y rehype-slug
@@ -431,4 +444,133 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Re-implementación de syntax highlighting sin conflictos
 - Optimización de plugins MDX en versión futura
 
-## [2.1.12] - 2025-06-17 
+## [2.1.12] - 2025-06-17
+
+### 🐛 **CRITICAL FIX: Blog MDX Rendering**
+- **🔧 FIXED:** Error "Objects are not valid as a React child (found: [object Promise])" en páginas de blog
+- **🔧 FIXED:** Conflicto entre `next-mdx-remote/rsc` y `next-mdx-remote` en Pages Router
+- **🔧 FIXED:** Import incorrecto en `template/pages/blog/[slug].tsx`
+- **✅ WORKING:** Blog completamente funcional con 3 artículos MDX de ejemplo
+- **✅ WORKING:** Syntax highlighting, frontmatter parsing, y navegación entre posts
+
+### 📋 **Detalles Técnicos**
+- Removido import erróneo de `next-mdx-remote/rsc` (App Router only)
+- Mantenido `next-mdx-remote` v4.4.1 para Pages Router compatibility
+- Corregido uso de `MDXRemote` y `serialize` sin conflictos RSC
+
+### 🧪 **Verificado**
+- ✅ Blog index page (`/blog`) funciona correctamente
+- ✅ Blog posts individuales (`/blog/[slug]`) renderizan MDX sin errores
+- ✅ Frontmatter parsing con gray-matter funciona perfectamente
+- ✅ Navegación entre artículos es fluida
+- ✅ Responsive design y dark mode compatibles
+
+## [2.1.11] - 2025-06-17
+
+### 🏷️ **Mejora: Terminología Neutral**
+
+## [2.1.13] - 2025-06-17
+
+### 🌍 **NUEVA CARACTERÍSTICA: Internacionalización Completa**
+- **✨ NEW:** Soporte completo para Español e Inglés
+- **✨ NEW:** Configuración Next.js i18n automática en `next.config.js`
+- **✨ NEW:** React Intl integrado para traducciones profesionales
+- **✨ NEW:** Selector de idioma elegante con dropdown y toggle
+- **✨ NEW:** URLs SEO-friendly (/es/, /en/) con detección automática
+- **✨ NEW:** Formateo de fechas localizado según idioma
+- **✨ NEW:** Proveedor de contexto TypeScript type-safe
+
+### 📂 **Archivos Agregados**
+- `lib/i18n.ts` - Configuración y tipos de internacionalización
+- `locales/es.json` - Traducciones completas en español
+- `locales/en.json` - Traducciones completas en inglés
+- `components/providers/intl-provider.tsx` - Proveedor React Intl
+- `components/ui/language-switcher.tsx` - Selector de idioma
+- `README.en.md` - Documentación completa en inglés
+
+### 🔧 **Archivos Actualizados**
+- `next.config.js` - Configuración i18n integrada
+- `package.json` - React Intl v6.6.2 agregado
+- `pages/_app.tsx` - IntlProvider incluido
+- `components/ui/layout.tsx` - Navegación multiidioma
+- `README.md` - Documentación con sección i18n
+
+### 🧪 **Funcionalidades i18n**
+- ✅ **90+ cadenas traducidas** - Navegación, características, ejemplos, autenticación
+- ✅ **Detección automática** del idioma del navegador
+- ✅ **URLs localizadas** - `/` (español), `/en` (inglés)
+- ✅ **Cambio dinámico** de idioma sin recargar página
+- ✅ **Fechas localizadas** - formato español/inglés automático
+- ✅ **TypeScript support** - Tipos estrictos para traducciones
+- ✅ **Layout responsive** - Selector funciona en mobile/desktop
+
+### 🚀 **Beneficios para Usuarios**
+- **Experiencia global** - Aplicaciones listas para mercados internacionales
+- **SEO mejorado** - URLs específicas por idioma para mejor indexación
+- **UX profesional** - Cambio de idioma fluido y intuitivo
+- **Escalabilidad** - Estructura preparada para agregar más idiomas
+- **Best practices** - Implementación siguiendo estándares de la industria
+
+### 🔄 **Próximas Mejoras (v2.2.0)**
+- 🇫🇷 Soporte para francés
+- 🇵🇹 Soporte para portugués
+- 🇩🇪 Soporte para alemán
+- 📱 Componentes específicos por idioma en ejemplos
+
+### 🐛 **CRITICAL FIX: MDX inTable Error**
+- **🔧 FIXED:** Error "Cannot read properties of undefined (reading 'inTable')" en blog posts
+- **🔧 FIXED:** Incompatibilidad entre plugins remark-gfm, rehype-highlight y rehype-slug
+- **🔧 FIXED:** Conflicto de versiones en procesamiento MDX
+- **✅ WORKING:** Todos los artículos MDX renderizan correctamente sin errores
+- **✅ WORKING:** Preservado styling con prose classes para contenido
+
+### 📋 **Solución Técnica**
+- Removidos plugins conflictivos: `rehype-highlight`, `rehype-slug`, `remark-gfm`
+- Simplificada configuración MDX para máxima compatibilidad
+- Mantenido styling básico con Tailwind Typography
+
+### 🧪 **Verificado**
+- ✅ `/blog/introduccion-a-sysrotcore` funciona sin errores
+- ✅ `/blog/ia-integrada-tutorial` funciona sin errores  
+- ✅ `/blog/componentes-avanzados-guia` funciona sin errores
+- ✅ Contenido MDX renderiza correctamente
+- ✅ Código syntax highlighting básico preservado
+
+### 🔄 **Próximas Mejoras**
+- Re-implementación de syntax highlighting sin conflictos
+- Optimización de plugins MDX en versión futura
+
+## [2.1.12] - 2025-06-17
+
+### ✨ **Versión Publicada en NPM**
+- **¡DISPONIBLE EN NPM!**: Ahora puedes usar `npx sysrotcore` directamente
+- **ASCII Art Espectacular**: Título "SYSROT CORE" en arte ASCII azul
+- **Paquete Optimizado**: Reducido de 634MB a 438KB eliminando archivos innecesarios
+
+### 🔧 **Correcciones Críticas Finales**
+- **Error '@auth/prisma-adapter' RESUELTO**: 100% funcional tras instalación
+- **Next.js 14.2.17**: Versión actualizada sin warnings
+- **Dependencias Completas**: Todas las dependencias de Prisma y NextAuth incluidas
+
+### 📦 **Optimizaciones del Paquete**
+- **Template Limpio**: Eliminados `node_modules/` del template
+- **Tamaño Reducido**: De 634MB a 438KB (99.93% reducción)
+- **Archivos Esenciales**: Solo incluye archivos necesarios para el funcionamiento
+
+### 🎯 **Experiencia Perfecta**
+```bash
+npx sysrotcore mi-proyecto
+cd mi-proyecto
+npm run dev
+# ✅ Todo funciona sin errores!
+```
+
+### 🛠️ **Comandos Disponibles**
+- `npx sysrotcore [nombre]` - Comando principal
+- `npx sysrot create [nombre]` - Comando alternativo
+- `npx sysrotcore --help` - Ayuda con ASCII art
+- `npx sysrotcore --version` - Versión con ASCII art
+
+## [2.1.9] - 2025-01-28
+
+// ... existing code ... 

@@ -1,117 +1,70 @@
 {
   "name": "sysrotcore",
-  "version": "2.1.14",
-  "description": "CLI de nueva generación para crear proyectos Next.js 14+ con Pages Router, múltiples modelos de IA y ecosistema completo de desarrollo. Comando: npx sysrotcore",
+  "version": "2.2.1",
+  "description": "🚀 CLI para crear proyectos Next.js 14+ con Pages Router, TypeScript, TailwindCSS, autenticación, IA integrada y más de 15 funcionalidades modernas",
   "main": "cli.js",
   "bin": {
+    "sysrot": "./cli.js",
     "sysrotcore": "./cli.js"
   },
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
-  },
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ],
-  "files": [
-    "cli.js",
-    "createProject.js",
-    "fix-nextconfig.js",
-    "template/**/*",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "scripts": {
-    "test": "node cli.js test-project",
-    "prepublishOnly": "echo 'Ready to publish SysrotCore'",
-    "start": "node cli.js",
-    "help": "node cli.js --help",
-    "version": "node cli.js --version"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "nextjs",
-    "next",
     "react",
-    "cli",
-    "generator",
-    "boilerplate",
-    "starter",
-    "template",
     "typescript",
     "tailwindcss",
+    "cli",
+    "generator",
+    "template",
+    "boilerplate",
     "pages-router",
-    "ai",
-    "openai",
-    "gpt-4",
-    "claude",
-    "anthropic",
-    "gemini",
-    "google-ai",
-    "create-app",
-    "scaffold",
-    "web-development",
-    "frontend",
-    "fullstack",
-    "javascript",
-    "framer-motion",
-    "react-hook-form",
-    "zod",
-    "validation",
-    "hot-toast",
-    "notifications",
-    "next-themes",
-    "dark-mode",
-    "mongodb",
-    "mongoose",
-    "supabase",
-    "postgresql",
-    "firebase",
-    "nosql",
-    "database",
-    "cloudinary",
-    "image-upload",
-    "auth",
-    "authentication",
     "nextauth",
-    "oauth",
-    "components",
-    "ui-components",
+    "prisma",
+    "openai",
+    "claude",
+    "gemini",
+    "deepseek",
+    "ai",
+    "authentication",
+    "cloudinary",
     "mdx",
     "blog",
-    "cms"
+    "modern",
+    "full-stack"
   ],
+  "author": "SysrotCore Team",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rotosaurio/sysrot.git"
+    "url": "https://github.com/rotosaurio/sysrotcore.git"
   },
+  "homepage": "https://github.com/rotosaurio/sysrotcore#readme",
   "bugs": {
-    "url": "https://github.com/rotosaurio/sysrot/issues",
-    "email": "issues@sysrot.dev"
+    "url": "https://github.com/rotosaurio/sysrotcore/issues"
   },
-  "homepage": "https://github.com/rotosaurio/sysrot#readme",
-  "author": {
-    "name": "SysRot Team",
-    "url": "https://github.com/rotosaurio"
+  "engines": {
+    "node": ">=16.0.0"
   },
-  "license": "MIT",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/rotosaurio"
-  },
+  "files": [
+    "cli.js",
+    "createProject.js",
+    "template/**/*",
+    "!template/node_modules/**",
+    "!template/.next/**",
+    "!template/dist/**",
+    "!template/*.log",
+    "!template/.env*",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md"
+  ],
   "dependencies": {
     "chalk": "^4.1.2",
-    "fs-extra": "^11.1.1",
-    "inquirer": "^8.2.5",
-    "ora": "^5.4.1",
-    "degit": "^2.8.4"
-  },
-  "devDependencies": {},
-  "peerDependencies": {},
-  "preferGlobal": false,
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "commander": "^11.1.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^9.2.12",
+    "ora": "^7.0.1"
   }
 } 

@@ -1,18 +1,60 @@
 #!/usr/bin/env node
 
+const { program } = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const { createProject } = require('./createProject');
 const path = require('path');
 
+// ASCII Art para SYSROT CORE en azul
+function showTitle() {
+  console.log(chalk.blue(`
+ ███████╗██╗   ██╗███████╗██████╗  ██████╗ ████████╗     ██████╗ ██████╗ ██████╗ ███████╗
+ ██╔════╝╚██╗ ██╔╝██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+ ███████╗ ╚████╔╝ ███████╗██████╔╝██║   ██║   ██║       ██║     ██║   ██║██████╔╝█████╗  
+ ╚════██║  ╚██╔╝  ╚════██║██╔══██╗██║   ██║   ██║       ██║     ██║   ██║██╔══██╗██╔══╝  
+ ███████║   ██║   ███████║██║  ██║╚██████╔╝   ██║       ╚██████╗╚██████╔╝██║  ██║███████╗
+ ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝        ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+  `));
+  console.log(chalk.blue.bold(`                           🚀 Next.js 14+ CLI Generator 🚀`));
+  console.log(chalk.blue(`                      Crea proyectos modernos en segundos\n`));
+}
+
+// Versión del paquete
+const packageJson = require('./package.json');
+const version = packageJson.version;
+
 // Obtener argumentos de línea de comandos
 const args = process.argv.slice(2);
 const projectNameArg = args[0];
 
-console.log(chalk.cyan(`
-🚀 Bienvenido a SysrotCore v2.1.8 🚀
-Vamos a crear un proyecto Next.js 14+ con Pages Router y todas las configuraciones modernas
-`));
+// Verificar flags de ayuda y versión
+if (args.includes('--help') || args.includes('-h')) {
+  showTitle();
+  console.log(chalk.white.bold('Uso: '));
+  console.log('  npx sysrotcore [nombre-proyecto]');
+  console.log('  npx sysrot create [nombre-proyecto]');
+  console.log('  ');
+  console.log(chalk.white.bold('Ejemplos:'));
+  console.log('  npx sysrotcore mi-app');
+  console.log('  npx sysrotcore');
+  console.log('  ');
+  console.log(chalk.white.bold('Opciones:'));
+  console.log('  -h, --help     Mostrar ayuda');
+  console.log('  -v, --version  Mostrar versión');
+  console.log('  ');
+  process.exit(0);
+}
+
+if (args.includes('--version') || args.includes('-v')) {
+  showTitle();
+  console.log(chalk.green.bold(`SysrotCore v${version}`));
+  console.log('');
+  process.exit(0);
+}
+
+// Mostrar el título solo si no es help o version
+showTitle();
 
 const questions = [
   {
@@ -222,38 +264,8 @@ const questions = [
   }
 ];
 
-async function showHelp() {
-  console.log(chalk.cyan(`
-Uso: 
-  npx sysrot create [nombre-proyecto]
-  
-Ejemplos:
-  npx sysrot create mi-app
-  npx sysrot create
-  
-Opciones:
-  -h, --help     Mostrar ayuda
-  -v, --version  Mostrar versión
-  `));
-}
-
-async function showVersion() {
-  console.log(chalk.cyan('SysrotCore v2.1.5'));
-}
-
 async function init() {
   try {
-    // Manejar argumentos especiales
-    if (args.includes('-h') || args.includes('--help')) {
-      await showHelp();
-      return;
-    }
-    
-    if (args.includes('-v') || args.includes('--version')) {
-      await showVersion();
-      return;
-    }
-    
     const answers = await inquirer.prompt(questions);
     
     console.log(chalk.green('\n✅ Generando tu proyecto...'));

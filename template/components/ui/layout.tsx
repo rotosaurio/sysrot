@@ -1,13 +1,16 @@
 import Link from 'next/link';
+import { Rocket } from 'lucide-react';
 import { ThemeToggle } from './theme-toggle';
-import { Rocket } from './icons';
-import { ReactNode } from 'react';
+import { LanguageSwitcher } from './language-switcher';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 interface LayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* Barra de navegación */}
@@ -19,19 +22,20 @@ export function Layout({ children }: LayoutProps) {
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/" className="text-sm font-medium hover:text-blue-600 transition-colors">
-              Inicio
+              {t('nav.home')}
             </Link>
             <Link href="/ejemplos" className="text-sm font-medium hover:text-blue-600 transition-colors">
-              Ejemplos
+              {t('nav.examples')}
             </Link>
             <Link href="/blog" className="text-sm font-medium hover:text-blue-600 transition-colors">
-              Blog
+              {t('nav.blog')}
             </Link>
             <Link href="/ejemplos/auth" className="text-sm font-medium hover:text-blue-600 transition-colors">
-              Autenticación
+              {t('nav.auth')}
             </Link>
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <ThemeToggle />
           </div>
         </div>
@@ -43,21 +47,37 @@ export function Layout({ children }: LayoutProps) {
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-8 md:py-12">
-        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-center text-sm text-muted-foreground md:text-left">
-            &copy; {new Date().getFullYear()} SysrotCore. Todos los derechos reservados.
-          </p>
-          <div className="flex items-center gap-4">
-            <Link href="/ejemplos" className="text-sm text-muted-foreground hover:text-foreground">
-              Ejemplos
-            </Link>
-            <Link href="https://github.com/rotosaurio/sysrot" className="text-sm text-muted-foreground hover:text-foreground">
-              GitHub
-            </Link>
-            <Link href="/DOCUMENTACION.md" className="text-sm text-muted-foreground hover:text-foreground">
-              Documentación
-            </Link>
+      <footer className="border-t bg-background/50">
+        <div className="container py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>{t('footer.madeWith')}</span>
+              <span className="text-red-500">❤️</span>
+              <span>{t('footer.by')} SysRot Team</span>
+            </div>
+            
+            <div className="flex items-center gap-6 mt-4 md:mt-0">
+              <Link
+                href="https://github.com/rotosaurio/sysrot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                GitHub
+              </Link>
+              <Link
+                href="/ejemplos"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {t('nav.examples')}
+              </Link>
+              <Link
+                href="/blog"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {t('nav.blog')}
+              </Link>
+            </div>
           </div>
         </div>
       </footer>

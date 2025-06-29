@@ -1,8 +1,18 @@
-﻿# �� SysrotCore v2.1.14
+﻿# 🚀 SysrotCore v2.1.18
 
 <div align="center">
 
 **CLI de nueva generación para crear proyectos Next.js 14+ con Pages Router, múltiples modelos de IA y ecosistema completo de desarrollo**
+
+<!-- Language Selection -->
+<p>
+<a href="./README.md">
+<img src="https://img.shields.io/badge/🇪🇸%20Español-current-blue.svg?style=for-the-badge" alt="Español" />
+</a>
+<a href="./README.en.md">
+<img src="https://img.shields.io/badge/🇺🇸%20English-available-gray.svg?style=for-the-badge" alt="English" />
+</a>
+</p>
 
 [![npm version](https://badge.fury.io/js/sysrotcore.svg)](https://badge.fury.io/js/sysrotcore)
 [![Downloads](https://img.shields.io/npm/dm/sysrotcore.svg)](https://npmjs.com/package/sysrotcore)
@@ -12,9 +22,45 @@
 
 **🚀 Comando: `npx sysrotcore` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
 
+**🌍 [English README](./README.en.md) | 🇪🇸 Español (actual)**
+
 </div>
 
+## 📋 **Tabla de Contenidos | Table of Contents**
+
+<details>
+<summary><strong>🇪🇸 Español (Haz click para expandir)</strong></summary>
+
+- [✨ ¿Por Qué SysrotCore?](#-por-qué-sysrotcore)
+- [🔥 Características Implementadas](#-características-implementadas)
+- [🛠️ Instalación y Uso](#%EF%B8%8F-instalación-y-uso)
+- [🎯 Ejemplos Incluidos](#-ejemplos-incluidos)
+- [📚 Documentación](#-documentación)
+- [🤝 Contribuir](#-contribuir)
+- [📄 Licencia](#-licencia)
+
+</details>
+
+<details>
+<summary><strong>🇺🇸 English (Click to expand)</strong></summary>
+
+➡️ **[View English Documentation](./README.en.md)**
+
+- [✨ Why SysrotCore?](./README.en.md#-why-sysrotcore)
+- [🔥 Implemented Features](./README.en.md#-implemented-features) 
+- [🛠️ Installation and Usage](./README.en.md#%EF%B8%8F-installation-and-usage)
+- [🎯 Examples Included](./README.en.md#-examples-included)
+- [📚 Documentation](./README.en.md#-documentation)
+- [🤝 Contributing](./README.en.md#-contributing)
+- [📄 License](./README.en.md#-license)
+
+</details>
+
+---
+
 ## ✨ **¿Por Qué SysrotCore?**
+
+> **🌍 ¿Prefieres leer en inglés?** → **[Switch to English Version](./README.en.md)** 🇺🇸
 
 En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creación de aplicaciones modernas sin sacrificar calidad. **SysrotCore** es un CLI que te da:
 
@@ -25,6 +71,7 @@ En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creac
 - ⚡ **Zero-config** - Funciona perfecto desde el primer `npm run dev`
 - 🎨 **60+ animaciones fluidas** - CSS3, Framer Motion, micro-interacciones
 - 📚 **Blog MDX integrado** - 3 artículos de ejemplo incluidos
+- 🌍 **Internacionalización completa** - Soporte para español e inglés
 
 **💡 Nota:** El paquete se llama `sysrotcore` y el comando principal es `npx sysrotcore` para máxima simplicidad.
 
@@ -38,6 +85,16 @@ En **junio 2025**, el desarrollo web requiere herramientas que aceleren la creac
 - **Streaming real-time** - Respuestas en vivo con typing indicator
 - **Fallback automático** - Resiliencia ante errores de API
 - **Context switching** - Cambio dinámico entre modelos
+
+### 🌍 **Internacionalización Completa**
+- **2 idiomas soportados** - Español (predeterminado) e Inglés
+- **Next.js i18n built-in** - URLs amigables para SEO (/es/, /en/)
+- **Detección automática** - Detección del idioma del navegador
+- **React Intl integrado** - Estándar de la industria para traducciones
+- **Soporte TypeScript** - Traducciones type-safe
+- **Selector de idioma** - Componente elegante incluido
+- **Formateo de fechas** - Fechas localizadas y tiempos relativos
+- **Listo para RTL** - Extensible para árabe, hebreo, etc.
 
 ### 🎨 **Sistema de Diseño Moderno**
 - **TailwindCSS 3.4+** - Utilidades CSS de última generación
@@ -1218,4 +1275,58 @@ GET|POST /api/database/firebase-test
 - **Rate limiting** implementado
 - **CORS configuration** para production
 - **Error handling** consistente
-- **Logging** y monitoring integrado 
+- **Logging** y monitoring integrado
+
+---
+
+## 🌍 **Language Options | Opciones de Idioma**
+
+<div align="center">
+
+**🇪🇸 Español (Actual)** | **[🇺🇸 English](./README.en.md)**
+
+**¿Prefieres otro idioma? [Crear Issue](https://github.com/rotosaurio/sysrot/issues) para solicitar traducción**
+
+</div>
+
+---
+
+<div align="center">
+
+**🚀 SysrotCore v2.1.18**  
+**CLI de Nueva Generación | Next-Generation CLI**
+
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg?style=flat&logo=github)](https://github.com/rotosaurio/sysrot)
+[![npm](https://img.shields.io/badge/npm-Package-red.svg?style=flat&logo=npm)](https://npmjs.com/package/sysrotcore)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat)](./LICENSE)
+
+**Hecho con ❤️ para la comunidad de desarrolladores**
+
+</div>
+
+---
+
+## 🌍 **Language Options | Opciones de Idioma**
+
+<div align="center">
+
+**🇪🇸 Español (Actual)** | **[🇺🇸 English](./README.en.md)**
+
+**¿Prefieres otro idioma? [Crear Issue](https://github.com/rotosaurio/sysrot/issues) para solicitar traducción**
+
+</div>
+
+---
+
+<div align="center">
+
+**🚀 SysrotCore v2.1.18**  
+**CLI de Nueva Generación | Next-Generation CLI**
+
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg?style=flat&logo=github)](https://github.com/rotosaurio/sysrot)
+[![npm](https://img.shields.io/badge/npm-Package-red.svg?style=flat&logo=npm)](https://npmjs.com/package/sysrotcore)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat)](./LICENSE)
+
+**Hecho con ❤️ para la comunidad de desarrolladores**
+
+</div> 
