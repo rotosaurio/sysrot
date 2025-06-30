@@ -1,7 +1,7 @@
 {
   "name": "sysrotcore",
-  "version": "2.4.0",
-  "description": "CLI de nueva generación para proyectos Next.js 14+ con IA multi-modelo, internacionalización completa, documentación exhaustiva y roadmap 2025-2030",
+  "version": "2.4.1",
+  "description": "CLI de nueva generación para proyectos Next.js 14+ con IA multi-modelo, internacionalización completa, documentación exhaustiva y roadmap 2025-2035 expandido",
   "main": "cli.js",
   "bin": {
     "sysrotcore": "./cli.js"
@@ -25,10 +25,14 @@
     "i18n",
     "documentation",
     "roadmap",
+    "roadmap-2035",
+    "quantum-computing",
     "openai",
     "claude",
     "gemini",
-    "complete-documentation"
+    "complete-documentation",
+    "enterprise-ready",
+    "production-ready"
   ],
   "author": "rotosaurio",
   "license": "MIT",

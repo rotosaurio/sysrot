@@ -1,5 +1,55 @@
 ﻿# CHANGELOG - SysrotCore
 
+## [2.4.1] - 2025-01-18
+
+### 🔧 **CORRECCIÓN CRÍTICA README + ROADMAP EXPANDIDO**
+
+**LIMPIEZA COMPLETA - README Principal Totalmente en Inglés**
+
+### Fixed
+- **README.md COMPLETAMENTE EN INGLÉS**
+  - ✅ Eliminado todo contenido en español del README principal
+  - ✅ Removidas duplicaciones de secciones y características
+  - ✅ Eliminada información falsa sobre modelos DeepSeek disponibles
+  - ✅ Corregida versión de v2.3.6 a v2.4.0 en el título
+
+### Enhanced
+- **ROADMAP MASIVAMENTE EXPANDIDO HASTA 2035**
+  - 🚀 **2025-2030**: Roadmap original expandido con detalles específicos
+  - 🌟 **2031-2035**: Nueva era Post-Human Computing agregada
+  - ♾️ **Vision 2035**: Infinite Computing y transcendencia digital
+  - 🧬 **Quantum + Neural**: Integración de computación cuántica y neural
+  - 🌌 **Multiverse Development**: Desarrollo entre realidades paralelas
+
+### Removed
+- **INFORMACIÓN INCORRECTA ELIMINADA**
+  - ❌ Referencias a "DeepSeek V3 Chat" y "DeepSeek R1 Reasoner" como disponibles
+  - ❌ Comando alternativo "npx sysrot" que no existe
+  - ❌ Contenido duplicado en secciones de características
+  - ❌ Enlaces a documentación en español en el README inglés
+
+### Enhanced Roadmap Sections
+- **🎯 2025 Goals**: Testing automatizado, performance 100/100/100/100
+- **🌟 2026-2027**: Quantum computing, neural interfaces, holographic computing
+- **🚀 2028-2030**: Biological computing, interplanetary development
+- **♾️ 2031-2035**: Digital consciousness, multiverse APIs, existence transcendence
+- **📊 Metrics**: Metas hasta 100M desarrolladores para 2030
+
+### Technical Improvements
+- **DOCUMENTACIÓN TÉCNICA EXPANDIDA**
+  - 🔧 Stack tecnológico con tablas detalladas
+  - 🌐 Variables de entorno con ejemplos completos
+  - 📊 Core Web Vitals con targets específicos
+  - 🏗️ Arquitectura recomendada con ejemplos de código
+  - 🛠️ Troubleshooting expandido con 20+ problemas comunes
+
+### Result
+- ✅ **README principal 100% en inglés** - Sin contenido en español
+- ✅ **Zero duplicaciones** - Información organizada y única
+- ✅ **Información 100% veraz** - Solo características realmente implementadas
+- ✅ **Roadmap visionario hasta 2035** - Planificación ambiciosa pero estructurada
+- ✅ **Documentación enterprise** - Nivel profesional completo
+
 ## [2.4.0] - 2025-01-18
 
 ### 📚 **DOCUMENTACIÓN COMPLETA + ROADMAP 2025-2030**
@@ -57,7 +107,7 @@
 ### ✨ **Resultado**
 - ✅ **Documentación nivel enterprise**: Profesional y completa
 - ✅ **Roadmap ambicioso**: Planificación realista hasta 2030
-- ✅ **Información técnica**: Stack completo con versiones específicas
+- ✅ **Información técnica**: Stack completo con versions específicas
 - ✅ **Casos de uso reales**: Para todas las audiencias
 - ✅ **Soporte completo**: Troubleshooting y comunidad
 - ✅ **Sincronización perfecta**: Español/inglés en paralelo
@@ -943,42 +993,3 @@ cd mi-proyecto
 npm run dev
 # ✅ Todo funciona sin errores!
 ```
-
-### 🛠️ **Comandos Disponibles**
-- `npx sysrotcore [nombre]` - Comando principal
-- `npx sysrot create [nombre]` - Comando alternativo
-- `npx sysrotcore --help` - Ayuda con ASCII art
-- `npx sysrotcore --version` - Versión con ASCII art
-
-## [2.1.9] - 2025-01-28
-
-## [2.3.6] - 2025-01-18
-
-### 🌍 TRADUCCIONES COMPLETADAS Y ERRORES CORREGIDOS
-
-**Corrección final de traducciones faltantes + Error de compilación**
-
-### Fixed
-- **ERROR DE COMPILACIÓN RESUELTO**
-  - ✅ Removido import duplicado de `useTranslation` en `image-upload.tsx`
-  - ✅ Error de build "the name `useTranslation` is defined multiple times" corregido
-
-- **TRADUCCIONES FALTANTES AGREGADAS**
-  - ✅ `examples.components.title/description` - Componentes UI
-  - ✅ `examples.notifications.title/description` - Notificaciones
-  - ✅ `examples.database.title/description` - Base de Datos
-  - ✅ `examples.themes.title/description` - UI & Temas
-  - ✅ `pages.notifications.basic` - Notificaciones Básicas
-  - ✅ `examples.about.docs/docsPath` - Documentación
-
-### Technical Details
-- **Archivos Actualizados:**
-  - `template/locales/en.json` - Agregadas 10+ traducciones faltantes
-  - `template/locales/es.json` - Completadas traducciones correspondientes
-  - `template/components/upload/image-upload.tsx` - Removido import duplicado
-
-### Result
-- ✅ **CERO errores de compilación garantizado**
-- ✅ **100% traducciones funcionales** en páginas de ejemplos
-- ✅ **Interfaz completamente localizada** sin texto hardcodeado
-- ✅ **Sistema de i18n robusto** sin errores Missing Translation
