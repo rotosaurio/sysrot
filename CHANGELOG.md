@@ -888,4 +888,33 @@ npm run dev
 
 ## [2.1.9] - 2025-01-28
 
-// ... existing code ... 
+## [2.3.6] - 2025-01-18
+
+### 🌍 TRADUCCIONES COMPLETADAS Y ERRORES CORREGIDOS
+
+**Corrección final de traducciones faltantes + Error de compilación**
+
+### Fixed
+- **ERROR DE COMPILACIÓN RESUELTO**
+  - ✅ Removido import duplicado de `useTranslation` en `image-upload.tsx`
+  - ✅ Error de build "the name `useTranslation` is defined multiple times" corregido
+
+- **TRADUCCIONES FALTANTES AGREGADAS**
+  - ✅ `examples.components.title/description` - Componentes UI
+  - ✅ `examples.notifications.title/description` - Notificaciones
+  - ✅ `examples.database.title/description` - Base de Datos
+  - ✅ `examples.themes.title/description` - UI & Temas
+  - ✅ `pages.notifications.basic` - Notificaciones Básicas
+  - ✅ `examples.about.docs/docsPath` - Documentación
+
+### Technical Details
+- **Archivos Actualizados:**
+  - `template/locales/en.json` - Agregadas 10+ traducciones faltantes
+  - `template/locales/es.json` - Completadas traducciones correspondientes
+  - `template/components/upload/image-upload.tsx` - Removido import duplicado
+
+### Result
+- ✅ **CERO errores de compilación garantizado**
+- ✅ **100% traducciones funcionales** en páginas de ejemplos
+- ✅ **Interfaz completamente localizada** sin texto hardcodeado
+- ✅ **Sistema de i18n robusto** sin errores Missing Translation

@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
 import { useTranslation } from "@/components/providers/intl-provider";
-import { useTranslation } from "@/components/providers/intl-provider";
 
 interface ImageUploadProps {
   onUploadComplete?: (imageUrl: string) => void;

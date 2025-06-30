@@ -1,6 +1,6 @@
 {
   "name": "sysrotcore",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "Template moderno y completo para aplicaciones Next.js con autenticación, IA, upload de archivos, blog con MDX y mucho más",
   "main": "cli.js",
   "bin": {

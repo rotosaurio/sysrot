@@ -61,8 +61,8 @@ export default function EjemplosPage() {
       icon: <BookOpen className="h-10 w-10 text-cyan-600" />
     },
     {
-      title: "Blog con MDX",
-      description: "Sistema de blog con soporte para MDX y sintaxis highlighting",
+      title: t('examples.blog.title'),
+      description: t('examples.blog.description'),
       href: "/blog",
       icon: <BookOpen className="h-10 w-10 text-blue-600" />
     },
