@@ -1,7 +1,7 @@
 {
   "name": "sysrotcore",
-  "version": "2.3.6",
-  "description": "Template moderno y completo para aplicaciones Next.js con autenticación, IA, upload de archivos, blog con MDX y mucho más",
+  "version": "2.4.0",
+  "description": "CLI de nueva generación para proyectos Next.js 14+ con IA multi-modelo, internacionalización completa, documentación exhaustiva y roadmap 2025-2030",
   "main": "cli.js",
   "bin": {
     "sysrotcore": "./cli.js"
@@ -20,7 +20,15 @@
     "mdx",
     "blog",
     "upload",
-    "cli"
+    "cli",
+    "internationalization",
+    "i18n",
+    "documentation",
+    "roadmap",
+    "openai",
+    "claude",
+    "gemini",
+    "complete-documentation"
   ],
   "author": "rotosaurio",
   "license": "MIT",
