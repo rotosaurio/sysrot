@@ -1,16 +1,16 @@
-# 🚀 SysrotCore v2.3.6 - Traducciones Completadas + Error de Compilación Corregido
+# 🚀 SysrotCore v2.3.6 - Translations Completed + Compilation Error Fixed
 
 <div align="center">
 
-**CLI de nueva generación para crear proyectos Next.js 14+ con Pages Router, múltiples modelos de IA y ecosistema completo de desarrollo**
+**Next-generation CLI for creating Next.js 14+ projects with Pages Router, multiple AI models and complete development ecosystem**
 
 <!-- Language Selection -->
 <p>
-<a href="./README.md">
-<img src="https://img.shields.io/badge/🇪🇸%20Español-current-blue.svg?style=for-the-badge" alt="Español" />
+<a href="./README.es.md">
+<img src="https://img.shields.io/badge/🇪🇸%20Español-available-gray.svg?style=for-the-badge" alt="Español" />
 </a>
-<a href="./README.en.md">
-<img src="https://img.shields.io/badge/🇺🇸%20English-available-gray.svg?style=for-the-badge" alt="English" />
+<a href="./README.md">
+<img src="https://img.shields.io/badge/🇺🇸%20English-current-blue.svg?style=for-the-badge" alt="English" />
 </a>
 </p>
 
@@ -20,93 +20,113 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%2B-black.svg)](https://nextjs.org/)
 
-**🚀 Comando: `npx sysrotcore` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
+**🚀 Command: `npx sysrotcore` | 🎨 11 Functional Examples | 🤖 3 Integrated AI Models**
 
-**🌍 [English README](./README.en.md) | 🇪🇸 Español (actual)**
+**🌍 [Documentación en Español](./README.es.md) | 🇺🇸 English (current)**
 
 </div>
 
-## ✅ **¡NUEVA VERSIÓN v2.3.6 - COMPLETAMENTE FUNCIONAL!**
+## ✅ **NEW VERSION v2.3.6 - FULLY FUNCTIONAL!**
 
-### 🔧 **Correcciones Críticas Resueltas**
-- ✅ **ERROR DE COMPILACIÓN CORREGIDO** - Import duplicado `useTranslation` eliminado
-- ✅ **TRADUCCIONES 100% COMPLETADAS** - Zero errores "Missing translation" garantizado
-- ✅ **CLI MULTIPLATAFORMA** - Funciona perfectamente en Windows, macOS y Linux
-- ✅ **DEPENDENCIAS CORREGIDAS** - Comandos `commander` e `inquirer` funcionando
-- ✅ **PÁGINAS ESPECÍFICAS ARREGLADAS** - `/en/ejemplos/notificaciones`, `/en/ejemplos/database`
+### 🔧 **Critical Fixes Resolved**
+- ✅ **COMPILATION ERROR FIXED** - Duplicate `useTranslation` import removed
+- ✅ **TRANSLATIONS 100% COMPLETED** - Zero "Missing translation" errors guaranteed
+- ✅ **CROSS-PLATFORM CLI** - Works perfectly on Windows, macOS and Linux
+- ✅ **DEPENDENCIES FIXED** - Commands `commander` and `inquirer` working
+- ✅ **SPECIFIC PAGES FIXED** - `/en/ejemplos/notificaciones`, `/en/ejemplos/database`
 
-### 🌍 **Sistema de Internacionalización Robusto**
-- **350+ claves de traducción** en español e inglés
-- **Todas las páginas localizadas** sin texto hardcodeado
-- **Sistema React Intl v2.3.0** con fallbacks automáticos
-- **Carga síncrona optimizada** para mejor performance inicial
+### 🌍 **Robust Internationalization System**
+- **350+ translation keys** in Spanish and English
+- **All pages localized** without hardcoded text
+- **React Intl v2.3.0 system** with automatic fallbacks
+- **Optimized synchronous loading** for better initial performance
 
-### 📦 **Instalación Ultra-Rápida**
+### 📦 **Ultra-Fast Installation**
 ```bash
-npx sysrotcore mi-proyecto
-cd mi-proyecto
+npx sysrotcore my-project
+cd my-project
 npm run dev
-# ✅ ¡Funciona sin errores en 30 segundos!
+# ✅ Works without errors in 30 seconds!
 ```
 
-## 🎯 **Instalación Rápida**
-
-```bash
-npx sysrotcore mi-proyecto
-cd mi-proyecto
-npm run dev
-```
-
-¡Tu aplicación estará ejecutándose en http://localhost:3000 en menos de 30 segundos!
-
-## 📋 **Tabla de Contenidos | Table of Contents**
-
-<details>
-<summary><strong>🇪🇸 Español (Haz click para expandir)</strong></summary>
-
-- [✨ ¿Por Qué SysrotCore?](#-por-qué-sysrotcore)
-- [🔥 Características Implementadas](#-características-implementadas)
-- [🛠️ Instalación y Uso](#%EF%B8%8F-instalación-y-uso)
-- [🎯 Ejemplos Incluidos](#-ejemplos-incluidos)
-- [📚 Documentación](#-documentación)
-- [🤝 Contribuir](#-contribuir)
-- [📄 Licencia](#-licencia)
-
-</details>
+## 📋 **Table of Contents | Tabla de Contenidos**
 
 <details>
 <summary><strong>🇺🇸 English (Click to expand)</strong></summary>
 
-➡️ **[View English Documentation](./README.en.md)**
+- [✨ Why SysrotCore?](#-why-sysrotcore)
+- [🔥 Implemented Features](#-implemented-features)
+- [🛠️ Installation and Usage](#%EF%B8%8F-installation-and-usage)
+- [🎯 Examples Included](#-examples-included)
+- [📚 Documentation](#-documentation)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-- [✨ Why SysrotCore?](./README.en.md#-why-sysrotcore)
-- [🔥 Implemented Features](./README.en.md#-implemented-features) 
-- [🛠️ Installation and Usage](./README.en.md#%EF%B8%8F-installation-and-usage)
-- [🎯 Examples Included](./README.en.md#-examples-included)
-- [📚 Documentation](./README.en.md#-documentation)
-- [🤝 Contributing](./README.en.md#-contributing)
-- [📄 License](./README.en.md#-license)
+</details>
+
+<details>
+<summary><strong>🇪🇸 Español (Haz click para expandir)</strong></summary>
+
+➡️ **[Ver Documentación en Español](./README.es.md)**
+
+- [✨ ¿Por Qué SysrotCore?](./README.es.md#-por-qué-sysrotcore)
+- [🔥 Características Implementadas](./README.es.md#-características-implementadas)
+- [🛠️ Instalación y Uso](./README.es.md#%EF%B8%8F-instalación-y-uso)
+- [🎯 Ejemplos Incluidos](./README.es.md#-ejemplos-incluidos)
+- [📚 Documentación](./README.es.md#-documentación)
+- [🤝 Contribuir](./README.es.md#-contribuir)
+- [📄 Licencia](./README.es.md#-licencia)
 
 </details>
 
 ---
 
-## ✨ **¿Por Qué SysrotCore?**
+## ✨ **Why SysrotCore?**
 
-> **🌍 ¿Prefieres leer en inglés?** → **[Switch to English Version](./README.en.md)** 🇺🇸
+> **🌍 ¿Prefieres leer en español?** → **[Cambiar a Versión en Español](./README.es.md)** 🇪🇸
 
-En **enero 2025**, el desarrollo web requiere herramientas que aceleren la creación de aplicaciones modernas sin sacrificar calidad. **SysrotCore** es un CLI que te da:
+In **January 2025**, web development requires tools that accelerate the creation of modern applications without sacrificing quality. **SysrotCore** is a CLI that gives you:
 
-- 🚀 **Proyecto completo en 30 segundos** - De idea a aplicación funcional
-- 🤖 **3 modelos de IA integrados** - GPT-4o, Claude 3.5 Sonnet, Gemini Flash Pro
-- 📦 **50+ componentes production-ready** - Biblioteca completa de UI/UX
-- 🎯 **11 ejemplos funcionales** - Código real que puedes usar inmediatamente
-- ⚡ **Zero-config** - Funciona perfecto desde el primer `npm run dev`
-- 🎨 **60+ animaciones fluidas** - CSS3, Framer Motion, micro-interacciones
-- 📚 **Blog MDX integrado** - 3 artículos de ejemplo incluidos
-- 🌍 **Internacionalización completa** - Soporte para español e inglés
+- 🚀 **Complete project in 30 seconds** - From idea to functional application
+- 🤖 **3 integrated AI models** - GPT-4o, Claude 3.5 Sonnet, Gemini Flash Pro
+- 📦 **50+ production-ready components** - Complete UI/UX library
+- 🎯 **11 functional examples** - Real code you can use immediately
+- ⚡ **Zero-config** - Works perfectly from the first `npm run dev`
+- 🎨 **60+ smooth animations** - CSS3, Framer Motion, micro-interactions
+- 📚 **Integrated MDX blog** - 3 example articles included
+- 🌍 **Complete internationalization** - Support for Spanish and English
 
-**💡 Nota:** El paquete se llama `sysrotcore` y el comando principal es `npx sysrotcore` para máxima simplicidad.
+**💡 Note:** The package is called `sysrotcore` and the main command is `npx sysrotcore` for maximum simplicity.
+
+## 🔥 **Implemented Features**
+
+### 🤖 **Integrated AI Models**
+- **GPT-4o (OpenAI v4.24.1)** - Advanced reasoning and code generation
+- **Claude 3.5 Sonnet (Anthropic v0.12.0)** - Deep analysis and documentation
+- **Gemini Flash Pro (Google v0.2.0)** - Fast multimodal processing
+- **Unified interface** - One component for all models
+- **Real-time streaming** - Live responses with typing indicator
+- **Automatic fallback** - Resilience against API errors
+- **Context switching** - Dynamic switching between models
+
+### 🌍 **Complete Internationalization**
+- **2 supported languages** - Spanish (default) and English
+- **Next.js i18n built-in** - SEO-friendly URLs (/es/, /en/)
+- **Automatic detection** - Browser language detection
+- **React Intl integrated** - Industry standard for translations
+- **TypeScript support** - Type-safe translations
+- **Language selector** - Elegant component included
+- **Date formatting** - Localized dates and relative times
+- **RTL ready** - Extensible for Arabic, Hebrew, etc.
+
+### 🎨 **Modern Design System**
+- **TailwindCSS 3.4+** - Latest CSS utilities
+- **Dark/Light/System** - Smart adaptive theme with next-themes v0.2.1
+- **Responsive First** - Perfect mobile, tablet, desktop
+- **50+ UI Components** - Organized in 6 production-ready categories
+- **60+ Animations** - CSS3, Framer Motion, micro-interactions
+- **Accessibility A11Y** - WCAG 2.1 AA compliant
+- **Performance Optimized** - Perfect Core Web Vitals, 60 FPS guaranteed
 
 ## 🎯 Quick Installation
 
@@ -118,7 +138,7 @@ npm run dev
 
 Your application will be running at http://localhost:3000 in less than 30 seconds!
 
-## 🌟 Key Features
+## 🌟 Main Features
 
 ### 🧠 **Integrated Multi-Model AI**
 - **GPT-4o** (OpenAI) - Most advanced model
@@ -158,489 +178,619 @@ Your application will be running at http://localhost:3000 in less than 30 second
 - **react-intl** completely configured
 - **Robust system** with automatic fallbacks
 - **280+ translations** pre-included
-- **Zero missing translation errors** guaranteed
+- **Zero errors** missing translations guaranteed
 
 ### ☁️ **Image Upload**
 - **Cloudinary** complete integration
 - **Drag & drop** with preview
-- **Type and size validation**
+- **Validation** of types and sizes
 - **Automatic optimization**
 
-## 📋 Included Technologies
+## ✨ Features
 
-```
-🎯 Core Framework
-├── Next.js 14+ (Pages Router)
-├── TypeScript 5+
-├── React 18+
-└── Node.js 16+
+### 🎯 Core Technologies
+- **Next.js 14+** with Pages Router
+- **TypeScript** fully configured
+- **TailwindCSS** for modern styling
+- **ESLint** for code quality
 
-🎨 Styling & UI
-├── TailwindCSS 3+
-├── shadcn/ui components
-├── Framer Motion
-├── Lucide React icons
-└── Dark/light mode
+### 🔐 Authentication & Security
+- **NextAuth.js** with multiple providers (Google, GitHub, Email)
+- **Role-based system** (admin/user)
+- **Route protection middleware**
+- **Prisma** integration for user management
 
-🔐 Authentication
-├── NextAuth.js
-├── Role system
-├── OAuth providers
-└── Route protection
+### 🤖 AI Integration (Multi-model)
+- **GPT-4o** (OpenAI)
+- **Claude 3.5** (Anthropic)
+- **Gemini Flash Pro** (Google)
+- **DeepSeek V3 Chat**
+- **DeepSeek R1 Reasoner**
 
-🧠 Artificial Intelligence
-├── OpenAI GPT-4o
-├── Anthropic Claude 3.5
-├── Google Gemini Flash Pro
-└── DeepSeek R1 (coming soon)
+### 🗄️ Database Support
+- **MongoDB** with Mongoose
+- **Supabase** with PostgreSQL
+- **Firebase** Firestore
+- **Prisma ORM** configured
 
-💾 Database
-├── MongoDB + Mongoose
-├── Supabase
-├── Firebase
-└── Prisma ORM
+### 📝 Content & Blog
+- **MDX Blog** with syntax highlighting
+- **Automatic slug generation**
+- **SEO optimized**
 
-📝 Content
-├── MDX Blog system
-├── Syntax highlighting
-├── SEO optimized
-└── Static generation
+### 🎨 UI & UX
+- **Dark/Light theme** toggle
+- **Reusable UI components**
+- **Framer Motion** animations
+- **Toast notifications** (react-hot-toast)
+- **Modern layouts**
 
-🌍 Internationalization
-├── react-intl
-├── Spanish + English
-├── 280+ translations
-└── Robust system
+### 📤 File Upload
+- **Cloudinary** integration
+- **Image optimization**
+- **Drag & drop interface**
 
-📁 Utilities
-├── React Hook Form + Zod
-├── React Hot Toast
-├── Cloudinary upload
-└── TypeScript strict mode
-```
+### 📋 Forms & Validation
+- **React Hook Form**
+- **Zod** validation schemas
+- **Type-safe forms**
 
 ## 🚀 Quick Start
 
-1. **Create project**:
 ```bash
-npx sysrotcore@latest my-app
+# Create a new project
+npx sysrotcore my-app
+
+# Navigate to project
 cd my-app
-```
 
-2. **Configure environment variables**:
-```bash
+# Setup environment variables
 cp .env.example .env.local
-# Edit .env.local with your API keys
-```
 
-3. **Install dependencies**:
-```bash
-npm install
-```
-
-4. **Start development**:
-```bash
+# Start development server
 npm run dev
 ```
 
-5. **Ready!** Your application will be running at `http://localhost:3000`
+## 📦 Installation Options
+
+```bash
+# Interactive mode
+npx sysrotcore
+
+# Direct project creation
+npx sysrotcore my-awesome-app
+
+# Alternative command
+npx sysrot create my-app
+```
+
+## 🛠️ What's Included
+
+### 📁 Project Structure
+```
+my-app/
+├── components/
+│   ├── ai/                 # AI integration components
+│   ├── auth/               # Authentication forms
+│   ├── ui/                 # Reusable UI components
+│   └── upload/             # File upload components
+├── lib/
+│   ├── auth.ts             # NextAuth configuration
+│   ├── db.ts               # Database connections
+│   └── roles.ts            # Role management
+├── pages/
+│   ├── api/                # API routes
+│   ├── blog/               # Blog pages
+│   ├── ejemplos/           # Example pages
+│   └── index.tsx           # Home page
+├── posts/                  # MDX blog posts
+├── prisma/                 # Database schema
+├── styles/                 # Global styles
+└── locales/                # Internationalization
+```
+
+### 🎯 Example Pages
+- **Authentication** examples
+- **Multi-model AI** integration
+- **Component library**
+- **Image upload** demo
+- **Form validation** examples
+- **Animation** showcases
+- **Toast notifications** demo
+- **Database** operations
+- **UI themes** examples
+- **TypeScript** patterns
+
+## 🌐 Internationalization
+
+Built-in support for:
+- **English** (en)
+- **Spanish** (es)
+- Easy to extend to more languages
 
 ## 📚 Documentation
 
-- 📖 **Complete guide**: See `DOCUMENTATION.md` in your project
-- 🌐 **Live examples**: `/examples` in your application
-- 🤖 **Integrated AI**: `/examples/ai` to test the models
-- 🔐 **Authentication**: `/examples/auth` for login/registration
-- 📝 **Blog**: `/blog` for MDX content
+- **[Documentación en Español](./README.md)** - Complete Spanish documentation
+- **Example pages** included in every project
+- **Comprehensive comments** in all code
 
-## 🔧 API Configuration
+## 🔧 Configuration
 
-### OpenAI (GPT-4o)
+### Environment Variables
+The CLI generates a complete `.env.example` with:
+
 ```env
-OPENAI_API_KEY=sk-your-key-here
+# Database
+DATABASE_URL="your-database-url"
+
+# NextAuth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
+
+# OAuth Providers
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+GITHUB_ID="your-github-id"
+GITHUB_SECRET="your-github-secret"
+
+# AI APIs
+OPENAI_API_KEY="your-openai-api-key"
+ANTHROPIC_API_KEY="your-anthropic-api-key"
+GOOGLE_AI_API_KEY="your-google-ai-api-key"
+DEEPSEEK_API_KEY="your-deepseek-api-key"
+
+# File Upload
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-cloudinary-api-key"
+CLOUDINARY_API_SECRET="your-cloudinary-api-secret"
 ```
 
-### Anthropic (Claude)
-```env
-ANTHROPIC_API_KEY=sk-ant-your-key
-```
+## 🎨 Customization
 
-### Google (Gemini)
-```env
-GOOGLE_API_KEY=your-google-key
-```
+Every component and configuration is fully customizable:
 
-### Cloudinary (Upload)
-```env
-CLOUDINARY_CLOUD_NAME=your-cloud
-CLOUDINARY_API_KEY=your-key
-CLOUDINARY_API_SECRET=your-secret
-```
+- **Tailwind themes** easily extendable
+- **Component variants** for different use cases
+- **Database schemas** adaptable to your needs
+- **AI prompts** customizable for your domain
 
-### Database (choose one)
-```env
-# MongoDB
-MONGODB_URI=mongodb://localhost:27017/myapp
+## 🚀 Performance
 
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=your-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key
+- **Optimized bundle size**
+- **Code splitting** configured
+- **Image optimization** with Next.js
+- **SEO-friendly** structure
+- **Fast refresh** development
 
-# Firebase
-FIREBASE_PROJECT_ID=your-project
-FIREBASE_PRIVATE_KEY=your-key
-```
+## ✅ Stability & Reliability
 
-## 📦 Available Scripts
+- **v2.3.0**: Latest stable version with bulletproof internationalization system
+- **Zero Translation Errors**: Complete i18n system guaranteed to work flawlessly
+- **Robust Provider**: Enhanced error handling with automatic fallbacks
+- **Immediate Loading**: Translations load instantly using synchronous require()
 
-```bash
-# Development
-npm run dev
+## 📋 Version History
 
-# Build
-npm run build
+### Version 2.4.0 (Current) ✨
+- **📚 COMPLETE DOCUMENTATION**: Enterprise professional documentation with 900+ lines
+- **🗺️ ROADMAP 2025-2030**: Detailed planning until 2030 with emerging technologies
+- **🎯 USE CASES**: 16+ documented scenarios (enterprise, startups, creative, AI)
+- **📚 BEST PRACTICES**: Architecture, performance, security, troubleshooting
+- **🤝 COMMUNITY**: Channels, contribution, sponsors, additional resources
+- **🔧 TECHNICAL DOCUMENTATION**: Complete stack, environment variables, performance
 
-# Production start
-npm start
-```
+### Version 2.3.6
+- **🌍 TRANSLATIONS COMPLETED**: Missing translations added and errors corrected
+- **🔧 COMPILATION ERROR**: Removed duplicate `useTranslation` import in image-upload.tsx
+- **✅ SPECIFIC PAGES**: Fixed /en/ejemplos/notificaciones, /en/ejemplos/database
+- **📦 ROBUST SYSTEM**: 350+ translation keys in Spanish and English
+
+### Version 2.3.5
+- **🔧 CLI DEPENDENCIES**: Added missing dependencies `commander` and `inquirer`
+- **🐛 FUNCTIONAL CLI**: Fixed "Cannot find module 'commander'" error
+- **✅ CROSS-PLATFORM**: CLI works on Windows, macOS and Linux
+
+### Version 2.3.4
+- **🛠️ WINDOWS CLI**: Fixed installation error on Windows
+- **🔧 SPAWN CMD**: Windows-specific configuration in installDependencies
+- **✅ CROSS-PLATFORM**: CLI fully functional on all platforms
+
+### Version 2.3.3
+- **📚 INTERNATIONAL README**: Main README in English, README.es.md in Spanish
+- **🌍 CORE COMPONENTS**: Upload and AI completely translated
+- **📦 NPM COMPATIBLE**: English documentation for better distribution
+
+### Version 2.3.2
+- **✅ PAGE TRANSLATIONS**: All example pages completely translated
+- **📊 180+ NEW KEYS**: Animations, components, database, forms, etc.
+- **🎯 100% COVERAGE**: Internationalization system completely functional
+
+### Version 2.3.1
+- **🌍 MAIN TRANSLATIONS**: Main pages 100% translated
+- **📦 100+ KEYS**: Home, examples, blog, auth, AI, upload completely localized
+- **🔧 ROBUST SYSTEM**: React Intl v2.3.0 with automatic fallbacks
+
+### Version 2.3.0
+- **🔧 DEFINITIVE i18n SYSTEM**: Synchronous loading with require() and error handling
+- **✅ ZERO ERRORS**: Eliminated all "Missing translation" errors
+- **🚀 FUNCTIONAL**: Spanish/English language switching without errors
+
+### Version 2.2.9
+- **🐛 CRITICAL**: Fixed complete internationalization system that wasn't loading messages
+- **📦 STATIC IMPORTS**: Changed dynamic require() to static imports for better compatibility
+- **🛡️ ROBUST PROVIDER**: Enhanced IntlProvider with error handling and automatic fallbacks
+- **⚡ PERFORMANCE**: Synchronous message loading for better initial performance
+
+### Version 2.2.8
+- **🐛 FIXES**: Fixed Next.js config warning for i18n.localeDetection
+- **🎨 UI**: Removed green cursor circle, now uses system default cursors
+- **🔧 UX**: Added specific cursors for interactive elements (pointer, text)
+
+### Version 2.2.7
+- **🐛 CRITICAL**: Definitive fix for BOM error in schema.prisma
+- **🔧 Node.js**: Used Node.js method to guarantee BOM-free file
+- **✅ Prisma P1012**: Validation error completely eliminated
+
+### Version 2.2.6
+- **🐛 CRITICAL**: Fixed Prisma schema validation error
+- **🔧 BOM Removed**: Eliminated Byte Order Mark causing parsing errors
+- **✅ Prisma Generate**: Full Prisma client generation functionality
+
+### Version 2.2.5
+- **🐛 CRITICAL**: Fixed "Command failed: npm install" error during project generation
+- **🔧 Improved**: Error handling in dependency installation
+- **✅ Stable**: CLI fully functional without errors
+
+### Version 2.2.4
+- **🔧 Fixed**: "ora is not a function" error in loading spinner
+- **⚡ Optimized**: CommonJS compatibility for ora v5.4.1
+- **✅ Functional**: CLI runs without dependency errors
+
+### Version 2.2.3
+- **🔧 Fixed**: "inquirer.prompt is not a function" error
+- **⚡ Optimized**: CommonJS compatibility for inquirer v8.2.6
+- **🎨 Improved**: More compact and elegant ASCII art
 
 ## 🤝 Contributing
 
-Contributions are welcome. Please:
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+We welcome contributions! Please see our [Contributing Guide](https://github.com/rotosaurio/sysrotcore/blob/main/CONTRIBUTING.md) for details.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📞 Support
+## 🔗 Links
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/rotosaurio/sysrotcore/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/sysrotcore/discussions)
-- 📧 **Email**: rotosaurio@example.com
+- **[GitHub Repository](https://github.com/rotosaurio/sysrotcore)**
+- **[NPM Package](https://www.npmjs.com/package/sysrotcore)**
+- **[Issues & Support](https://github.com/rotosaurio/sysrotcore/issues)**
+
+## 🏆 Why SysrotCore?
+
+- **Zero configuration** - works out of the box
+- **Modern stack** - latest versions of all technologies
+- **Production ready** - includes best practices
+- **Fully typed** - TypeScript throughout
+- **Extensible** - easy to customize and extend
+- **Well documented** - comprehensive examples and docs
+- **Active maintenance** - regularly updated
+- **Stable dependencies** - compatible versions that work together
 
 ---
 
-⭐ **¡No olvides dar una estrella al proyecto si te ha sido útil!** 
-
 ## 🗺️ **Roadmap 2025-2026**
 
-### 🎯 **Q1 2025 (Enero-Marzo) - Consolidación Actual**
-- ✅ **Sistema i18n robusto** - Completado con 350+ traducciones
-- ✅ **CLI multiplataforma** - Windows, macOS, Linux funcional
-- ✅ **Zero errores de compilación** - Todas las dependencias corregidas
-- 🔧 **Testing automatizado** - Pruebas unitarias y e2e
-- 📚 **Documentación técnica** - Guías detalladas y ejemplos avanzados
-- 🚀 **Performance optimization** - Core Web Vitals y optimizaciones
+### 🎯 **Q1 2025 (January-March) - Current Consolidation**
+- ✅ **Robust i18n system** - Completed with 350+ translations
+- ✅ **Cross-platform CLI** - Windows, macOS, Linux functional
+- ✅ **Zero compilation errors** - All dependencies fixed
+- 🔧 **Automated testing** - Unit and e2e tests
+- 📚 **Technical documentation** - Detailed guides and advanced examples
+- 🚀 **Performance optimization** - Core Web Vitals and optimizations
 
-### 🌟 **Q2 2025 (Abril-Junio) - Expansión Tecnológica**
-- 🤖 **DeepSeek R1 Integration** - Modelo de razonamiento avanzado
-- 🔄 **Real-time features** - WebSockets y Server-Sent Events
+### 🌟 **Q2 2025 (April-June) - Technological Expansion**
+- 🤖 **DeepSeek R1 Integration** - Advanced reasoning model
+- 🔄 **Real-time features** - WebSockets and Server-Sent Events
 - 📊 **Analytics integration** - Google Analytics, Plausible, Vercel Analytics
-- 🎨 **Advanced animations** - GSAP, Three.js para experiencias inmersivas
-- 💳 **Payment systems** - Stripe, PayPal integration completa
-- 🔐 **Enhanced security** - 2FA, RBAC avanzado, audit logs
+- 🎨 **Advanced animations** - GSAP, Three.js for immersive experiences
+- 💳 **Payment systems** - Complete Stripe, PayPal integration
+- 🔐 **Enhanced security** - 2FA, advanced RBAC, audit logs
 
-### 🚀 **Q3 2025 (Julio-Septiembre) - AI-Native Development**
-- 🧠 **Multi-modal AI** - Soporte para imágenes, audio, video en modelos
-- 🎭 **AI Code Generation** - Generación automática de componentes
-- 🌐 **Web3 Integration** - Wallet connect, smart contracts básicos
-- 📱 **PWA 3.0** - Service workers avanzados, offline-first
+### 🚀 **Q3 2025 (July-September) - AI-Native Development**
+- 🧠 **Multi-modal AI** - Support for images, audio, video in models
+- 🎭 **AI Code Generation** - Automatic component generation
+- 🌐 **Web3 Integration** - Wallet connect, basic smart contracts
+- 📱 **PWA 3.0** - Advanced service workers, offline-first
 - 🔍 **Advanced search** - Elasticsearch, vector search
-- 🎯 **A/B Testing** - Experimentos integrados en el framework
+- 🎯 **A/B Testing** - Experiments integrated in framework
 
-### 🔮 **Q4 2025 (Octubre-Diciembre) - Edge Computing**
+### 🔮 **Q4 2025 (October-December) - Edge Computing**
 - ⚡ **Edge Runtime** - Vercel Edge, Cloudflare Workers integration
-- 🌍 **Global CDN** - Multi-region deployment automático
-- 🖥️ **WebXR Support** - Realidad virtual/aumentada básica
-- 🤝 **Autonomous Development** - AI que escribe y prueba código
-- 📡 **IoT Integration** - Conectividad con dispositivos IoT
-- 🔐 **Zero-trust security** - Arquitectura de seguridad avanzada
+- 🌍 **Global CDN** - Automatic multi-region deployment
+- 🖥️ **WebXR Support** - Basic virtual/augmented reality
+- 🤝 **Autonomous Development** - AI that writes and tests code
+- 📡 **IoT Integration** - IoT device connectivity
+- 🔐 **Zero-trust security** - Advanced security architecture
 
 ### 🌈 **2026 - Next Generation Web**
-- 🧬 **Quantum Computing** - Algoritmos cuánticos básicos
-- 🤖 **AGI Integration** - Asistentes de desarrollo con AGI
-- 🌌 **Metaverse-Native** - Desarrollo para mundos virtuales
-- 🧠 **Neural Interfaces** - Preparación para interfaces cerebro-computadora
-- 🌱 **Regenerative Computing** - Desarrollo sustentable y green tech
-- 🔬 **Biotech Integration** - Interfaces con sistemas biológicos
+- 🧬 **Quantum Computing** - Basic quantum algorithms
+- 🤖 **AGI Integration** - Development assistants with AGI
+- 🌌 **Metaverse-Native** - Virtual world development
+- 🧠 **Neural Interfaces** - Brain-computer interface preparation
+- 🌱 **Regenerative Computing** - Sustainable development and green tech
+- 🔬 **Biotech Integration** - Biological system interfaces
 
-### 🎯 **Vision 2030 - El Futuro del Desarrollo**
-- 🌊 **Self-Evolving Web** - Aplicaciones que se mejoran automáticamente
-- 🧬 **DNA-based Storage** - Almacenamiento en ADN para datos masivos
-- 🧠 **Neurolink Ready** - Interfaces directas cerebro-web
-- 🌌 **Holographic Displays** - Interfaces tridimensionales inmersivas
-- 🛸 **Quantum Internet** - Comunicaciones cuánticas instantáneas
-- 🌍 **Planetary Computing** - Sistemas distribuidos a escala planetaria
+### 🎯 **Vision 2030 - The Future of Development**
+- 🌊 **Self-Evolving Web** - Applications that improve automatically
+- 🧬 **DNA-based Storage** - DNA storage for massive data
+- 🧠 **Neurolink Ready** - Direct brain-web interfaces
+- 🌌 **Holographic Displays** - Immersive 3D interfaces
+- 🛸 **Quantum Internet** - Instantaneous quantum communications
+- 🌍 **Planetary Computing** - Planet-scale distributed systems
 
-### 📊 **Métricas y Objetivos 2025**
-- 🎯 **50,000+ proyectos generados** con SysrotCore
-- 🌍 **15+ idiomas soportados** en sistema i18n
-- 🤖 **10+ modelos de IA integrados** (LLaMA, Mistral, etc.)
-- ⚡ **<100ms time-to-interactive** en aplicaciones generadas
-- 📊 **Core Web Vitals perfecto** (100/100/100/100)
-- 🔒 **Zero vulnerabilidades** de seguridad reportadas
+### 📊 **Metrics and Goals 2025**
+- 🎯 **50,000+ projects generated** with SysrotCore
+- 🌍 **15+ supported languages** in i18n system
+- 🤖 **10+ integrated AI models** (LLaMA, Mistral, etc.)
+- ⚡ **<100ms time-to-interactive** in generated applications
+- 📊 **Perfect Core Web Vitals** (100/100/100/100)
+- 🔒 **Zero security vulnerabilities** reported
 
-### 🛠️ **Tecnologías en Investigación**
-- **Rust/WASM** para componentes de alta performance
-- **WebGPU** para aceleración gráfica avanzada  
-- **WebCodecs** para procesamiento multimedia optimizado
-- **Origin Private File System** para almacenamiento local avanzado
-- **Temporal API** para manejo temporal preciso
-- **Navigation API** para SPA routing avanzado
+### 🛠️ **Technologies Under Research**
+- **Rust/WASM** for high-performance components
+- **WebGPU** for advanced graphic acceleration
+- **WebCodecs** for optimized multimedia processing
+- **Origin Private File System** for advanced local storage
+- **Temporal API** for precise temporal handling
+- **Navigation API** for advanced SPA routing
 
-> 💡 **Nota**: Este roadmap es dinámico y se actualiza trimestralmente basado en feedback de la comunidad y avances tecnológicos.
+> 💡 **Note**: This roadmap is dynamic and updated quarterly based on community feedback and technological advances.
 
-## 🔧 **Documentación Técnica Completa**
+## 🔧 **Complete Technical Documentation**
 
-### 📋 **Arquitectura del Proyecto**
+### 📋 **Project Architecture**
 
 ```
 sysrotcore/
-├── 📁 cli.js                 # Punto de entrada del CLI
-├── 📁 createProject.js       # Lógica de generación de proyectos
-├── 📁 template/              # Plantilla base del proyecto
-│   ├── 📁 components/        # Componentes React reutilizables
-│   │   ├── 📁 ai/           # Componentes de IA integrada
-│   │   ├── 📁 auth/         # Sistema de autenticación
+├── 📁 cli.js                 # CLI entry point
+├── 📁 createProject.js       # Project generation logic
+├── 📁 template/              # Base project template
+│   ├── 📁 components/        # Reusable React components
+│   │   ├── 📁 ai/           # Integrated AI components
+│   │   ├── 📁 auth/         # Authentication system
 │   │   ├── 📁 providers/    # Context providers (i18n, theme)
-│   │   ├── 📁 ui/           # Biblioteca de componentes UI
-│   │   └── 📁 upload/       # Sistema de carga de archivos
-│   ├── 📁 lib/              # Utilidades y configuraciones
-│   │   ├── 📄 auth.ts       # Configuración NextAuth.js
-│   │   ├── 📄 db.ts         # Conexiones base de datos
-│   │   ├── 📄 i18n.ts       # Sistema internacionalización
-│   │   ├── 📄 mdx.ts        # Procesamiento MDX
-│   │   └── 📄 roles.ts      # Sistema de roles y permisos
-│   ├── 📁 locales/          # Archivos de traducción
-│   │   ├── 📄 es.json       # Traducciones español (350+ claves)
-│   │   └── 📄 en.json       # Traducciones inglés (350+ claves)
-│   ├── 📁 pages/            # Páginas Next.js (Pages Router)
-│   │   ├── 📁 api/          # API Routes backend
-│   │   ├── 📁 blog/         # Sistema blog MDX
-│   │   └── 📁 ejemplos/     # 11 ejemplos funcionales
-│   ├── 📁 posts/            # Artículos MDX de ejemplo
-│   ├── 📁 prisma/           # Esquemas de base de datos
-│   ├── 📁 styles/           # Estilos globales CSS
-│   └── 📁 types/            # Tipos TypeScript
-└── 📄 README.md             # Documentación principal
+│   │   ├── 📁 ui/           # UI component library
+│   │   └── 📁 upload/       # File upload system
+│   ├── 📁 lib/              # Utilities and configurations
+│   │   ├── 📄 auth.ts       # NextAuth.js configuration
+│   │   ├── 📄 db.ts         # Database connections
+│   │   ├── 📄 i18n.ts       # Internationalization system
+│   │   ├── 📄 mdx.ts        # MDX processing
+│   │   └── 📄 roles.ts      # Role and permission system
+│   ├── 📁 locales/          # Translation files
+│   │   ├── 📄 es.json       # Spanish translations (350+ keys)
+│   │   └── 📄 en.json       # English translations (350+ keys)
+│   ├── 📁 pages/            # Next.js pages (Pages Router)
+│   │   ├── 📁 api/          # Backend API Routes
+│   │   ├── 📁 blog/         # MDX blog system
+│   │   └── 📁 ejemplos/     # 11 functional examples
+│   ├── 📁 posts/            # Example MDX articles
+│   ├── 📁 prisma/           # Database schemas
+│   ├── 📁 styles/           # Global CSS styles
+│   └── 📁 types/            # TypeScript types
+└── 📄 README.md             # Main documentation
 ```
 
-### ⚙️ **Stack Tecnológico Detallado**
+### ⚙️ **Detailed Technology Stack**
 
-| Categoría | Tecnología | Versión | Propósito |
-|-----------|------------|---------|-----------|
-| **Core Framework** | Next.js | 14.2.17+ | Framework React fullstack |
-| **Lenguaje** | TypeScript | 5.3.3+ | Tipado estático y desarrollo seguro |
-| **Runtime** | Node.js | 18+ | Entorno de ejecución JavaScript |
-| **UI Framework** | React | 18.2.0+ | Biblioteca de interfaces de usuario |
-| **Styling** | TailwindCSS | 3.4.0+ | Framework CSS utility-first |
-| **Componentes** | shadcn/ui | Latest | Biblioteca componentes accesibles |
-| **Animaciones** | Framer Motion | 10.16.16+ | Animaciones fluidas y micro-interacciones |
-| **Iconos** | Lucide React | 0.312.0+ | Iconos SVG optimizados |
-| **Temas** | next-themes | 0.2.1+ | Sistema dark/light mode |
+| Category | Technology | Version | Purpose |
+|----------|------------|---------|---------|
+| **Core Framework** | Next.js | 14.2.17+ | Fullstack React framework |
+| **Language** | TypeScript | 5.3.3+ | Static typing and safe development |
+| **Runtime** | Node.js | 18+ | JavaScript execution environment |
+| **UI Framework** | React | 18.2.0+ | User interface library |
+| **Styling** | TailwindCSS | 3.4.0+ | Utility-first CSS framework |
+| **Components** | shadcn/ui | Latest | Accessible component library |
+| **Animations** | Framer Motion | 10.16.16+ | Smooth animations and micro-interactions |
+| **Icons** | Lucide React | 0.312.0+ | Optimized SVG icons |
+| **Themes** | next-themes | 0.2.1+ | Dark/light mode system |
 
-#### 🤖 **Inteligencia Artificial**
-| Proveedor | Modelo | SDK | Capacidades |
-|-----------|--------|-----|-------------|
-| **OpenAI** | GPT-4o | openai@4.24.1 | Generación texto avanzada |
-| **Anthropic** | Claude 3.5 Sonnet | @anthropic-ai/sdk@0.12.0 | Razonamiento superior |
-| **Google** | Gemini Flash Pro | @google/generative-ai@0.2.0 | Procesamiento multimodal |
-| **DeepSeek** | R1 Reasoner | Próximamente | Razonamiento lógico especializado |
+#### 🤖 **Artificial Intelligence**
+| Provider | Model | SDK | Capabilities |
+|----------|-------|-----|-------------|
+| **OpenAI** | GPT-4o | openai@4.24.1 | Advanced text generation |
+| **Anthropic** | Claude 3.5 Sonnet | @anthropic-ai/sdk@0.12.0 | Superior reasoning |
+| **Google** | Gemini Flash Pro | @google/generative-ai@0.2.0 | Multimodal processing |
+| **DeepSeek** | R1 Reasoner | Coming Soon | Specialized logical reasoning |
 
-#### 🔐 **Autenticación y Seguridad**
-| Componente | Tecnología | Versión | Funcionalidad |
+#### 🔐 **Authentication and Security**
+| Component | Technology | Version | Functionality |
 |-----------|------------|---------|---------------|
-| **Auth Provider** | NextAuth.js | 4.24.5 | Autenticación completa |
-| **Password Hashing** | bcryptjs | 2.4.3 | Encriptación de contraseñas |
-| **Database Adapter** | @auth/prisma-adapter | 1.5.0 | Persistencia de sesiones |
-| **Route Protection** | Custom Middleware | - | Protección de rutas automática |
+| **Auth Provider** | NextAuth.js | 4.24.5 | Complete authentication |
+| **Password Hashing** | bcryptjs | 2.4.3 | Password encryption |
+| **Database Adapter** | @auth/prisma-adapter | 1.5.0 | Session persistence |
+| **Route Protection** | Custom Middleware | - | Automatic route protection |
 
-#### 💾 **Bases de Datos Soportadas**
-| Base de Datos | Cliente/ORM | Versión | Casos de Uso |
-|---------------|-------------|---------|--------------|
-| **MongoDB** | Mongoose | 8.0.3+ | Datos no relacionales, escalabilidad |
-| **Supabase** | @supabase/supabase-js | 2.39.1+ | PostgreSQL como servicio |
-| **Firebase** | Firebase Admin | 11.11.1+ | Real-time, autenticación social |
-| **Prisma** | @prisma/client | 5.8.1+ | ORM type-safe, migraciones |
+#### 💾 **Supported Databases**
+| Database | Client/ORM | Version | Use Cases |
+|----------|------------|---------|-----------|
+| **MongoDB** | Mongoose | 8.0.3+ | Non-relational data, scalability |
+| **Supabase** | @supabase/supabase-js | 2.39.1+ | PostgreSQL as a service |
+| **Firebase** | Firebase Admin | 11.11.1+ | Real-time, social authentication |
+| **Prisma** | @prisma/client | 5.8.1+ | Type-safe ORM, migrations |
 
-#### 🌍 **Internacionalización**
-| Aspecto | Tecnología | Detalles |
-|---------|------------|----------|
-| **Framework** | React Intl | 6.6.2+ con TypeScript |
-| **Idiomas** | Español, Inglés | 350+ claves de traducción |
-| **Routing** | Next.js i18n | URLs SEO-friendly (/es/, /en/) |
-| **Detección** | Browser API | Detección automática de idioma |
-| **Fallbacks** | Español (default) | Sistema robusto de respaldos |
+#### 🌍 **Internationalization**
+| Aspect | Technology | Details |
+|--------|------------|---------|
+| **Framework** | React Intl | 6.6.2+ with TypeScript |
+| **Languages** | Spanish, English | 350+ translation keys |
+| **Routing** | Next.js i18n | SEO-friendly URLs (/es/, /en/) |
+| **Detection** | Browser API | Automatic language detection |
+| **Fallbacks** | Spanish (default) | Robust backup system |
 
-#### 📝 **Sistema de Contenido**
-| Funcionalidad | Tecnología | Versión | Características |
-|---------------|------------|---------|-----------------|
+#### 📝 **Content System**
+| Functionality | Technology | Version | Features |
+|---------------|------------|---------|----------|
 | **Markdown** | MDX | next-mdx-remote@4.4.1 | Markdown + JSX |
-| **Sintaxis** | rehype-highlight | 7.0.0+ | Highlighting código |
-| **Navegación** | rehype-slug | 6.0.0+ | Links automáticos |
-| **Procesamiento** | remark-gfm | 4.0.0+ | GitHub Flavored Markdown |
+| **Syntax** | rehype-highlight | 7.0.0+ | Code highlighting |
+| **Navigation** | rehype-slug | 6.0.0+ | Automatic links |
+| **Processing** | remark-gfm | 4.0.0+ | GitHub Flavored Markdown |
 
-#### ☁️ **Upload y Media**
-| Servicio | SDK | Versión | Capacidades |
-|----------|-----|---------|-------------|
-| **Cloudinary** | cloudinary | 1.41.1+ | Optimización automática |
-| **Next Integration** | next-cloudinary | 5.13.0+ | Componentes React |
-| **Validación** | Zod | 3.22.4+ | Validación tipos y tamaños |
+#### ☁️ **Upload and Media**
+| Service | SDK | Version | Capabilities |
+|---------|-----|---------|-------------|
+| **Cloudinary** | cloudinary | 1.41.1+ | Automatic optimization |
+| **Next Integration** | next-cloudinary | 5.13.0+ | React components |
+| **Validation** | Zod | 3.22.4+ | Type and size validation |
 | **UI** | Custom Components | - | Drag & drop, preview |
 
-### 🔧 **Scripts de Desarrollo**
+### 🔧 **Development Scripts**
 
 ```bash
-# Desarrollo
-npm run dev          # Servidor desarrollo con hot-reload
-npm run build        # Build producción optimizado
-npm run start        # Servidor producción
-npm run lint         # ESLint verificación código
-npm run postinstall  # Generación Prisma automática
+# Development
+npm run dev          # Development server with hot-reload
+npm run build        # Optimized production build
+npm run start        # Production server
+npm run lint         # ESLint code verification
+npm run postinstall  # Automatic Prisma generation
 ```
 
-### 🌐 **Variables de Entorno**
+### 🌐 **Environment Variables**
 
-#### 🔑 **Configuración Requerida**
+#### 🔑 **Required Configuration**
 ```env
 # Core
 NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=tu_secreto_ultra_seguro_aqui
+NEXTAUTH_SECRET=your_ultra_secure_secret_here
 
-# IA - OpenAI
-OPENAI_API_KEY=sk-proj-tu_clave_openai_aqui
+# AI - OpenAI
+OPENAI_API_KEY=sk-proj-your_openai_key_here
 
-# IA - Anthropic Claude
-ANTHROPIC_API_KEY=sk-ant-api03-tu_clave_claude_aqui
+# AI - Anthropic Claude
+ANTHROPIC_API_KEY=sk-ant-api03-your_claude_key_here
 
-# IA - Google Gemini
-GOOGLE_API_KEY=tu_clave_google_ai_aqui
+# AI - Google Gemini
+GOOGLE_API_KEY=your_google_ai_key_here
 
 # Upload - Cloudinary
-CLOUDINARY_CLOUD_NAME=tu_cloud_name
-CLOUDINARY_API_KEY=tu_api_key_cloudinary
-CLOUDINARY_API_SECRET=tu_api_secret_cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-#### 🗄️ **Base de Datos (Elegir una)**
+#### 🗄️ **Database (Choose one)**
 ```env
 # MongoDB
-MONGODB_URI=mongodb+srv://usuario:password@cluster.mongodb.net/basedatos
+MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/database
 
 # Supabase
-NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_clave_publica_supabase
-SUPABASE_SERVICE_ROLE_KEY=tu_clave_privada_supabase
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_public_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_private_key
 
 # Firebase
-FIREBASE_PROJECT_ID=tu-proyecto-firebase
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\ntu_clave_privada\n-----END PRIVATE KEY-----\n"
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk@tu-proyecto.iam.gserviceaccount.com
+FIREBASE_PROJECT_ID=your-firebase-project
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nyour_private_key\n-----END PRIVATE KEY-----\n"
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk@your-project.iam.gserviceaccount.com
 
 # Prisma
-DATABASE_URL="postgresql://usuario:password@localhost:5432/basedatos?schema=public"
+DATABASE_URL="postgresql://user:password@localhost:5432/database?schema=public"
 ```
 
-### 📊 **Análisis de Performance**
+### 📊 **Performance Analysis**
 
-#### ⚡ **Core Web Vitals Optimizaciones**
-- **LCP (Largest Contentful Paint)**: < 2.5s garantizado
-- **FID (First Input Delay)**: < 100ms mediante code splitting
-- **CLS (Cumulative Layout Shift)**: < 0.1 con lazy loading optimizado
-- **FCP (First Contentful Paint)**: < 1.8s con SSG cuando posible
+#### ⚡ **Core Web Vitals Optimizations**
+- **LCP (Largest Contentful Paint)**: < 2.5s guaranteed
+- **FID (First Input Delay)**: < 100ms through code splitting
+- **CLS (Cumulative Layout Shift)**: < 0.1 with optimized lazy loading
+- **FCP (First Contentful Paint)**: < 1.8s with SSG when possible
 
-#### 🚀 **Optimizaciones Implementadas**
-- **Image Optimization**: Next.js Image component automático
-- **Font Optimization**: Google Fonts con preload automático
-- **Bundle Splitting**: Componentes lazy-loaded inteligentemente
-- **Tree Shaking**: Eliminación código no utilizado automática
-- **Compression**: Gzip/Brotli habilitado por defecto
+#### 🚀 **Implemented Optimizations**
+- **Image Optimization**: Automatic Next.js Image component
+- **Font Optimization**: Google Fonts with automatic preload
+- **Bundle Splitting**: Intelligently lazy-loaded components
+- **Tree Shaking**: Automatic unused code elimination
+- **Compression**: Gzip/Brotli enabled by default
 
-## 🏗️ **Arquitectura y Patrones**
+## 🏗️ **Architecture and Patterns**
 
-### 🎯 **Patrones de Diseño Implementados**
-- **Container/Presentational**: Separación lógica/UI en componentes
-- **Provider Pattern**: Context API para estado global (i18n, theme)
-- **Custom Hooks**: Lógica reutilizable extraída a hooks
-- **Compound Components**: Componentes complejos con subcomponentes
-- **Render Props**: Flexibilidad en componentes de alto orden
+### 🎯 **Implemented Design Patterns**
+- **Container/Presentational**: Logic/UI separation in components
+- **Provider Pattern**: Context API for global state (i18n, theme)
+- **Custom Hooks**: Reusable logic extracted to hooks
+- **Compound Components**: Complex components with sub-components
+- **Render Props**: Flexibility in higher-order components
 
-### 🔄 **Estado y Data Flow**
-- **React State**: useState para estado local de componentes
-- **Context API**: Configuración global (idioma, tema)
-- **React Hook Form**: Estado de formularios con validación
-- **Server State**: getServerSideProps/getStaticProps según necesidad
+### 🔄 **State and Data Flow**
+- **React State**: useState for local component state
+- **Context API**: Global configuration (language, theme)
+- **React Hook Form**: Form state with validation
+- **Server State**: getServerSideProps/getStaticProps as needed
 
-### 🛡️ **Seguridad Implementada**
-- **CSRF Protection**: Automático con NextAuth.js
-- **XSS Prevention**: Sanitización automática React
-- **SQL Injection**: ORMs/clients protegidos (Prisma, Mongoose)
-- **Environment Variables**: Separación secrets client/server
-- **HTTPS Only**: Configuración producción solo HTTPS
+### 🛡️ **Implemented Security**
+- **CSRF Protection**: Automatic with NextAuth.js
+- **XSS Prevention**: Automatic React sanitization
+- **SQL Injection**: Protected ORMs/clients (Prisma, Mongoose)
+- **Environment Variables**: Client/server secrets separation
+- **HTTPS Only**: Production configuration HTTPS only
 
-## 🎯 **Casos de Uso y Aplicaciones**
+## 🎯 **Use Cases and Applications**
 
-### 💼 **Casos de Uso Empresariales**
-- **SaaS Platforms**: Aplicaciones con autenticación, billing y multitenancy
-- **E-commerce**: Tiendas online con IA para recomendaciones
-- **Content Management**: Sistemas de gestión de contenido con blog integrado
-- **Corporate Websites**: Sitios corporativos con internacionalización
-- **Learning Platforms**: Plataformas educativas con progreso del usuario
+### 💼 **Enterprise Use Cases**
+- **SaaS Platforms**: Applications with authentication, billing and multitenancy
+- **E-commerce**: Online stores with AI for recommendations
+- **Content Management**: Content management systems with integrated blog
+- **Corporate Websites**: Corporate sites with internationalization
+- **Learning Platforms**: Educational platforms with user progress
 
-### 🚀 **Startups y MVP**
-- **Prototipado rápido**: De idea a MVP en horas, no semanas
-- **Validación de mercado**: Features básicas funcionando desde día uno
-- **Fundraising demos**: Aplicaciones profesionales para presentar a inversores
-- **Product Hunt launches**: Aplicaciones polish listas para lanzamiento
-- **Technical interviews**: Proyectos impresionantes para entrevistas técnicas
+### 🚀 **Startups and MVP**
+- **Rapid prototyping**: From idea to MVP in hours, not weeks
+- **Market validation**: Basic features working from day one
+- **Fundraising demos**: Professional applications to present to investors
+- **Product Hunt launches**: Polish applications ready for launch
+- **Technical interviews**: Impressive projects for technical interviews
 
-### 🎨 **Proyectos Creativos**
-- **Portfolio personal**: Sitios web de desarrolladores y diseñadores
-- **Blogs técnicos**: Plataformas de contenido con MDX y sintaxis highlighting
-- **Art galleries**: Galerías digitales con upload optimizado de imágenes
-- **Creative agencies**: Sitios de agencias con animaciones fluidas
-- **Online magazines**: Revistas digitales multiidioma
+### 🎨 **Creative Projects**
+- **Personal portfolio**: Developer and designer websites
+- **Technical blogs**: Content platforms with MDX and syntax highlighting
+- **Art galleries**: Digital galleries with optimized image upload
+- **Creative agencies**: Agency sites with smooth animations
+- **Online magazines**: Multilingual digital magazines
 
-### 🤖 **Aplicaciones con IA**
-- **ChatBots personalizados**: Asistentes virtuales específicos del dominio
-- **Content generation**: Herramientas de generación de contenido automático
-- **Code assistants**: Asistentes de programación con múltiples modelos
-- **Language tutors**: Aplicaciones de enseñanza de idiomas con IA
-- **Data analysis tools**: Herramientas de análisis con procesamiento IA
+### 🤖 **AI Applications**
+- **Custom ChatBots**: Domain-specific virtual assistants
+- **Content generation**: Automatic content generation tools
+- **Code assistants**: Programming assistants with multiple models
+- **Language tutors**: Language learning applications with AI
+- **Data analysis tools**: Analysis tools with AI processing
 
-## 📚 **Best Practices y Recomendaciones**
+## 📚 **Best Practices and Recommendations**
 
-### 🏗️ **Arquitectura Recomendada**
+### 🏗️ **Recommended Architecture**
 ```typescript
-// Estructura de componentes recomendada
+// Recommended component structure
 src/
 ├── components/
-│   ├── ui/              # Componentes base reutilizables
-│   ├── forms/           # Componentes específicos de formularios
-│   ├── layout/          # Componentes de layout (Header, Footer)
-│   └── features/        # Componentes específicos de funcionalidades
-├── hooks/               # Custom hooks reutilizables
-├── lib/                 # Utilidades y configuraciones
-├── styles/              # Estilos globales y temas
-└── types/               # Definiciones TypeScript centralizadas
+│   ├── ui/              # Reusable base components
+│   ├── forms/           # Form-specific components
+│   ├── layout/          # Layout components (Header, Footer)
+│   └── features/        # Feature-specific components
+├── hooks/               # Reusable custom hooks
+├── lib/                 # Utilities and configurations
+├── styles/              # Global styles and themes
+└── types/               # Centralized TypeScript definitions
 ```
 
-### ⚡ **Optimizaciones de Performance**
-- **Component Lazy Loading**: Usar `React.lazy()` para componentes pesados
-- **Image Optimization**: Siempre usar `next/image` para imágenes
-- **Bundle Analysis**: Usar `@next/bundle-analyzer` para analizar bundles
-- **Database Indexing**: Indexar campos frecuentemente consultados
-- **Caching Strategy**: Implementar caché en API routes cuando apropriado
+### ⚡ **Performance Optimizations**
+- **Component Lazy Loading**: Use `React.lazy()` for heavy components
+- **Image Optimization**: Always use `next/image` for images
+- **Bundle Analysis**: Use `@next/bundle-analyzer` to analyze bundles
+- **Database Indexing**: Index frequently queried fields
+- **Caching Strategy**: Implement cache in API routes when appropriate
 
-### 🔒 **Seguridad Avanzada**
+### 🔒 **Advanced Security**
 ```typescript
-// Validación de entrada robusta
+// Robust input validation
 import { z } from 'zod';
 
 const userSchema = z.object({
@@ -649,78 +799,78 @@ const userSchema = z.object({
   role: z.enum(['user', 'admin']).default('user')
 });
 
-// Rate limiting en API routes
+// Rate limiting in API routes
 import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100 // máximo 100 requests por IP
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // maximum 100 requests per IP
 });
 ```
 
-### 🌍 **Internacionalización Avanzada**
+### 🌍 **Advanced Internationalization**
 ```typescript
-// Estructura recomendada para claves de traducción
+// Recommended structure for translation keys
 {
   "pages": {
     "home": {
-      "title": "Título de la página principal",
-      "description": "Descripción SEO"
+      "title": "Main page title",
+      "description": "SEO description"
     }
   },
   "components": {
     "button": {
-      "submit": "Enviar",
-      "cancel": "Cancelar"
+      "submit": "Submit",
+      "cancel": "Cancel"
     }
   },
   "errors": {
     "validation": {
-      "required": "Este campo es requerido",
-      "email": "Email inválido"
+      "required": "This field is required",
+      "email": "Invalid email"
     }
   }
 }
 ```
 
-## 🛠️ **Troubleshooting y Soluciones Comunes**
+## 🛠️ **Troubleshooting and Common Solutions**
 
-### ❌ **Errores Frecuentes y Soluciones**
+### ❌ **Common Errors and Solutions**
 
 #### 🔧 **Error: "Cannot find module 'commander'"**
 ```bash
-# Solución: Reinstalar dependencias del CLI
+# Solution: Reinstall CLI dependencies
 npm uninstall -g sysrotcore
 npm install -g sysrotcore@latest
 ```
 
 #### 🔧 **Error: "Missing translation for key"**
 ```bash
-# Verificar que exista la clave en ambos archivos de traducción
-# locales/es.json y locales/en.json deben tener la misma estructura
+# Verify that the key exists in both translation files
+# locales/es.json and locales/en.json must have the same structure
 ```
 
 #### 🔧 **Error: "Prisma generate failed"**
 ```bash
-# Regenerar el cliente Prisma
+# Regenerate Prisma client
 npx prisma generate
 npx prisma db push
 ```
 
 #### 🔧 **Error: "Build failed - Module not found"**
 ```bash
-# Limpiar caché y reinstalar
+# Clean cache and reinstall
 rm -rf .next
 rm -rf node_modules
 npm install
 npm run build
 ```
 
-### 🐛 **Debugging Avanzado**
+### 🐛 **Advanced Debugging**
 
-#### 🔍 **Debug de Variables de Entorno**
+#### 🔍 **Environment Variables Debug**
 ```javascript
-// Verificar variables de entorno en desarrollo
+// Verify environment variables in development
 console.log('Environment Check:', {
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
@@ -729,12 +879,12 @@ console.log('Environment Check:', {
 });
 ```
 
-#### 🔍 **Debug de Traducciones**
+#### 🔍 **Translation Debug**
 ```javascript
-// Verificar carga de traducciones
+// Verify translation loading
 import { loadMessages } from '@/lib/i18n';
 
-const messages = loadMessages('es');
+const messages = loadMessages('en');
 console.log('Loaded messages:', Object.keys(messages));
 ```
 
@@ -747,7 +897,7 @@ import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
 
 function reportWebVitals(metric) {
   console.log(metric);
-  // Enviar a analytics
+  // Send to analytics
 }
 
 export function reportWebVitals(metric) {
@@ -755,149 +905,71 @@ export function reportWebVitals(metric) {
 }
 ```
 
-## 🤝 **Comunidad y Soporte**
+## 🤝 **Community and Support**
 
-### 💬 **Canales de Comunicación**
-- 🐛 **Issues**: [GitHub Issues](https://github.com/rotosaurio/sysrotcore/issues) - Reportar bugs y solicitar features
-- 💭 **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/sysrotcore/discussions) - Preguntas generales y ayuda
-- 📧 **Email**: rotosaurio@example.com - Soporte directo y consultas comerciales
-- 🐦 **Twitter**: [@sysrotcore](https://twitter.com/sysrotcore) - Actualizaciones y anuncios
+### 💬 **Communication Channels**
+- 🐛 **Issues**: [GitHub Issues](https://github.com/rotosaurio/sysrotcore/issues) - Report bugs and request features
+- 💭 **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/sysrotcore/discussions) - General questions and help
+- 📧 **Email**: rotosaurio@example.com - Direct support and commercial inquiries
+- 🐦 **Twitter**: [@sysrotcore](https://twitter.com/sysrotcore) - Updates and announcements
 
-### 🏆 **Contributors y Reconocimientos**
-- 👨‍💻 **Core Team**: Desarrolladores principales del proyecto
-- 🌟 **Contributors**: Comunidad activa que mejora SysrotCore constantemente
-- 🎨 **Design**: UI/UX contributors y design system maintainers
-- 📚 **Documentation**: Technical writers y documentation maintainers
+### 🏆 **Contributors and Acknowledgments**
+- 👨‍💻 **Core Team**: Main project developers
+- 🌟 **Contributors**: Active community that constantly improves SysrotCore
+- 🎨 **Design**: UI/UX contributors and design system maintainers
+- 📚 **Documentation**: Technical writers and documentation maintainers
 
-### 🎯 **Cómo Contribuir**
+### 🎯 **How to Contribute**
 
-#### 🔧 **Setup para Development**
+#### 🔧 **Development Setup**
 ```bash
-# 1. Fork y clonar
-git clone https://github.com/tuusuario/sysrotcore.git
+# 1. Fork and clone
+git clone https://github.com/yourusername/sysrotcore.git
 cd sysrotcore
 
-# 2. Instalar dependencias
+# 2. Install dependencies
 npm install
 
-# 3. Crear branch feature
-git checkout -b feature/nueva-funcionalidad
+# 3. Create feature branch
+git checkout -b feature/new-functionality
 
-# 4. Hacer cambios y commit
-git commit -m "feat: agregar nueva funcionalidad"
+# 4. Make changes and commit
+git commit -m "feat: add new functionality"
 
-# 5. Push y crear PR
-git push origin feature/nueva-funcionalidad
+# 5. Push and create PR
+git push origin feature/new-functionality
 ```
 
-#### 📋 **Guidelines de Contribución**
-- **Conventional Commits**: Usar formato estándar para commits
-- **TypeScript strict**: Mantener tipado estricto en todo el código
-- **Testing**: Agregar tests para nuevas funcionalidades
-- **Documentation**: Actualizar README y docs cuando sea necesario
-- **Code Review**: Todas las PRs requieren review antes de merge
+#### 📋 **Contribution Guidelines**
+- **Conventional Commits**: Use standard format for commits
+- **TypeScript strict**: Maintain strict typing throughout the code
+- **Testing**: Add tests for new functionalities
+- **Documentation**: Update README and docs when necessary
+- **Code Review**: All PRs require review before merge
 
-### 🌟 **Sponsors y Partners**
-- 🚀 **Vercel**: Hosting y deployment platform partner
+### 🌟 **Sponsors and Partners**
+- 🚀 **Vercel**: Hosting and deployment platform partner
 - 🎨 **Tailwind CSS**: Official UI framework
 - 🤖 **OpenAI**: AI integration partner
 - 🔥 **Supabase**: Database platform sponsor
 - ☁️ **Cloudinary**: Media management sponsor
 
-### 📈 **Estadísticas del Proyecto**
+### 📈 **Project Statistics**
 - ⭐ **GitHub Stars**: Tracking community growth
 - 📦 **NPM Downloads**: Weekly/monthly download metrics
 - 🌍 **Global Usage**: Projects created worldwide
 - 🔧 **Active Contributors**: Community involvement metrics
 - 📊 **Performance Metrics**: Generated project performance data
 
-### 🎁 **Recursos Adicionales**
-- 📝 **Blog**: Tutoriales detallados y best practices
-- 🎥 **YouTube**: Video tutorials y demos
-- 📚 **Documentation**: Documentación exhaustiva online
-- 🛠️ **Tools**: Herramientas complementarias para desarrollo
-- 🎨 **Templates**: Templates adicionales y ejemplos
+### 🎁 **Additional Resources**
+- 📝 **Blog**: Detailed tutorials and best practices
+- 🎥 **YouTube**: Video tutorials and demos
+- 📚 **Documentation**: Comprehensive online documentation
+- 🛠️ **Tools**: Complementary development tools
+- 🎨 **Templates**: Additional templates and examples
 
-⭐ **¡No olvides dar una estrella al proyecto si te ha sido útil!** 
+⭐ **Don't forget to star the project if it has been useful to you!** 
 
-## 📋 Historial de Versiones
+**Made with ❤️ by the SysrotCore Team**
 
-### Versión 2.4.0 (Actual) ✨
-- **📚 DOCUMENTACIÓN COMPLETA**: Documentación profesional enterprise con 900+ líneas
-- **🗺️ ROADMAP 2025-2030**: Planificación detallada hasta 2030 con tecnologías emergentes
-- **🎯 CASOS DE USO**: 16+ escenarios documentados (empresariales, startups, creativos, IA)
-- **📚 BEST PRACTICES**: Arquitectura, performance, seguridad, troubleshooting
-- **🤝 COMUNIDAD**: Canales, contribución, sponsors, recursos adicionales
-- **🔧 DOCUMENTACIÓN TÉCNICA**: Stack completo, variables entorno, performance
-
-### Versión 2.3.6
-- **🌍 TRADUCCIONES COMPLETADAS**: Traducciones faltantes agregadas y errores corregidos
-- **🔧 ERROR DE COMPILACIÓN**: Removido import duplicado `useTranslation` en image-upload.tsx
-- **✅ PÁGINAS ESPECÍFICAS**: Corregidas /en/ejemplos/notificaciones, /en/ejemplos/database
-- **📦 SISTEMA ROBUSTO**: 350+ claves de traducción en español e inglés
-
-### Versión 2.3.5
-- **🔧 DEPENDENCIAS CLI**: Agregadas dependencias faltantes `commander` e `inquirer`
-- **🐛 CLI FUNCIONAL**: Corregido error "Cannot find module 'commander'"
-- **✅ MULTIPLATAFORMA**: CLI funciona en Windows, macOS y Linux
-
-### Versión 2.3.4
-- **🛠️ CLI WINDOWS**: Corregido error de instalación en Windows
-- **🔧 SPAWN CMD**: Configuración específica para Windows en installDependencies
-- **✅ CROSS-PLATFORM**: CLI totalmente funcional en todas las plataformas
-
-### Versión 2.3.3
-- **📚 README INTERNACIONAL**: README principal en inglés, README.es.md en español
-- **🌍 COMPONENTES CORE**: Upload e IA completamente traducidos
-- **📦 NPM COMPATIBLE**: Documentación en inglés para mejor distribución
-
-### Versión 2.3.2
-- **✅ TRADUCCIONES PÁGINAS**: Todas las páginas de ejemplos completamente traducidas
-- **📊 180+ NUEVAS CLAVES**: Animaciones, componentes, database, formularios, etc.
-- **🎯 COBERTURA 100%**: Sistema de internacionalización completamente funcional
-
-### Versión 2.3.1
-- **🌍 TRADUCCIONES PRINCIPALES**: Páginas principales 100% traducidas
-- **📦 100+ CLAVES**: Home, examples, blog, auth, AI, upload completamente localizados
-- **🔧 SISTEMA ROBUSTO**: React Intl v2.3.0 con fallbacks automáticos
-
-### Versión 2.3.0
-- **🔧 SISTEMA i18n DEFINITIVO**: Carga síncrona con require() y manejo de errores
-- **✅ ZERO ERRORES**: Eliminados todos los errores "Missing translation"
-- **🚀 FUNCIONAL**: Cambio de idioma español/inglés sin errores
-
-### Versión 2.2.9
-- **🐛 CRÍTICO**: Corregido completamente el sistema de traducciones que no cargaba los mensajes
-- **📦 IMPORTS ESTÁTICOS**: Cambiado require() dinámico por imports estáticos para mejor compatibilidad
-- **🛡️ PROVIDER ROBUSTO**: Mejorado IntlProvider con manejo de errores y fallbacks automáticos
-- **⚡ PERFORMANCE**: Carga síncrona de mensajes para mejor performance inicial
-
-### Versión 2.2.8
-- **🐛 FIXES**: Corregida advertencia de Next.js config para i18n.localeDetection
-- **🎨 UI**: Eliminado círculo verde del cursor, ahora usa cursores del sistema por defecto
-- **🔧 UX**: Agregados cursores específicos para elementos interactivos (pointer, text)
-
-### Versión 2.2.7
-- **🐛 CRÍTICO**: Corrección definitiva del error de BOM en schema.prisma
-- **🔧 Node.js**: Usado método Node.js para garantizar archivo sin BOM
-- **✅ Prisma P1012**: Error de validación completamente eliminado
-
-### Versión 2.2.6
-- **🐛 CRÍTICO**: Corregido error de validación de Prisma schema
-- **🔧 BOM Eliminado**: Removido Byte Order Mark que causaba errores de parsing
-- **✅ Prisma Generate**: Funcionamiento completo de generación de cliente Prisma
-
-### Versión 2.2.5
-- **🐛 CRÍTICO**: Corregido error "Command failed: npm install" durante generación
-- **🔧 Mejorado**: Manejo de errores en instalación de dependencias
-- **✅ Estable**: CLI completamente funcional sin errores
-
-### Versión 2.2.4
-- **🔧 Corregido**: Error "ora is not a function" en spinner de carga
-- **⚡ Optimizado**: Compatibilidad con CommonJS para ora v5.4.1
-- **✅ Funcional**: CLI ejecuta sin errores de dependencias
-
-### Versión 2.2.3
-- **🔧 Corregido**: Error "inquirer.prompt is not a function"
-- **⚡ Optimizado**: Compatibilidad con CommonJS para inquirer v8.2.6
-- **🎨 Mejorado**: ASCII art más compacto y elegante 
+*Create your next amazing project in seconds!* 🚀 
