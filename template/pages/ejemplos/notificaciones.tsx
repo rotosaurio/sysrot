@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { toast } from 'react-hot-toast';
 import { useState } from 'react';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function NotificacionesExample(): React.ReactElement {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
   // Notificaciones básicas
@@ -127,40 +129,40 @@ export default function NotificacionesExample(): React.ReactElement {
   return (
     <div className="container mx-auto py-12">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Ejemplos de Notificaciones</h1>
+        <h1 className="text-4xl font-bold mb-4">{t('pages.notifications.title')}</h1>
         <p className="text-muted-foreground text-lg">
-          Sistema completo de notificaciones usando <strong>react-hot-toast</strong> con diferentes estilos y funcionalidades.
+          {t('pages.notifications.description')}
         </p>
       </div>
 
       {/* Sección 1: Notificaciones básicas */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">1. Notificaciones Básicas</h2>
+        <h2 className="text-2xl font-bold mb-6">1. {t('pages.notifications.basic')}</h2>
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <button
               onClick={showSuccess}
               className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors"
             >
-              Éxito
+              {t('pages.notifications.success')}
             </button>
             <button
               onClick={showError}
               className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
             >
-              Error
+              {t('pages.notifications.error')}
             </button>
             <button
               onClick={showInfo}
               className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
             >
-              Información
+              {t('pages.notifications.info')}
             </button>
             <button
               onClick={showWarning}
               className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium transition-colors"
             >
-              Advertencia
+              {t('pages.notifications.warning')}
             </button>
           </div>
         </div>

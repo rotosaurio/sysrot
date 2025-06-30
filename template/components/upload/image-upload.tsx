@@ -3,12 +3,15 @@
 import { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
+import { useTranslation } from "@/components/providers/intl-provider";
+import { useTranslation } from "@/components/providers/intl-provider";
 
 interface ImageUploadProps {
   onUploadComplete?: (imageUrl: string) => void;
 }
 
 export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
+  const { t } = useTranslation();
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -19,7 +22,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
 
     // Verificar tipo de archivo
     if (!file.type.startsWith("image/")) {
-      toast.error("Por favor selecciona una imagen");
+      toast.error(t('components.upload.selectFile'));
       return;
     }
 
@@ -35,7 +38,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
     e.preventDefault();
     
     if (!fileInputRef.current?.files?.[0]) {
-      toast.error("Por favor selecciona una imagen");
+      toast.error(t('components.upload.selectFile'));
       return;
     }
     
@@ -51,12 +54,12 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
       });
       
       if (!response.ok) {
-        throw new Error("Error al subir la imagen");
+        throw new Error(t('components.upload.uploadError'));
       }
       
       const data = await response.json();
       
-      toast.success("Imagen subida correctamente");
+      toast.success(t('components.upload.uploadSuccess'));
       
       // Notificar que la subida se completó
       if (onUploadComplete && data.secure_url) {
@@ -64,7 +67,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
       }
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Error al subir la imagen");
+      toast.error(t('components.upload.uploadError'));
     } finally {
       setUploading(false);
     }
@@ -80,7 +83,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
   return (
     <div className="w-full max-w-md mx-auto p-4 bg-white rounded-lg shadow dark:bg-gray-800">
       <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-        Subir Imagen
+        {t('components.upload.title')}
       </h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -89,7 +92,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
             htmlFor="image" 
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Selecciona una imagen
+            {t('components.upload.selectImage')}
           </label>
           
           <input
@@ -114,7 +117,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
           <div className="mt-4 relative w-full h-64">
             <Image
               src={preview}
-              alt="Vista previa"
+              alt={t('components.upload.preview')}
               fill
               className="object-contain rounded-md"
             />
@@ -122,7 +125,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
               type="button"
               onClick={handleReset}
               className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
-              aria-label="Eliminar imagen"
+              aria-label={t('components.upload.remove')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -137,7 +140,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
             disabled={uploading || !preview}
             className="flex-1 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
           >
-            {uploading ? "Subiendo..." : "Subir Imagen"}
+            {uploading ? t('components.upload.uploading') : t('components.upload.upload')}
           </button>
           
           <button
@@ -146,7 +149,7 @@ export function ImageUpload({ onUploadComplete }: ImageUploadProps) {
             disabled={uploading || !preview}
             className="py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
           >
-            Cancelar
+            {t('components.upload.cancel')}
           </button>
         </div>
       </form>

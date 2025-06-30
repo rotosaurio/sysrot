@@ -1,59 +1,62 @@
 import Link from 'next/link';
 import { ArrowRight, BookOpen, Code, Rocket, Terminal } from '@/components/ui/icons';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function EjemplosPage() {
+  const { t } = useTranslation();
+
   const ejemplos = [
     {
-      title: "Autenticación",
-      description: "Sistema completo de autenticación con NextAuth.js y roles",
+      title: t('examples.auth.title'),
+      description: t('examples.auth.description'),
       href: "/ejemplos/auth",
       icon: <Terminal className="h-10 w-10 text-blue-600" />
     },
     {
-      title: "Inteligencia Artificial",
-      description: "Integración con múltiples APIs de IA (OpenAI, Claude, Gemini, DeepSeek)",
+      title: t('examples.ai.title'),
+      description: t('examples.ai.description'),
       href: "/ejemplos/ai",
       icon: <Rocket className="h-10 w-10 text-purple-600" />
     },
     {
-      title: "Biblioteca de Componentes",
-      description: "Componentes reutilizables listos para usar y personalizar",
+      title: t('examples.components.title'),
+      description: t('examples.components.description'),
       href: "/ejemplos/componentes",
       icon: <Code className="h-10 w-10 text-emerald-600" />
     },
     {
-      title: "Carga de Imágenes",
-      description: "Sistema de carga de imágenes con Cloudinary y preview",
+      title: t('examples.upload.title'),
+      description: t('examples.upload.description'),
       href: "/ejemplos/upload",
       icon: <BookOpen className="h-10 w-10 text-green-600" />
     },
     {
-      title: "Formularios",
-      description: "Formularios con validación usando react-hook-form y zod",
+      title: t('examples.forms.title'),
+      description: t('examples.forms.description'),
       href: "/ejemplos/formularios",
       icon: <Terminal className="h-10 w-10 text-orange-600" />
     },
     {
-      title: "Animaciones",
-      description: "Efectos y animaciones con Framer Motion",
+      title: t('examples.animations.title'),
+      description: t('examples.animations.description'),
       href: "/ejemplos/animaciones",
       icon: <Rocket className="h-10 w-10 text-pink-600" />
     },
     {
-      title: "Notificaciones",
-      description: "Sistema de notificaciones con react-hot-toast",
+      title: t('examples.notifications.title'),
+      description: t('examples.notifications.description'),
       href: "/ejemplos/notificaciones",
       icon: <Code className="h-10 w-10 text-indigo-600" />
     },
     {
-      title: "Base de Datos",
-      description: "Conexiones a MongoDB, Supabase y Firebase",
+      title: t('examples.database.title'),
+      description: t('examples.database.description'),
       href: "/ejemplos/database",
       icon: <Terminal className="h-10 w-10 text-teal-600" />
     },
     {
-      title: "UI y Temas",
-      description: "Sistema de temas claro/oscuro y componentes UI",
+      title: t('examples.themes.title'),
+      description: t('examples.themes.description'),
       href: "/ejemplos/ui-temas",
       icon: <BookOpen className="h-10 w-10 text-cyan-600" />
     },
@@ -67,7 +70,7 @@ export default function EjemplosPage() {
 
   return (
     <div className="container mx-auto py-12">
-      <h1 className="text-4xl font-bold text-center mb-12">Ejemplos de Componentes</h1>
+      <h1 className="text-4xl font-bold text-center mb-12">{t('examples.title')}</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ejemplos.map((ejemplo, index) => (
@@ -93,16 +96,14 @@ export default function EjemplosPage() {
       </div>
       
       <div className="mt-12 p-6 border rounded-lg shadow-md bg-blue-50 dark:bg-blue-900/20">
-        <h2 className="text-2xl font-semibold mb-4">Sobre los Ejemplos</h2>
+        <h2 className="text-2xl font-semibold mb-4">{t('examples.about.title')}</h2>
         <p className="text-muted-foreground mb-4">
-          Esta sección muestra ejemplos prácticos de las principales características 
-          incluidas en tu aplicación creada con create-rotosaurio-app. Puedes usar estos
-          ejemplos como punto de partida para desarrollar tu propia aplicación.
+          {t('examples.about.description')}
         </p>
         <p className="text-muted-foreground">
-          Para obtener más información sobre cada característica, consulta el archivo
+          {t('examples.about.docs')}
           <code className="mx-1 px-1 py-0.5 bg-muted rounded">DOCUMENTACION.md</code>
-          en la raíz del proyecto.
+          {t('examples.about.docsPath')}
         </p>
       </div>
     </div>

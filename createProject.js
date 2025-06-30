@@ -14,23 +14,28 @@ async function createProject(options) {
     process.exit(1);
   }
 
-  // Crear carpeta del proyecto
-  const spinner = ora('Creando estructura de carpetas...').start();
-  
+  console.log(chalk.green('✅ Generando tu proyecto...'));
+  console.log(chalk.blue(`📁 Proyecto: ${projectName}`));
+
   try {
     // Crear directorio principal
     fs.mkdirSync(projectPath, { recursive: true });
     
     // Copiar la plantilla base
     await copyTemplateFiles(projectPath);
-    
-    spinner.succeed('Estructura de carpetas creada');
+    console.log(chalk.green('√ Archivos de plantilla copiados'));
     
     // Asegurar compatibilidad con Pages Router
     await ensurePagesRouterOnly(projectPath);
+    console.log(chalk.green('√ Estructura de carpetas creada'));
     
     // Configurar el proyecto según las opciones seleccionadas
     await customizeProject(projectPath, options);
+    console.log(chalk.green('√ Compatibilidad con Pages Router configurada correctamente'));
+    
+    // Remover archivos no utilizados
+    await removeUnusedFiles(projectPath, options);
+    console.log(chalk.green('√ Proyecto personalizado según tus preferencias'));
     
     // Instalar dependencias
     await installDependencies(projectPath, options);
@@ -38,12 +43,21 @@ async function createProject(options) {
     // Generar archivo README personalizado
     await generateReadme(projectPath, options);
     
-    // El archivo .env.example ya está incluido en el template
-    
     return true;
   } catch (error) {
-    spinner.fail('Error al crear la estructura de carpetas');
-    console.error(chalk.red(error));
+    console.log(chalk.red('× Error al instalar las dependencias'));
+    console.log(chalk.red('× Error al crear la estructura de carpetas'));
+    console.error(chalk.red(`Error: ${error.message}`));
+    
+    // Limpiar directorio si algo falló
+    try {
+      if (fs.existsSync(projectPath)) {
+        await fs.remove(projectPath);
+      }
+    } catch (cleanupError) {
+      console.error(chalk.yellow('Advertencia: No se pudo limpiar el directorio del proyecto'));
+    }
+    
     process.exit(1);
   }
 }
@@ -413,7 +427,7 @@ async function removeUnusedFiles(projectPath, options) {
         const uploadExamplePath = path.join(examplePath, 'upload.tsx');
         if (fs.existsSync(uploadExamplePath)) {
           await fs.remove(uploadExamplePath);
-    }
+        }
       }
 
       if (!exampleTypes.includes('Ejemplo de Formularios')) {
@@ -481,14 +495,21 @@ async function installDependencies(projectPath, options) {
   const spinner = ora('Instalando dependencias (esto puede tardar unos minutos)...').start();
   
   try {
-    process.chdir(projectPath);
+    // Configuración específica para Windows
+    const isWindows = process.platform === 'win32';
+    const command = isWindows ? 'npm.cmd install' : 'npm install';
     
-    // Ejecutar npm install
-    execSync('npm install', { stdio: 'ignore' });
+    // Ejecutar npm install en el directorio del proyecto
+    execSync(command, { 
+      cwd: projectPath,
+      stdio: 'inherit',
+      shell: isWindows
+    });
     
     spinner.succeed('Dependencias instaladas correctamente');
   } catch (error) {
     spinner.fail('Error al instalar las dependencias');
+    console.error(chalk.red(`Error: ${error.message}`));
     throw error;
   }
 }

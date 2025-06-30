@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { IntlProvider as ReactIntlProvider, useIntl } from 'react-intl';
 import { useRouter } from 'next/router';
-import { Locale, getMessages } from '@/lib/i18n';
+
+export type Locale = 'es' | 'en';
 
 interface IntlContextType {
   locale: Locale;
@@ -15,39 +16,44 @@ interface IntlProviderProps {
   children: React.ReactNode;
 }
 
+// Función para cargar mensajes de forma síncrona
+function loadMessages(locale: Locale): Record<string, string> {
+  try {
+    if (locale === 'en') {
+      return require('@/locales/en.json');
+    } else {
+      return require('@/locales/es.json');
+    }
+  } catch (error) {
+    console.warn(`Error loading messages for locale ${locale}, falling back to es`);
+    return require('@/locales/es.json');
+  }
+}
+
 export function IntlProvider({ children }: IntlProviderProps) {
   const router = useRouter();
-  const [locale, setLocaleState] = useState<Locale>(
-    (router.locale as Locale) || 'es'
-  );
-  const [messages, setMessages] = useState<Record<string, string>>({});
+  const [locale, setLocaleState] = useState<Locale>('es');
+  const [messages, setMessages] = useState<Record<string, string>>(() => loadMessages('es'));
 
-  // Cargar mensajes cuando cambie el locale
+  // Inicializar locale y mensajes
   useEffect(() => {
-    const loadMessages = async () => {
-      try {
-        const newMessages = getMessages(locale);
-        setMessages(newMessages);
-      } catch (error) {
-        console.error(`Error loading messages for locale ${locale}:`, error);
-        // Fallback a español si hay error
-        const fallbackMessages = getMessages('es');
-        setMessages(fallbackMessages);
-      }
-    };
-
-    loadMessages();
-  }, [locale]);
+    const initialLocale = (router.locale as Locale) || 'es';
+    setLocaleState(initialLocale);
+    setMessages(loadMessages(initialLocale));
+  }, []);
 
   // Sincronizar con Next.js router
   useEffect(() => {
     if (router.locale && router.locale !== locale) {
-      setLocaleState(router.locale as Locale);
+      const newLocale = router.locale as Locale;
+      setLocaleState(newLocale);
+      setMessages(loadMessages(newLocale));
     }
   }, [router.locale, locale]);
 
   const setLocale = (newLocale: Locale) => {
     setLocaleState(newLocale);
+    setMessages(loadMessages(newLocale));
     // Cambiar la URL para reflejar el nuevo idioma
     router.push(router.asPath, router.asPath, { locale: newLocale });
   };
@@ -60,7 +66,12 @@ export function IntlProvider({ children }: IntlProviderProps) {
 
   return (
     <IntlContext.Provider value={contextValue}>
-      <ReactIntlProvider locale={locale} messages={messages}>
+      <ReactIntlProvider 
+        locale={locale} 
+        messages={messages} 
+        defaultLocale="es"
+        onError={() => {}} // Silenciar errores de traducciones faltantes
+      >
         {children}
       </ReactIntlProvider>
     </IntlContext.Provider>
@@ -82,7 +93,12 @@ export function useTranslation() {
   const { locale } = useI18n();
 
   const t = (id: string, values?: Record<string, any>) => {
-    return intl.formatMessage({ id }, values);
+    try {
+      return intl.formatMessage({ id }, values);
+    } catch (error) {
+      console.warn(`Missing translation for key: ${id}`);
+      return id; // Fallback al ID de la traducción
+    }
   };
 
   const formatDate = (date: Date | string) => {

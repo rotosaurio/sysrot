@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useTheme } from 'next-themes';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function UITemasExample(): React.ReactElement {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -8,6 +9,7 @@ export default function UITemasExample(): React.ReactElement {
   const [activeTab, setActiveTab] = useState('componentes');
   const [showModal, setShowModal] = useState(false);
   const [progress, setProgress] = useState(65);
+  const { t } = useTranslation();
 
   // Evitar hidration mismatch
   React.useEffect(() => {
@@ -27,10 +29,10 @@ export default function UITemasExample(): React.ReactElement {
       {/* Header */}
       <div className="text-center">
         <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-          Sistema UI & Temas
+          {t('pages.themes.title')}
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Componentes modernos, animaciones fluidas y sistema de temas completo con TailwindCSS
+          {t('pages.themes.description')}
         </p>
       </div>
 
@@ -39,13 +41,13 @@ export default function UITemasExample(): React.ReactElement {
         <div className="absolute inset-0 bg-grid opacity-5"></div>
         <div className="relative">
           <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
-            <span className="animate-spin">🎨</span>
-            Control de Tema
+            <span className="animate-spin">��</span>
+            {t('pages.themes.themeControls')}
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
               <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm p-6 rounded-xl shadow-lg">
-                <h3 className="text-xl font-semibold mb-4">Tema Actual: {resolvedTheme}</h3>
+                <h3 className="text-xl font-semibold mb-4">{t('pages.themes.currentTheme')}: {resolvedTheme}</h3>
                 <div className="grid grid-cols-3 gap-3">
                   <button
                     onClick={() => setTheme('light')}
@@ -56,7 +58,7 @@ export default function UITemasExample(): React.ReactElement {
                     }`}
                   >
                     <div className="text-2xl mb-2 group-hover:animate-bounce">🌞</div>
-                    <div className="text-sm font-medium">Claro</div>
+                    <div className="text-sm font-medium">{t('pages.themes.lightMode')}</div>
                   </button>
                   <button
                     onClick={() => setTheme('dark')}
@@ -67,7 +69,7 @@ export default function UITemasExample(): React.ReactElement {
                     }`}
                   >
                     <div className="text-2xl mb-2 group-hover:animate-pulse">🌙</div>
-                    <div className="text-sm font-medium">Oscuro</div>
+                    <div className="text-sm font-medium">{t('pages.themes.darkMode')}</div>
                   </button>
                   <button
                     onClick={() => setTheme('system')}
@@ -78,7 +80,7 @@ export default function UITemasExample(): React.ReactElement {
                     }`}
                   >
                     <div className="text-2xl mb-2 group-hover:animate-spin">💻</div>
-                    <div className="text-sm font-medium">Sistema</div>
+                    <div className="text-sm font-medium">{t('pages.themes.systemMode')}</div>
                   </button>
                 </div>
               </div>

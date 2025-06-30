@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 // Interfaces para tipado fuerte
 interface User {
@@ -45,6 +46,7 @@ type UserEmail = Pick<User, 'email'>;
 type UserWithoutId = Omit<User, 'id'>;
 
 export default function TypeScriptExample(): React.ReactElement {
+  const { t } = useTranslation();
   const [users, setUsers] = useState<User[]>([]);
   const [status, setStatus] = useState<Status>('idle');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -52,7 +54,7 @@ export default function TypeScriptExample(): React.ReactElement {
   // Función con tipos explícitos
   const createUser = (userData: UserWithoutId): User => {
     return {
-      id: Date.now(),
+      id: Math.random(),
       ...userData
     };
   };
@@ -82,11 +84,14 @@ export default function TypeScriptExample(): React.ReactElement {
         console.log(`Info: ${notification.message}`);
         break;
       case 'success':
-        console.log(`Success: ${notification.message}`, notification.duration);
+        console.log(`Success: ${notification.message}`);
+        setTimeout(() => {}, notification.duration || 3000);
         break;
       case 'error':
         console.log(`Error: ${notification.message}`);
-        notification.retry?.();
+        if (notification.retry) {
+          notification.retry();
+        }
         break;
     }
   };
@@ -157,15 +162,15 @@ export default function TypeScriptExample(): React.ReactElement {
   return (
     <div className="container mx-auto py-12">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Ejemplos de TypeScript</h1>
+        <h1 className="text-4xl font-bold mb-4">{t('pages.typescript.title')}</h1>
         <p className="text-muted-foreground text-lg">
-          Demostración de las características avanzadas de <strong>TypeScript</strong> implementadas en el proyecto.
+          {t('pages.typescript.description')}
         </p>
       </div>
 
       {/* Sección 1: Tipos Básicos y Interfaces */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">1. Interfaces y Tipos</h2>
+        <h2 className="text-2xl font-bold mb-6">1. {t('pages.typescript.interfaces')}</h2>
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>

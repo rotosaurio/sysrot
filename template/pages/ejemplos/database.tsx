@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function DatabaseExample(): React.ReactElement {
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState({
-    mongodb: 'No probado',
-    supabase: 'No probado',
-    firebase: 'No probado'
+    mongodb: t('pages.database.notTested'),
+    supabase: t('pages.database.notTested'),
+    firebase: t('pages.database.notTested')
   });
 
   // Ejemplo de conexión MongoDB
@@ -23,12 +25,12 @@ export default function DatabaseExample(): React.ReactElement {
       const result = await response.json();
       setConnectionStatus(prev => ({
         ...prev,
-        mongodb: response.ok ? 'Conectado' : 'Error'
+        mongodb: response.ok ? t('pages.database.connected') : t('pages.database.error')
       }));
     } catch (error) {
       setConnectionStatus(prev => ({
         ...prev,
-        mongodb: 'Error'
+        mongodb: t('pages.database.error')
       }));
     }
     setLoading(false);
@@ -47,12 +49,12 @@ export default function DatabaseExample(): React.ReactElement {
       const result = await response.json();
       setConnectionStatus(prev => ({
         ...prev,
-        supabase: response.ok ? 'Conectado' : 'Error'
+        supabase: response.ok ? t('pages.database.connected') : t('pages.database.error')
       }));
     } catch (error) {
       setConnectionStatus(prev => ({
         ...prev,
-        supabase: 'Error'
+        supabase: t('pages.database.error')
       }));
     }
     setLoading(false);
@@ -71,12 +73,12 @@ export default function DatabaseExample(): React.ReactElement {
       const result = await response.json();
       setConnectionStatus(prev => ({
         ...prev,
-        firebase: response.ok ? 'Conectado' : 'Error'
+        firebase: response.ok ? t('pages.database.connected') : t('pages.database.error')
       }));
     } catch (error) {
       setConnectionStatus(prev => ({
         ...prev,
-        firebase: 'Error'
+        firebase: t('pages.database.error')
       }));
     }
     setLoading(false);
@@ -85,24 +87,24 @@ export default function DatabaseExample(): React.ReactElement {
   return (
     <div className="container mx-auto py-12">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Ejemplos de Base de Datos</h1>
+        <h1 className="text-4xl font-bold mb-4">{t('pages.database.title')}</h1>
         <p className="text-muted-foreground text-lg">
-          Ejemplos de conexión y uso de diferentes bases de datos soportadas por el template.
+          {t('pages.database.description')}
         </p>
       </div>
 
       {/* Sección 1: Estado de conexiones */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">1. Estado de Conexiones</h2>
+        <h2 className="text-2xl font-bold mb-6">1. {t('pages.database.connections')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* MongoDB */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">MongoDB</h3>
+              <h3 className="text-xl font-semibold">{t('pages.database.mongodb')}</h3>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                connectionStatus.mongodb === 'Conectado' 
+                connectionStatus.mongodb === t('pages.database.connected')
                   ? 'bg-green-100 text-green-800' 
-                  : connectionStatus.mongodb === 'Error'
+                  : connectionStatus.mongodb === t('pages.database.error')
                   ? 'bg-red-100 text-red-800'
                   : 'bg-gray-100 text-gray-800'
               }`}>
@@ -110,14 +112,14 @@ export default function DatabaseExample(): React.ReactElement {
               </span>
             </div>
             <p className="text-muted-foreground mb-4">
-              Base de datos NoSQL con Mongoose ODM
+              {t('pages.database.mongoDescription')}
             </p>
             <button
               onClick={testMongoDB}
               disabled={loading}
               className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white rounded-lg font-medium transition-colors"
             >
-              Probar Conexión
+              {t('pages.database.testConnection')}
             </button>
             <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded text-sm">
               <code>MONGODB_URI=mongodb://localhost:27017/mydb</code>
@@ -127,11 +129,11 @@ export default function DatabaseExample(): React.ReactElement {
           {/* Supabase */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">Supabase</h3>
+              <h3 className="text-xl font-semibold">{t('pages.database.supabase')}</h3>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                connectionStatus.supabase === 'Conectado' 
+                connectionStatus.supabase === t('pages.database.connected')
                   ? 'bg-green-100 text-green-800' 
-                  : connectionStatus.supabase === 'Error'
+                  : connectionStatus.supabase === t('pages.database.error')
                   ? 'bg-red-100 text-red-800'
                   : 'bg-gray-100 text-gray-800'
               }`}>
@@ -139,14 +141,14 @@ export default function DatabaseExample(): React.ReactElement {
               </span>
             </div>
             <p className="text-muted-foreground mb-4">
-              PostgreSQL con tipos TypeScript automáticos
+              {t('pages.database.supabaseDescription')}
             </p>
             <button
               onClick={testSupabase}
               disabled={loading}
               className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg font-medium transition-colors"
             >
-              Probar Conexión
+              {t('pages.database.testConnection')}
             </button>
             <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded text-sm">
               <code>NEXT_PUBLIC_SUPABASE_URL=https://...</code>
@@ -156,11 +158,11 @@ export default function DatabaseExample(): React.ReactElement {
           {/* Firebase */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold">Firebase</h3>
+              <h3 className="text-xl font-semibold">{t('pages.database.firebase')}</h3>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                connectionStatus.firebase === 'Conectado' 
+                connectionStatus.firebase === t('pages.database.connected')
                   ? 'bg-green-100 text-green-800' 
-                  : connectionStatus.firebase === 'Error'
+                  : connectionStatus.firebase === t('pages.database.error')
                   ? 'bg-red-100 text-red-800'
                   : 'bg-gray-100 text-gray-800'
               }`}>
@@ -168,14 +170,14 @@ export default function DatabaseExample(): React.ReactElement {
               </span>
             </div>
             <p className="text-muted-foreground mb-4">
-              Firestore con autenticación y real-time
+              {t('pages.database.firebaseDescription')}
             </p>
             <button
               onClick={testFirebase}
               disabled={loading}
               className="w-full px-4 py-2 bg-orange-600 hover:bg-orange-700 disabled:bg-orange-400 text-white rounded-lg font-medium transition-colors"
             >
-              Probar Conexión
+              {t('pages.database.testConnection')}
             </button>
             <div className="mt-4 p-3 bg-orange-50 dark:bg-orange-900/20 rounded text-sm">
               <code>NEXT_PUBLIC_FIREBASE_API_KEY=...</code>
@@ -186,7 +188,7 @@ export default function DatabaseExample(): React.ReactElement {
 
       {/* Sección 2: Ejemplos de código */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-6">2. Ejemplos de Código</h2>
+        <h2 className="text-2xl font-bold mb-6">2. {t('pages.database.codeExamples')}</h2>
         
         <div className="space-y-8">
           {/* MongoDB Example */}

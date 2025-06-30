@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 // Schema de validación con Zod
-const formSchema = z.object({
+const createFormSchema = (t: any) => z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   email: z.string().email('Ingresa un email válido'),
   age: z.number().min(18, 'Debes ser mayor de 18 años').max(100, 'Edad máxima 100 años'),
@@ -16,9 +17,11 @@ const formSchema = z.object({
   })
 });
 
-type FormData = z.infer<typeof formSchema>;
-
 export default function FormulariosExample(): React.ReactElement {
+  const { t } = useTranslation();
+  const formSchema = createFormSchema(t);
+  type FormData = z.infer<typeof formSchema>;
+
   const {
     register,
     handleSubmit,
@@ -44,10 +47,9 @@ export default function FormulariosExample(): React.ReactElement {
   return (
     <div className="container mx-auto py-12 max-w-2xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">Ejemplo de Formularios</h1>
+        <h1 className="text-3xl font-bold mb-4">{t('pages.forms.title')}</h1>
         <p className="text-muted-foreground">
-          Formulario con validación usando <strong>react-hook-form</strong> y <strong>zod</strong>.
-          Incluye validación en tiempo real, manejo de errores y tipos TypeScript automáticos.
+          {t('pages.forms.description')}
         </p>
       </div>
 
@@ -56,14 +58,14 @@ export default function FormulariosExample(): React.ReactElement {
           {/* Nombre */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-2">
-              Nombre completo *
+              {t('pages.forms.fullName')} *
             </label>
             <input
               {...register('name')}
               type="text"
               id="name"
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              placeholder="Tu nombre completo"
+              placeholder={t('pages.forms.fullName')}
             />
             {errors.name && (
               <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -73,7 +75,7 @@ export default function FormulariosExample(): React.ReactElement {
           {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-2">
-              Email *
+              {t('pages.forms.email')} *
             </label>
             <input
               {...register('email')}
@@ -90,7 +92,7 @@ export default function FormulariosExample(): React.ReactElement {
           {/* Edad */}
           <div>
             <label htmlFor="age" className="block text-sm font-medium mb-2">
-              Edad *
+              {t('pages.forms.age')} *
             </label>
             <input
               {...register('age', { valueAsNumber: true })}
@@ -109,17 +111,17 @@ export default function FormulariosExample(): React.ReactElement {
           {/* Categoría */}
           <div>
             <label htmlFor="category" className="block text-sm font-medium mb-2">
-              Categoría *
+              {t('pages.forms.category')} *
             </label>
             <select
               {...register('category')}
               id="category"
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             >
-              <option value="">Selecciona una categoría</option>
-              <option value="general">General</option>
-              <option value="support">Soporte</option>
-              <option value="sales">Ventas</option>
+              <option value="">{t('pages.forms.selectCategory')}</option>
+              <option value="general">{t('pages.forms.general')}</option>
+              <option value="support">{t('pages.forms.support')}</option>
+              <option value="sales">{t('pages.forms.sales')}</option>
             </select>
             {errors.category && (
               <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>
@@ -129,14 +131,14 @@ export default function FormulariosExample(): React.ReactElement {
           {/* Mensaje */}
           <div>
             <label htmlFor="message" className="block text-sm font-medium mb-2">
-              Mensaje *
+              {t('pages.forms.message')} *
             </label>
             <textarea
               {...register('message')}
               id="message"
               rows={4}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              placeholder="Escribe tu mensaje aquí..."
+              placeholder={t('pages.forms.writeMessage')}
             />
             {errors.message && (
               <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
@@ -152,7 +154,7 @@ export default function FormulariosExample(): React.ReactElement {
               className="mt-1 mr-3"
             />
             <label htmlFor="terms" className="text-sm">
-              Acepto los <a href="#" className="text-blue-600 hover:underline">términos y condiciones</a> *
+              {t('pages.forms.acceptTerms')} *
             </label>
           </div>
           {errors.terms && (
@@ -171,24 +173,24 @@ export default function FormulariosExample(): React.ReactElement {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Enviando...
+                {t('pages.forms.submitting')}
               </span>
             ) : (
-              'Enviar Formulario'
+              t('pages.forms.submit')
             )}
           </button>
         </form>
 
         {/* Información adicional */}
         <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-md">
-          <h3 className="font-semibold mb-2">Características del formulario:</h3>
+          <h3 className="font-semibold mb-2">{t('pages.forms.features')}</h3>
           <ul className="text-sm text-muted-foreground space-y-1">
-            <li>✅ Validación en tiempo real con Zod</li>
-            <li>✅ Tipos TypeScript automáticos</li>
-            <li>✅ Manejo de estados de carga</li>
-            <li>✅ Feedback visual de errores</li>
-            <li>✅ Reset automático después del envío</li>
-            <li>✅ Accesibilidad completa</li>
+            <li>✅ {t('pages.forms.realTimeValidation')}</li>
+            <li>✅ {t('pages.forms.typeScript')}</li>
+            <li>✅ {t('pages.forms.loadingStates')}</li>
+            <li>✅ {t('pages.forms.visualFeedback')}</li>
+            <li>✅ {t('pages.forms.autoReset')}</li>
+            <li>✅ {t('pages.forms.accessibility')}</li>
           </ul>
         </div>
       </div>

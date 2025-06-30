@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function AnimacionesExample(): React.ReactElement {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('basicas');
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -19,12 +21,12 @@ export default function AnimacionesExample(): React.ReactElement {
   }, []);
 
   const tabs = [
-    { id: 'basicas', name: '🎯 Básicas', icon: '🎯' },
-    { id: 'hover', name: '✨ Hover Effects', icon: '✨' },
-    { id: 'scroll', name: '📜 Scroll Animations', icon: '📜' },
-    { id: 'micro', name: '🔮 Micro-interacciones', icon: '🔮' },
-    { id: 'avanzadas', name: '🚀 Avanzadas', icon: '🚀' },
-    { id: 'loading', name: '⏳ Loading States', icon: '⏳' }
+    { id: 'basicas', name: `🎯 ${t('pages.animations.basic')}`, icon: '🎯' },
+    { id: 'hover', name: `✨ ${t('pages.animations.hover')}`, icon: '✨' },
+    { id: 'scroll', name: `📜 ${t('pages.animations.scroll')}`, icon: '📜' },
+    { id: 'micro', name: `🔮 ${t('pages.animations.micro')}`, icon: '🔮' },
+    { id: 'avanzadas', name: `🚀 ${t('pages.animations.advanced')}`, icon: '🚀' },
+    { id: 'loading', name: `⏳ ${t('pages.animations.loading')}`, icon: '⏳' }
   ];
 
   return (
@@ -32,11 +34,10 @@ export default function AnimacionesExample(): React.ReactElement {
       {/* Header con animación de entrada */}
       <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent animate-gradient">
-          Showcase de Animaciones
+          {t('pages.animations.title')}
         </h1>
         <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-          Descubre más de 50 animaciones fluidas y performantes con CSS3, Framer Motion y micro-interacciones avanzadas.
-          Todas garantizan 60 FPS en dispositivos modernos.
+          {t('pages.animations.description')}
         </p>
       </div>
 

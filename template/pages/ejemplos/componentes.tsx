@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function ComponentesExample(): React.ReactElement {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('basicos');
   const [showCode, setShowCode] = useState<string | null>(null);
   const [notifications, setNotifications] = useState<string[]>([]);
@@ -15,13 +17,13 @@ export default function ComponentesExample(): React.ReactElement {
   };
 
   const categories = [
-    { id: 'basicos', name: '🎯 Básicos', icon: '🎯' },
-    { id: 'formularios', name: '📝 Formularios', icon: '📝' },
-    { id: 'navegacion', name: '🧭 Navegación', icon: '🧭' },
-    { id: 'feedback', name: '💬 Feedback', icon: '💬' },
-    { id: 'datos', name: '📊 Datos', icon: '📊' },
-    { id: 'layout', name: '📐 Layout', icon: '📐' },
-    { id: 'avanzados', name: '🚀 Avanzados', icon: '🚀' }
+    { id: 'basicos', name: `🎯 ${t('pages.components.basic')}`, icon: '🎯' },
+    { id: 'formularios', name: `📝 ${t('pages.components.forms')}`, icon: '📝' },
+    { id: 'navegacion', name: `🧭 ${t('pages.components.navigation')}`, icon: '🧭' },
+    { id: 'feedback', name: `💬 ${t('pages.components.feedback')}`, icon: '💬' },
+    { id: 'datos', name: `📊 ${t('pages.components.data')}`, icon: '📊' },
+    { id: 'layout', name: `📐 ${t('pages.components.layout')}`, icon: '📐' },
+    { id: 'avanzados', name: `🚀 ${t('pages.components.advanced')}`, icon: '🚀' }
   ];
 
   const CodeBlock = ({ title, code }: { title: string; code: string }) => (
@@ -31,11 +33,11 @@ export default function ComponentesExample(): React.ReactElement {
         <button
           onClick={() => {
             navigator.clipboard.writeText(code);
-            addNotification('Código copiado al portapapeles!');
+            addNotification(t('pages.components.copied'));
           }}
           className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
         >
-          Copiar
+          {t('common.copy')}
         </button>
       </div>
       <pre className="text-gray-300 text-sm overflow-x-auto">
@@ -49,11 +51,10 @@ export default function ComponentesExample(): React.ReactElement {
       {/* Header */}
       <div className="text-center">
         <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent mb-4">
-          Biblioteca de Componentes
+          {t('pages.components.title')}
         </h1>
         <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-          Más de 50 componentes production-ready, organizados en 7 categorías. 
-          Cada componente incluye múltiples variantes, está optimizado para accesibilidad y es completamente responsive.
+          {t('pages.components.description')}
         </p>
       </div>
 

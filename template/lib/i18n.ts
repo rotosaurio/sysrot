@@ -91,24 +91,30 @@ export interface Messages {
 const cache = createIntlCache();
 
 // Función para crear intl instance
-export function createIntlInstance(locale: Locale, messages: Messages) {
+export function createIntlInstance(locale: Locale, localeMessages: Messages) {
   return createIntl(
     {
       locale,
-      messages,
+      messages: localeMessages,
     },
     cache
   );
 }
 
-// Función helper para obtener mensajes
-export function getMessages(locale: Locale): Messages {
-  switch (locale) {
-    case 'en':
-      return require('../locales/en.json');
-    case 'es':
-    default:
-      return require('../locales/es.json');
+// Función helper para obtener mensajes usando dynamic imports
+export async function getMessages(locale: Locale): Promise<Messages> {
+  try {
+    let messages;
+    if (locale === 'en') {
+      messages = await import('../locales/en.json');
+    } else {
+      messages = await import('../locales/es.json');
+    }
+    return messages.default || messages;
+  } catch (error) {
+    console.warn(`Error loading messages for locale ${locale}, falling back to es`);
+    const fallback = await import('../locales/es.json');
+    return fallback.default || fallback;
   }
 }
 

@@ -4,6 +4,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import { getAllPosts, getPostBySlug, Post } from "@/lib/mdx";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "@/components/providers/intl-provider";
 
 interface BlogPostProps {
   post: Post;
@@ -52,9 +53,10 @@ export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) 
 
 export default function BlogPostPage({ post, mdxSource }: BlogPostProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   
   if (router.isFallback) {
-    return <div className="container mx-auto p-4">Cargando...</div>;
+    return <div className="container mx-auto p-4">{t('blog.loading')}</div>;
   }
   
   return (
@@ -63,7 +65,7 @@ export default function BlogPostPage({ post, mdxSource }: BlogPostProps) {
         href="/blog" 
         className="text-blue-600 dark:text-blue-400 hover:underline mb-8 inline-block"
       >
-        ← Volver al blog
+        {t('blog.backToBlog')}
       </Link>
       
       <article className="prose prose-lg dark:prose-invert max-w-none">

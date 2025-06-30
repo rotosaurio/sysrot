@@ -131,10 +131,10 @@ export default function Home(): React.ReactElement {
       <section className="container py-24 space-y-12">
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Características Principales
+            {t('home.featuresTitle')}
           </h2>
           <p className="mx-auto max-w-[42rem] text-muted-foreground text-lg">
-            Todo lo que necesitas para construir aplicaciones modernas, incluido desde el primer día.
+            {t('home.featuresDescription')}
           </p>
         </div>
         
@@ -166,10 +166,10 @@ export default function Home(): React.ReactElement {
       <section className="container py-24">
         <div className="mx-auto max-w-[42rem] text-center space-y-6">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            ¿Listo para comenzar?
+            {t('home.ctaTitle')}
           </h2>
           <p className="text-muted-foreground text-lg">
-            Crea tu primera aplicación con SysrotCore en menos de 30 segundos.
+            {t('home.ctaDescription')}
           </p>
           <div className="bg-gray-900 dark:bg-gray-800 rounded-lg p-6 text-left">
             <code className="text-green-400 font-mono text-sm">
@@ -180,7 +180,7 @@ export default function Home(): React.ReactElement {
             href="/ejemplos" 
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
-            Ver Ejemplos Completos
+            {t('home.ctaButton')}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

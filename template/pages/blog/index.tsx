@@ -2,6 +2,7 @@ import Link from "next/link";
 import { GetStaticProps } from "next";
 import { getAllPosts } from "@/lib/mdx";
 import { PostMetadata } from "@/lib/mdx";
+import { useTranslation } from "@/components/providers/intl-provider";
 
 interface BlogPageProps {
   posts: PostMetadata[];
@@ -19,9 +20,11 @@ export const getStaticProps: GetStaticProps<BlogPageProps> = async () => {
 };
 
 export default function BlogPage({ posts }: BlogPageProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Blog</h1>
+      <h1 className="text-3xl font-bold mb-8 text-center">{t('blog.title')}</h1>
       
       {posts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -66,10 +69,10 @@ export default function BlogPage({ posts }: BlogPageProps) {
       ) : (
         <div className="text-center py-12">
           <h2 className="text-xl font-medium text-gray-700 dark:text-gray-300">
-            No hay artículos disponibles
+            {t('blog.noArticles')}
           </h2>
           <p className="mt-2 text-gray-500 dark:text-gray-400">
-            Vuelve pronto para ver nuevo contenido
+            {t('blog.noArticlesDescription')}
           </p>
         </div>
       )}

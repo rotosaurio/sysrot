@@ -69,8 +69,32 @@
 @layer base {
   * {
     @apply border-border;
+    /* Asegurar cursor por defecto del sistema */
+    cursor: auto !important;
   }
   body {
     @apply bg-background text-foreground;
+    /* Cursor por defecto para el body */
+    cursor: default !important;
+  }
+  
+  /* Cursores específicos para elementos interactivos */
+  button, 
+  a, 
+  input[type="button"], 
+  input[type="submit"], 
+  input[type="reset"],
+  select,
+  .cursor-pointer {
+    cursor: pointer !important;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="url"],
+  textarea {
+    cursor: text !important;
   }
 } 
