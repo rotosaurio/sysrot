@@ -6,14 +6,14 @@
   "nav.documentation": "Documentation",
 
   "home.title": "Build Fast, Deploy Faster",
-  "home.subtitle": "SysrotCore",
+  "home.subtitle": "sysrot-hub",
   "home.description": "A complete boilerplate for building modern web applications with Next.js, TailwindCSS and much more.",
   "home.getStarted": "Get Started",
   "home.viewExamples": "View Examples",
   "home.featuresTitle": "Key Features",
   "home.featuresDescription": "Everything you need to build modern applications, included from day one.",
   "home.ctaTitle": "Ready to get started?",
-  "home.ctaDescription": "Create your first application with SysrotCore in less than 30 seconds.",
+  "home.ctaDescription": "Create your first application with sysrot-hub in less than 30 seconds.",
   "home.ctaButton": "Create Project",
 
   "features.ai.title": "Integrated AI",
@@ -30,7 +30,7 @@
   "features.forms.description": "Form validation with react-hook-form and zod for a perfect user experience.",
 
   "examples.title": "Examples",
-  "examples.description": "Explore SysrotCore capabilities with these interactive examples.",
+  "examples.description": "Explore sysrot-hub capabilities with these interactive examples.",
   "examples.auth.title": "Authentication",
   "examples.auth.description": "Complete login and registration system with NextAuth.js",
   "examples.ai.title": "Multi-Model AI",
@@ -52,7 +52,7 @@
   "examples.themes.title": "UI & Themes",
   "examples.themes.description": "Complete theme system with dark/light mode",
   "examples.about.title": "About Examples",
-  "examples.about.description": "This section contains practical examples of all features included in SysrotCore.",
+  "examples.about.description": "This section contains practical examples of all features included in sysrot-hub.",
   "examples.about.docs": "Complete documentation available in",
   "examples.about.docsPath": " in the project root.",
 
@@ -78,7 +78,7 @@
   "common.close": "Close",
 
   "footer.madeWith": "Made with",
-  "footer.by": "by",
+  "footer.by": "Created by",
   "footer.github": "GitHub",
   "footer.documentation": "Documentation",
   "footer.support": "Support",
@@ -240,5 +240,11 @@
   "validation.required": "This field is required",
   "validation.email": "Invalid email address",
   "validation.minLength": "Must be at least {min} characters",
-  "validation.maxLength": "Cannot be more than {max} characters"
+  "validation.maxLength": "Cannot be more than {max} characters",
+
+  "footer.allRights": "All rights reserved.",
+  "language.spanish": "Español",
+  "language.english": "English",
+  "meta.title": "sysrot-hub - Next-Generation CLI",
+  "meta.description": "CLI for creating Next.js 14+ projects with integrated AI, authentication and more."
 } 
