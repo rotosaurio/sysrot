@@ -29,10 +29,14 @@
 ## 🚀 Quick Start
 
 ```bash
-npx @rotosaurio/@rotosaurio/sysrot-core my-project
+# Comando corto (recomendado)
+npx sysrot my-project
+
+# O comando completo
+npx @rotosaurio/sysrot-core my-project
 ```
 
-🚀 Command: `npx @rotosaurio/@rotosaurio/sysrot-core` | 🎨 11 Functional Examples | 🤖 3 Integrated AI Models
+🚀 Commands: `npx sysrot` (short) | `npx @rotosaurio/sysrot-core` (full) | 🎨 11 Functional Examples | 🤖 3 Integrated AI Models
 
 ---
 
@@ -723,47 +727,4 @@ git push origin feature/amazing-new-feature
 - 🤖 ROBUST i18n: 350+ translation keys in Spanish and English
 
 ### **Version 2.3.5**
-- 🤖 CRITICAL CLI FIX: Added missing `commander` and `inquirer` dependencies
-- 🤖 MODULE RESOLUTION: Fixed "Cannot find module 'commander'" error
-- 🤖 CROSS-PLATFORM: CLI now works perfectly on Windows, macOS, and Linux
-
----
-
-📄 License
-
-MIT License - see the [LICENSE](LICENSE) file for complete details.
-
-##  Important Links
-
-- 🤖 [🤖 GitHub Repository](https://github.com/rotosaurio/@rotosaurio/sysrot-core)🤖 - Source code and development
-- 🤖 [🤖 NPM Package](https://www.npmjs.com/package/@rotosaurio/sysrot-core)🤖 - Installation and updates
-- 🤖 [📚 Documentation](https://@rotosaurio/sysrot-core.dev)📚 - Complete guides and tutorials
-- 🤖 [🇪🇸 Spanish Version](./README.es.md)🇪🇸 - Documentación en español
-- 🤖 [🤖 YouTube Channel](https://youtube.com/@@rotosaurio/sysrot-core)🤖 - Video tutorials and demos
-- 🤖 [🤖 Discord Community](https://discord.gg/@rotosaurio/sysrot-core)🤖 - Real-time support
-
----
-
-🤖 Why Developers Choose @rotosaurio/sysrot-core
-
-> **"@rotosaurio/sysrot-core saved me weeks of setup time. I went from idea to deployed MVP in just 2 hours!"** - Sarah Chen, Startup Founder
-
-> **"The AI integration is seamless. Having GPT-4, Claude, and Gemini in one interface is a game-changer."** - Marcus Rodriguez, Senior Developer
-
-> **"Finally, a CLI that actually works out of the box. No configuration hell, just pure productivity."** - Priya Sharma, Full-Stack Developer
-
-### 🤖 Key Advantages
-- 🤖 Zero Configuration - Works immediately out of the box
-- 🤖 Modern Stack - Latest versions of all technologies
-- 🤖 Production Ready - Enterprise-grade architecture and security
-- 🤖 Type Safe - TypeScript throughout the entire application
-- 🤖 Highly Extensible - Easy to customize and extend for any use case
-- 🤖 Exceptionally Documented - Comprehensive guides and examples
-- 🤖 Actively Maintained - Regular updates and community-driven improvements
-- 🤖 Community Driven - Open source with responsive maintainers
-
-🤖 If @rotosaurio/sysrot-core has helped you build something amazing, please star the project on GitHub!
-
-**Made with 🤖 by the @rotosaurio/sysrot-core Team**
-
-*Create your next amazing project in seconds, not hours!*
+- 🤖 CRITICAL CLI FIX: Added missing `commander` and `inquirer`

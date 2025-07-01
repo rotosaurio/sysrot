@@ -2,29 +2,58 @@
 
 Todas las mejoras y cambios importantes de Sysrot-Core están documentados aquí.
 
+## [0.8.4] - 2024-12-23
+
+### 🔄 SOLUCIÓN FINAL - COMANDO SIMPLIFICADO
+- **📦 NOMBRE TÉCNICO**: `@rotosaurio/sysrot-core` (requerido por NPM para evitar conflictos)
+- **✅ COMANDO PRINCIPAL**: `npx @rotosaurio/sysrot-core mi-proyecto`
+- **🚀 ALIAS CORTO**: `npx sysrot mi-proyecto` (para máxima simplicidad)
+- **🔧 DOBLE BINARIO**: Ambos comandos disponibles tras instalación
+
+### 📝 Comandos Disponibles
+```bash
+# Comando completo
+npx @rotosaurio/sysrot-core mi-proyecto
+
+# Comando corto (alias)
+npx sysrot mi-proyecto
+
+# Verificar versión (ambos funcionan)
+npx @rotosaurio/sysrot-core --version
+npx sysrot --version
+```
+
+### 💡 Explicación Técnica
+NPM rechaza nombres similares a paquetes existentes. El scope `@rotosaurio/` es necesario, pero agregamos alias `sysrot` para comando más corto y fácil de recordar.
+
+### 🎯 Resultado Final
+- ✅ Publicado en NPM exitosamente
+- ✅ Comando corto `npx sysrot` disponible
+- ✅ Ambas formas funcionan perfectamente
+
 ## [0.8.3] - 2024-12-23
 
 ### 🔧 CORRECCIÓN BINARIO
 - **📦 BINARIO SIMPLIFICADO**: Comando binario cambiado a `sysrot` (en lugar de `sysrot-core`)
-- **✅ USO FINAL**: `npx @rotosaurio/sysrot-core` para ejecutar el CLI
+- **✅ USO FINAL**: `npx sysrot-core` para ejecutar el CLI
 - **🔍 VERIFICADO**: CLI funciona correctamente y genera proyectos
 
 ### 📝 Comandos de Uso
 ```bash
 # Comando principal
-npx @rotosaurio/sysrot-core mi-proyecto
+npx sysrot-core mi-proyecto
 
 # Verificar versión  
-npx @rotosaurio/sysrot-core --version
+npx sysrot-core --version
 
 # Mostrar ayuda
-npx @rotosaurio/sysrot-core --help
+npx sysrot-core --help
 ```
 
 ## [0.8.2] - 2024-12-23
 
 ### 🔄 CAMBIOS IMPORTANTES
-- **🆔 NUEVO NOMBRE**: Paquete renombrado de `sysrotcore` a `@rotosaurio/sysrot-core`
+- **🆔 NUEVO NOMBRE**: Paquete renombrado de `sysrotcore` a `sysrot-core`
 - **📦 SCOPE AGREGADO**: Uso de scope NPM para evitar conflictos de nombres
 - **⬇️ VERSIÓN RESET**: Versión reiniciada a 0.8.2 para nueva distribución
 - **✨ MISMA FUNCIONALIDAD**: Todas las características y mejoras de v2.4.7 mantenidas
