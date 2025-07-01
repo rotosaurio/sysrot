@@ -48,7 +48,7 @@ if (args.includes('--help') || args.includes('-h')) {
 
 if (args.includes('--version') || args.includes('-v')) {
   showLogo();
-  console.log(chalk.green.bold(`Sysrot-Core v${version}`));
+  console.log(chalk.green.bold(`Sysrot-Hub v${version}`));
   console.log('');
   process.exit(0);
 }

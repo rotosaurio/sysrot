@@ -1,50 +1,34 @@
-# Changelog
+# CHANGELOG - sysrot-hub
 
-Todas las mejoras y cambios importantes de Sysrot-Core están documentados aquí.
+## [0.8.5] - 2025-07-01
 
-## [0.8.5] - 2024-12-23
+### 🚀 RELEASE v0.8.5: Comando simplificado - solo npx sysrot
 
-### 🔧 CORRECCIÓN BINARIO
-- **🔄 COMANDO FINAL**: `npx sysrot` como alias principal
-- **🐛 FIX**: Corregida duplicación de binario en package.json
-- **✨ SIMPLICIDAD**: Enfoque en comando corto para mejor experiencia
+- Simplificación de la documentación para mostrar solo el comando corto
+- Corrección de duplicación de binarios en package.json
+- Actualización de READMEs en inglés y español
 
-### 📝 Comando Definitivo
-```bash
-# Usar simplemente
-npx sysrot mi-proyecto
-```
+## [0.8.4] - 2025-07-01
 
----
+### 🚀 RELEASE v0.8.4: Comando simplificado - npx sysrot (alias corto) disponible
 
-## [0.8.4] - 2024-12-23
+- Agregado alias "sysrot" como binario para comando más corto
+- Actualizada documentación para mostrar ambos comandos
+- Simplificada la ayuda del CLI para mostrar el comando corto
 
-### 🔄 SOLUCIÓN FINAL - COMANDO SIMPLIFICADO
-- **📦 NOMBRE TÉCNICO**: `@rotosaurio/sysrot-core` (requerido por NPM para evitar conflictos)
-- **✅ COMANDO PRINCIPAL**: `npx @rotosaurio/sysrot-core mi-proyecto`
-- **🚀 ALIAS CORTO**: `npx sysrot mi-proyecto` (para máxima simplicidad)
-- **🔧 DOBLE BINARIO**: Ambos comandos disponibles tras instalación
+## [0.8.2] - 2025-07-01
 
-### 📝 Comandos Disponibles
-```bash
-# Comando completo
-npx @rotosaurio/sysrot-core mi-proyecto
+### 🔄 CAMBIOS IMPORTANTES
+- **🆔 NUEVO NOMBRE**: Paquete renombrado de `sysrotcore` a `sysrot-hub`
+- **📦 SCOPE AGREGADO**: Uso de scope NPM para evitar conflictos de nombres
+- **⬇️ VERSIÓN RESET**: Versión reiniciada a 0.8.2 para nueva distribución
+- **✨ MISMA FUNCIONALIDAD**: Todas las características y mejoras de v2.4.7 mantenidas
 
-# Comando corto (alias)
-npx sysrot mi-proyecto
-
-# Verificar versión (ambos funcionan)
-npx @rotosaurio/sysrot-core --version
-npx sysrot --version
-```
-
-### 💡 Explicación Técnica
-NPM rechaza nombres similares a paquetes existentes. El scope `@rotosaurio/` es necesario, pero agregamos alias `sysrot` para comando más corto y fácil de recordar.
-
-### 🎯 Resultado Final
-- ✅ Publicado en NPM exitosamente
-- ✅ Comando corto `npx sysrot` disponible
-- ✅ Ambas formas funcionan perfectamente
+### 🛠️ Cambios Técnicos
+- CLI actualizado para mostrar comando correcto en ayuda
+- Referencias de documentación actualizadas en READMEs y template
+- Mantenimiento de toda la funcionalidad existente
+- Publicación exitosa en NPM con scope @rotosaurio
 
 ## [0.8.3] - 2024-12-23
 
@@ -64,24 +48,6 @@ npx sysrot-core --version
 # Mostrar ayuda
 npx sysrot-core --help
 ```
-
-## [0.8.2] - 2024-12-23
-
-### 🔄 CAMBIOS IMPORTANTES
-- **🆔 NUEVO NOMBRE**: Paquete renombrado de `sysrotcore` a `sysrot-core`
-- **📦 SCOPE AGREGADO**: Uso de scope NPM para evitar conflictos de nombres
-- **⬇️ VERSIÓN RESET**: Versión reiniciada a 0.8.2 para nueva distribución
-- **✨ MISMA FUNCIONALIDAD**: Todas las características y mejoras de v2.4.7 mantenidas
-
-### 🛠️ Cambios Técnicos
-- CLI actualizado para mostrar comando correcto en ayuda
-- Referencias de documentación actualizadas en READMEs y template
-- Mantenimiento de toda la funcionalidad existente
-- Publicación exitosa en NPM con scope @rotosaurio
-
----
-
-# CHANGELOG - SysrotCore
 
 ## [2.4.1] - 2025-01-18
 

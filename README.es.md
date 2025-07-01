@@ -1,4 +1,4 @@
-# @rotosaurio/sysrot-core
+# sysrot-hub
 
 **CLI de nueva generación para crear proyectos Next.js 14+ con integración de IA, soporte Web3, internacionalización completa y arquitectura lista para producción.**
 
@@ -6,7 +6,7 @@ Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, aut
 
 <div align="center">
 
-# 🚀 @rotosaurio/sysrot-core v2.4.4 - CLI de Nueva Generación
+# 🚀 sysrot-hub v0.8.5 - CLI de Nueva Generación
 
 **CLI de grado empresarial para crear proyectos Next.js 14+ con integración de IA, internacionalización completa y arquitectura lista para producción**
 
