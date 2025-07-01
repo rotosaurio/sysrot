@@ -29,14 +29,10 @@
 ## 🚀 Quick Start
 
 ```bash
-# Comando corto (recomendado)
 npx sysrot my-project
-
-# O comando completo
-npx @rotosaurio/sysrot-core my-project
 ```
 
-🚀 Commands: `npx sysrot` (short) | `npx @rotosaurio/sysrot-core` (full) | 🎨 11 Functional Examples | 🤖 3 Integrated AI Models
+🚀 Command: `npx sysrot` | 🎨 11 Functional Examples | 🤖 3 Integrated AI Models
 
 ---
 

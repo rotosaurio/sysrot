@@ -26,7 +26,7 @@ Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, aut
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%2B-black.svg)](https://nextjs.org/)
 
-**🚀 Comando: `npx @rotosaurio/@rotosaurio/sysrot-core` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
+**🚀 Comando: `npx sysrot` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
 
 **🌍 [English README](./README.md) | 🇪🇸 Español (actual)**
 

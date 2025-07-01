@@ -2,6 +2,21 @@
 
 Todas las mejoras y cambios importantes de Sysrot-Core están documentados aquí.
 
+## [0.8.5] - 2024-12-23
+
+### 🔧 CORRECCIÓN BINARIO
+- **🔄 COMANDO FINAL**: `npx sysrot` como alias principal
+- **🐛 FIX**: Corregida duplicación de binario en package.json
+- **✨ SIMPLICIDAD**: Enfoque en comando corto para mejor experiencia
+
+### 📝 Comando Definitivo
+```bash
+# Usar simplemente
+npx sysrot mi-proyecto
+```
+
+---
+
 ## [0.8.4] - 2024-12-23
 
 ### 🔄 SOLUCIÓN FINAL - COMANDO SIMPLIFICADO

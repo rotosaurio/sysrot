@@ -17,7 +17,7 @@ function showLogo() {
   ███████║   ██║   ███████║██║  ██║╚██████╔╝   ██║       ╚██████╗╚██████╔╝██║  ██║███████╗
   ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝        ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
                                                                                         
-                            🚀 Next.js + IA + Web3 + i18n Template Generator v0.8.4
+                            🚀 Next.js + IA + Web3 + i18n Template Generator v0.8.5
   `));
 }
 
@@ -33,12 +33,11 @@ const projectNameArg = args[0];
 if (args.includes('--help') || args.includes('-h')) {
   showLogo();
   console.log(chalk.white.bold('Uso: '));
-  console.log('  npx @rotosaurio/sysrot-core [nombre-proyecto]');
-  console.log('  npx sysrot [nombre-proyecto]             (alias corto)');
+  console.log('  npx sysrot [nombre-proyecto]');
   console.log('  ');
   console.log(chalk.white.bold('Ejemplos:'));
-  console.log('  npx @rotosaurio/sysrot-core mi-app');
   console.log('  npx sysrot mi-app');
+  console.log('  npx sysrot');
   console.log('  ');
   console.log(chalk.white.bold('Opciones:'));
   console.log('  -h, --help     Mostrar ayuda');
