@@ -1,6 +1,6 @@
 {
   "name": "sysrotcore",
-  "version": "2.4.6",
+  "version": "2.4.7",
   "description": "CLI de nueva generación para proyectos Next.js 14+ con IA multi-modelo, Web3 integration, internacionalización completa y roadmap realista 2025-2026",
   "main": "cli.js",
   "bin": {
