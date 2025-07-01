@@ -1,4 +1,4 @@
-# SysrotCore
+# @rotosaurio/sysrot-core
 
 **CLI de nueva generación para crear proyectos Next.js 14+ con integración de IA, soporte Web3, internacionalización completa y arquitectura lista para producción.**
 
@@ -6,7 +6,7 @@ Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, aut
 
 <div align="center">
 
-# 🚀 SysrotCore v2.4.4 - CLI de Nueva Generación
+# 🚀 @rotosaurio/sysrot-core v2.4.4 - CLI de Nueva Generación
 
 **CLI de grado empresarial para crear proyectos Next.js 14+ con integración de IA, internacionalización completa y arquitectura lista para producción**
 
@@ -20,13 +20,13 @@ Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, aut
 </a>
 </p>
 
-[![npm version](https://badge.fury.io/js/sysrotcore.svg)](https://badge.fury.io/js/sysrotcore)
-[![Downloads](https://img.shields.io/npm/dm/sysrotcore.svg)](https://npmjs.com/package/sysrotcore)
+[![npm version](https://badge.fury.io/js/@rotosaurio/sysrot-core.svg)](https://badge.fury.io/js/@rotosaurio/sysrot-core)
+[![Downloads](https://img.shields.io/npm/dm/@rotosaurio/sysrot-core.svg)](https://npmjs.com/package/@rotosaurio/sysrot-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%2B-black.svg)](https://nextjs.org/)
 
-**🚀 Comando: `npx sysrotcore` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
+**🚀 Comando: `npx @rotosaurio/@rotosaurio/sysrot-core` | 🎨 11 Ejemplos Funcionales | 🤖 3 Modelos de IA Integrados**
 
 **🌍 [English README](./README.md) | 🇪🇸 Español (actual)**
 
@@ -49,7 +49,7 @@ Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, aut
 
 ### 📦 **Instalación Ultra-Rápida**
 ```bash
-npx sysrotcore mi-proyecto
+npx @rotosaurio/@rotosaurio/sysrot-core mi-proyecto
 cd mi-proyecto
 npm run dev
 # ✅ ¡Funciona sin errores en 30 segundos!
@@ -58,7 +58,7 @@ npm run dev
 ## 🎯 **Instalación Rápida**
 
 ```bash
-npx sysrotcore mi-proyecto
+npx @rotosaurio/@rotosaurio/sysrot-core mi-proyecto
 cd mi-proyecto
 npm run dev
 ```
@@ -70,7 +70,7 @@ npm run dev
 <details>
 <summary><strong>🇪🇸 Español (Haz click para expandir)</strong></summary>
 
-- [✨ ¿Por Qué SysrotCore?](#-por-qué-sysrotcore)
+- [✨ ¿Por Qué @rotosaurio/sysrot-core?](#-por-qué-@rotosaurio/sysrot-core)
 - [🔥 Características Implementadas](#-características-implementadas)
 - [🛠️ Instalación y Uso](#%EF%B8%8F-instalación-y-uso)
 - [🎯 Ejemplos Incluidos](#-ejemplos-incluidos)
@@ -85,7 +85,7 @@ npm run dev
 
 ➡️ **[View English Documentation](./README.md)**
 
-- [✨ Why SysrotCore?](./README.md#-why-sysrotcore)
+- [✨ Why @rotosaurio/sysrot-core?](./README.md#-why-@rotosaurio/sysrot-core)
 - [🔥 Implemented Features](./README.md#-implemented-features) 
 - [🛠️ Installation and Usage](./README.md#%EF%B8%8F-installation-and-usage)
 - [🎯 Examples Included](./README.md#-examples-included)
@@ -97,11 +97,11 @@ npm run dev
 
 ---
 
-## ✨ **¿Por Qué SysrotCore?**
+## ✨ **¿Por Qué @rotosaurio/sysrot-core?**
 
 > **🌍 ¿Prefieres leer en inglés?** → **[Switch to English Version](./README.md)** 🇺🇸
 
-En **enero 2025**, el desarrollo web requiere herramientas que aceleren la creación de aplicaciones modernas sin sacrificar calidad. **SysrotCore** es un CLI que te da:
+En **enero 2025**, el desarrollo web requiere herramientas que aceleren la creación de aplicaciones modernas sin sacrificar calidad. **@rotosaurio/sysrot-core** es un CLI que te da:
 
 - 🚀 **Proyecto completo en 30 segundos** - De idea a aplicación funcional
 - 🤖 **3 modelos de IA integrados** - GPT-4o, Claude 3.5 Sonnet, Gemini Flash Pro
@@ -112,12 +112,12 @@ En **enero 2025**, el desarrollo web requiere herramientas que aceleren la creac
 - 📚 **Blog MDX integrado** - 3 artículos de ejemplo incluidos
 - 🌍 **Internacionalización completa** - Soporte para español e inglés
 
-**💡 Nota:** El paquete se llama `sysrotcore` y el comando principal es `npx sysrotcore` para máxima simplicidad.
+**💡 Nota:** El paquete se llama `@rotosaurio/sysrot-core` y el comando principal es `npx @rotosaurio/@rotosaurio/sysrot-core` para máxima simplicidad.
 
 ## 🎯 Quick Installation
 
 ```bash
-npx sysrotcore my-project
+npx @rotosaurio/@rotosaurio/sysrot-core my-project
 cd my-project
 npm run dev
 ```
@@ -229,7 +229,7 @@ Your application will be running at http://localhost:3000 in less than 30 second
 
 1. **Create project**:
 ```bash
-npx sysrotcore@latest my-app
+npx @rotosaurio/@rotosaurio/sysrot-core@latest my-app
 cd my-app
 ```
 
@@ -326,8 +326,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 🐛 **Issues**: [GitHub Issues](https://github.com/rotosaurio/sysrotcore/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/sysrotcore/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/rotosaurio/@rotosaurio/sysrot-core/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/@rotosaurio/sysrot-core/discussions)
 - 📧 **Email**: rotosaurio@example.com
 
 ---
@@ -389,7 +389,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### 📊 **Métricas y Objetivos 2025**
 **Objetivos Realistas y Alcanzables**
 
-- 🎯 **50,000+ proyectos generados** con SysrotCore
+- 🎯 **50,000+ proyectos generados** con @rotosaurio/sysrot-core
 - 🌍 **15+ idiomas soportados** en sistema i18n
 - 🤖 **10+ modelos de IA integrados** (LLaMA, Mistral, etc.)
 - ⚡ **<100ms time-to-interactive** en aplicaciones generadas
@@ -413,7 +413,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### 📋 **Arquitectura del Proyecto**
 
 ```
-sysrotcore/
+@rotosaurio/sysrot-core/
 ├── 📁 cli.js                 # Punto de entrada del CLI
 ├── 📁 createProject.js       # Lógica de generación de proyectos
 ├── 📁 template/              # Plantilla base del proyecto
@@ -702,8 +702,8 @@ const limiter = rateLimit({
 #### 🔧 **Error: "Cannot find module 'commander'"**
 ```bash
 # Solución: Reinstalar dependencias del CLI
-npm uninstall -g sysrotcore
-npm install -g sysrotcore@latest
+npm uninstall -g @rotosaurio/sysrot-core
+npm install -g @rotosaurio/sysrot-core@latest
 ```
 
 #### 🔧 **Error: "Missing translation for key"**
@@ -770,14 +770,14 @@ export function reportWebVitals(metric) {
 ## 🤝 **Comunidad y Soporte**
 
 ### 💬 **Canales de Comunicación**
-- 🐛 **Issues**: [GitHub Issues](https://github.com/rotosaurio/sysrotcore/issues) - Reportar bugs y solicitar features
-- 💭 **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/sysrotcore/discussions) - Preguntas generales y ayuda
+- 🐛 **Issues**: [GitHub Issues](https://github.com/rotosaurio/@rotosaurio/sysrot-core/issues) - Reportar bugs y solicitar features
+- 💭 **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/@rotosaurio/sysrot-core/discussions) - Preguntas generales y ayuda
 - 📧 **Email**: rotosaurio@example.com - Soporte directo y consultas comerciales
-- 🐦 **Twitter**: [@sysrotcore](https://twitter.com/sysrotcore) - Actualizaciones y anuncios
+- 🐦 **Twitter**: [@@rotosaurio/sysrot-core](https://twitter.com/@rotosaurio/sysrot-core) - Actualizaciones y anuncios
 
 ### 🏆 **Contributors y Reconocimientos**
 - 👨‍💻 **Core Team**: Desarrolladores principales del proyecto
-- 🌟 **Contributors**: Comunidad activa que mejora SysrotCore constantemente
+- 🌟 **Contributors**: Comunidad activa que mejora @rotosaurio/sysrot-core constantemente
 - 🎨 **Design**: UI/UX contributors y design system maintainers
 - 📚 **Documentation**: Technical writers y documentation maintainers
 
@@ -786,8 +786,8 @@ export function reportWebVitals(metric) {
 #### 🔧 **Setup para Development**
 ```bash
 # 1. Fork y clonar
-git clone https://github.com/tuusuario/sysrotcore.git
-cd sysrotcore
+git clone https://github.com/tuusuario/@rotosaurio/sysrot-core.git
+cd @rotosaurio/sysrot-core
 
 # 2. Instalar dependencias
 npm install

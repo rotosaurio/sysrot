@@ -1,6 +1,6 @@
 ---
 title: "IA Integrada: Tutorial Completo para Developers"
-description: "Aprende a integrar y utilizar los 3 modelos de IA incluidos en SysrotCore: GPT-4o, Claude 3.5 Sonnet y Gemini Flash Pro con ejemplos prácticos."
+description: "Aprende a integrar y utilizar los 3 modelos de IA incluidos en sysrot-core: GPT-4o, Claude 3.5 Sonnet y Gemini Flash Pro con ejemplos prácticos."
 date: "2025-06-15"
 author: "Dr. Alex Chen, AI Research Lead"
 tags: ["ia", "gpt", "claude", "gemini", "machine-learning", "api"]
@@ -11,7 +11,7 @@ featured: true
 
 # IA Integrada: Tutorial Completo para Developers
 
-La **Inteligencia Artificial** ha dejado de ser una tecnología futurista para convertirse en una herramienta esencial del desarrollo moderno. SysrotCore es el **primer CLI** que incluye 3 modelos de IA completamente integrados y listos para usar en producción.
+La **Inteligencia Artificial** ha dejado de ser una tecnología futurista para convertirse en una herramienta esencial del desarrollo moderno. sysrot-core es el **primer CLI** que incluye 3 modelos de IA completamente integrados y listos para usar en producción.
 
 ## 🤖 Los Tres Pilares de IA
 
@@ -453,7 +453,7 @@ export async function cachedAIRequest(prompt: string): Promise<AIResponse> {
 
 ### Code Review Automático
 ```typescript
-// Próximamente en SysrotCore v2.2.0
+// Próximamente en sysrot-core v2.2.0
 export async function reviewCode(codeChanges: GitDiff[]): Promise<ReviewResult> {
   const review = await AIService.generate({
     model: 'claude',
@@ -503,10 +503,10 @@ export async function generateTests(component: string): Promise<TestSuite> {
 
 ---
 
-La IA integrada en SysrotCore no es solo una característica más: es el **futuro del desarrollo**. Con estos modelos a tu disposición, puedes automatizar tareas repetitivas, generar código de calidad y acelerar tu flujo de trabajo como nunca antes.
+La IA integrada en sysrot-core no es solo una característica más: es el **futuro del desarrollo**. Con estos modelos a tu disposición, puedes automatizar tareas repetitivas, generar código de calidad y acelerar tu flujo de trabajo como nunca antes.
 
 **¿Estás listo para desarrollar con superpoderes de IA?**
 
 ```bash
-npx sysrotcore mi-app-con-ia
+npx @rotosaurio/sysrot-core mi-app-con-ia
 ``` 

@@ -1,42 +1,63 @@
-# SysrotCore
+# @rotosaurio/sysrot-core
 
-Next-generation CLI for creating Next.js 14+ projects with AI integration, Web3 support, complete internationalization, and production-ready architecture.
+![npm version](https://img.shields.io/npm/v/@rotosaurio/sysrot-core?style=for-the-badge&logo=npm)
+![npm downloads](https://img.shields.io/npm/dm/@rotosaurio/sysrot-core?style=for-the-badge&logo=npm) 
+![GitHub issues](https://img.shields.io/github/issues/rotosaurio/@rotosaurio/sysrot-core?style=for-the-badge&logo=github)
+![GitHub stars](https://img.shields.io/github/stars/rotosaurio/@rotosaurio/sysrot-core?style=for-the-badge&logo=github)
+![license](https://img.shields.io/npm/l/@rotosaurio/sysrot-core?style=for-the-badge)
 
-Generate modern web applications in seconds with 3 integrated AI models, authentication, databases, and 350+ translations.
+<details>
+<summary>📖 Multilingual Documentation</summary>
+
+[![README - English](https://img.shields.io/badge/README-English-blue?style=for-the-badge&logo=readme)](README.md)
+[![README - Español](https://img.shields.io/badge/README-Español-red?style=for-the-badge&logo=readme)](README.es.md)
+
+</details>
 
 ---
 
-<div align="center">
+# 🚀 @rotosaurio/sysrot-core v0.8.2 - Next-Generation Development CLI
 
-# 🚀 SysrotCore v2.4.6 - Next-Generation Development CLI
+[![GitHub release](https://img.shields.io/github/release/rotosaurio/@rotosaurio/sysrot-core.svg)](https://github.com/rotosaurio/@rotosaurio/sysrot-core/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/rotosaurio/@rotosaurio/sysrot-core)
 
-Enterprise-grade CLI for creating Next.js 14+ projects with AI integration, complete internationalization, and production-ready architecture
+## 🌟 Professional Next.js 14+ Template Generator
 
-<!-- Language Selection -->
-<p>
-<a href="./README.es.md">
-<img src="https://img.shields.io/badge/🇪🇸%20Español-available-gray.svg?style=for-the-badge" alt="Español" />
-</a>
-<a href="./README.md">
-<img src="https://img.shields.io/badge/🇺🇸%20English-current-blue.svg?style=for-the-badge" alt="English" />
-</a>
-</p>
+[![npm version](https://badge.fury.io/js/@rotosaurio/sysrot-core.svg)](https://badge.fury.io/js/@rotosaurio/sysrot-core)
+[![Downloads](https://img.shields.io/npm/dm/@rotosaurio/sysrot-core.svg)](https://npmjs.com/package/@rotosaurio/sysrot-core)
 
-[![npm version](https://badge.fury.io/js/sysrotcore.svg)](https://badge.fury.io/js/sysrotcore)
-[![Downloads](https://img.shields.io/npm/dm/sysrotcore.svg)](https://npmjs.com/package/sysrotcore)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14%2B-black.svg)](https://nextjs.org/)
+## 🚀 Quick Start
 
-🚀 Command: `npx sysrotcore` | 🎨 11 Functional Examples | 🤖 3 Integrated AI Models
+```bash
+npx @rotosaurio/@rotosaurio/sysrot-core my-project
+```
 
-📚 [Spanish Documentation](./README.es.md) | 🇺🇸 English (current)
+🚀 Command: `npx @rotosaurio/@rotosaurio/sysrot-core` | 🎨 11 Functional Examples | 🤖 3 Integrated AI Models
 
-</div>
+---
+
+### 🎯 What Makes @rotosaurio/sysrot-core Special
+
+🔥 **Professional from Day 1**: Every generated project is immediately functional and production-ready  
+🌍 **Complete Internationalization**: Real i18n system with 350+ translation keys  
+🤖 **Multi-AI Ready**: Integrated OpenAI GPT-4o, Claude 3.5, Google Gemini  
+📱 **11 Functional Examples**: From authentication to AI chat and file uploads  
+🛡️ **Enterprise Security**: NextAuth.js, role-based access, protected routes  
+⚡ **Zero Configuration**: Start coding immediately after generation  
+
+## 🚀 Installation & Usage
+
+```bash
+npx @rotosaurio/@rotosaurio/sysrot-core my-project
+cd my-project  
+npm run dev
+```
+
+🎯 **Perfect for**:
 
 ## ✅ LATEST VERSION 2.4.6 - PRODUCTION READY
 
-### 🎯 What Makes SysrotCore Special
+### 🎯 What Makes @rotosaurio/sysrot-core Special
 - ✅ ZERO CONFIGURATION - Works immediately after installation
 - ✅ AI-POWERED DEVELOPMENT - GPT-4o, Claude 3.5, Gemini integrated
 - ✅ ENTERPRISE READY - Authentication, databases, internationalization
@@ -45,7 +66,7 @@ Enterprise-grade CLI for creating Next.js 14+ projects with AI integration, comp
 
 ### 🚀 Ultra-Fast Installation
 ```bash
-npx sysrotcore my-project
+npx @rotosaurio/@rotosaurio/sysrot-core my-project
 cd my-project
 npm run dev
 # ✅ Running in 30 seconds!
@@ -58,7 +79,7 @@ npm run dev
 <details>
 <summary><strong>📚 Documentation Sections (Click to expand)</strong></summary>
 
-- [🤔 Why Choose SysrotCore?](#-why-choose-sysrotcore)
+- [🤔 Why Choose @rotosaurio/sysrot-core?](#-why-choose-@rotosaurio/sysrot-core)
 - [🤖 Core Features](#-core-features)
 - [🚀 Quick Start](#-quick-start)
 - 🤖 What's Included
@@ -74,9 +95,9 @@ npm run dev
 
 ---
 
-## 🤔 Why Choose SysrotCore?
+## 🤔 Why Choose @rotosaurio/sysrot-core?
 
-In **2025**, modern web development demands tools that accelerate creation without compromising quality. **SysrotCore** delivers:
+In **2025**, modern web development demands tools that accelerate creation without compromising quality. **@rotosaurio/sysrot-core** delivers:
 
 ### 🎯 Immediate Value
 - 🎯 Complete project in 30 seconds - From idea to running application
@@ -87,7 +108,7 @@ In **2025**, modern web development demands tools that accelerate creation witho
 ### 🤖 Enterprise Architecture
 - 🎯 Complete authentication - NextAuth.js with multiple providers
 - 🤖 Multiple databases - MongoDB, Supabase, Firebase, Prisma
-- �� Full internationalization - Spanish/English with 350+ translations
+- 🎯 Full internationalization - Spanish/English with 350+ translations
 - 🎯 MDX blog system - Content management ready
 
 ### 🎯 Modern Development
@@ -98,7 +119,7 @@ In **2025**, modern web development demands tools that accelerate creation witho
 
 ---
 
-## �� Core Features
+## 🤖 Core Features
 
 ### 🤖 AI Integration
 | Provider | Model | Version | Capabilities |
@@ -149,7 +170,7 @@ In **2025**, modern web development demands tools that accelerate creation witho
 ### 🚀 Installation
 ```bash
 # Create new project
-npx sysrotcore my-awesome-app
+npx @rotosaurio/@rotosaurio/sysrot-core my-awesome-app
 
 # Navigate and start
 cd my-awesome-app
@@ -271,7 +292,7 @@ my-project/
 ### 🎯 Goals and Metrics 2025
 **Realistic and Achievable Targets**
 
-- 🎯 50,000+ projects generated with SysrotCore
+- 🎯 50,000+ projects generated with @rotosaurio/sysrot-core
 - 🎯 15+ supported languages in i18n system
 - 🎯 10+ integrated AI models (LLaMA, Mistral, etc.)
 🤖 <100ms time-to-interactive in generated applications
@@ -499,7 +520,7 @@ import { getCsrfToken } from 'next-auth/react';
 {
   "pages": {
     "home": {
-      "title": "Welcome to SysrotCore",
+      "title": "Welcome to @rotosaurio/sysrot-core",
       "description": "Next-generation development platform",
       "hero": {
         "title": "Build Amazing Apps",
@@ -535,12 +556,12 @@ import { getCsrfToken } from 'next-auth/react';
 🤖 CLI Installation Problems
 ```bash
 # Error: "Cannot find module 'commander'"
-npm uninstall -g sysrotcore
+npm uninstall -g @rotosaurio/sysrot-core
 npm cache clean --force
-npm install -g sysrotcore@latest
+npm install -g @rotosaurio/sysrot-core@latest
 
 # Permission errors on macOS/Linux
-sudo npm install -g sysrotcore
+sudo npm install -g @rotosaurio/sysrot-core
 
 # Windows execution policy error
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -629,20 +650,20 @@ export function reportWebVitals(metric) {
 🤖 Community & Support
 
 🤖 Get Help & Connect
-- 🤖 Issues: [GitHub Issues](https://github.com/rotosaurio/sysrotcore/issues) - Bug reports and feature requests
-- 🤖 Discussions: [GitHub Discussions](https://github.com/rotosaurio/sysrotcore/discussions) - Community Q&A
-- 🤖 Email: contact@sysrotcore.dev - Direct support and partnerships
-- 🤖 Twitter: [@sysrotcore](https://twitter.com/sysrotcore) - Updates and announcements
-- 🤖 Discord: [SysrotCore Community](https://discord.gg/sysrotcore) - Real-time chat
+- 🤖 Issues: [GitHub Issues](https://github.com/rotosaurio/@rotosaurio/sysrot-core/issues) - Bug reports and feature requests
+- 🤖 Discussions: [GitHub Discussions](https://github.com/rotosaurio/@rotosaurio/sysrot-core/discussions) - Community Q&A
+- 🤖 Email: contact@@rotosaurio/sysrot-core.dev - Direct support and partnerships
+- 🤖 Twitter: [@@rotosaurio/sysrot-core](https://twitter.com/@rotosaurio/sysrot-core) - Updates and announcements
+- 🤖 Discord: [@rotosaurio/sysrot-core Community](https://discord.gg/@rotosaurio/sysrot-core) - Real-time chat
 
-🤖 Contributing to SysrotCore
+🤖 Contributing to @rotosaurio/sysrot-core
 
 🤖 Development Setup
 ```bash
 # 1. Fork the repository on GitHub
 # 2. Clone your fork
-git clone https://github.com/yourusername/sysrotcore.git
-cd sysrotcore
+git clone https://github.com/yourusername/@rotosaurio/sysrot-core.git
+cd @rotosaurio/sysrot-core
 
 # 3. Install dependencies
 npm install
@@ -712,20 +733,20 @@ git push origin feature/amazing-new-feature
 
 MIT License - see the [LICENSE](LICENSE) file for complete details.
 
-## �� Important Links
+##  Important Links
 
-- 🤖 [🤖 GitHub Repository](https://github.com/rotosaurio/sysrotcore)🤖 - Source code and development
-- 🤖 [🤖 NPM Package](https://www.npmjs.com/package/sysrotcore)🤖 - Installation and updates
-- 🤖 [📚 Documentation](https://sysrotcore.dev)📚 - Complete guides and tutorials
+- 🤖 [🤖 GitHub Repository](https://github.com/rotosaurio/@rotosaurio/sysrot-core)🤖 - Source code and development
+- 🤖 [🤖 NPM Package](https://www.npmjs.com/package/@rotosaurio/sysrot-core)🤖 - Installation and updates
+- 🤖 [📚 Documentation](https://@rotosaurio/sysrot-core.dev)📚 - Complete guides and tutorials
 - 🤖 [🇪🇸 Spanish Version](./README.es.md)🇪🇸 - Documentación en español
-- 🤖 [🤖 YouTube Channel](https://youtube.com/@sysrotcore)🤖 - Video tutorials and demos
-- 🤖 [🤖 Discord Community](https://discord.gg/sysrotcore)🤖 - Real-time support
+- 🤖 [🤖 YouTube Channel](https://youtube.com/@@rotosaurio/sysrot-core)🤖 - Video tutorials and demos
+- 🤖 [🤖 Discord Community](https://discord.gg/@rotosaurio/sysrot-core)🤖 - Real-time support
 
 ---
 
-🤖 Why Developers Choose SysrotCore
+🤖 Why Developers Choose @rotosaurio/sysrot-core
 
-> **"SysrotCore saved me weeks of setup time. I went from idea to deployed MVP in just 2 hours!"** - Sarah Chen, Startup Founder
+> **"@rotosaurio/sysrot-core saved me weeks of setup time. I went from idea to deployed MVP in just 2 hours!"** - Sarah Chen, Startup Founder
 
 > **"The AI integration is seamless. Having GPT-4, Claude, and Gemini in one interface is a game-changer."** - Marcus Rodriguez, Senior Developer
 
@@ -741,8 +762,8 @@ MIT License - see the [LICENSE](LICENSE) file for complete details.
 - 🤖 Actively Maintained - Regular updates and community-driven improvements
 - 🤖 Community Driven - Open source with responsive maintainers
 
-🤖 If SysrotCore has helped you build something amazing, please star the project on GitHub!
+🤖 If @rotosaurio/sysrot-core has helped you build something amazing, please star the project on GitHub!
 
-**Made with 🤖 by the SysrotCore Team**
+**Made with 🤖 by the @rotosaurio/sysrot-core Team**
 
 *Create your next amazing project in seconds, not hours!*

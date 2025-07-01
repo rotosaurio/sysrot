@@ -173,7 +173,7 @@ export default function Home(): React.ReactElement {
           </p>
           <div className="bg-gray-900 dark:bg-gray-800 rounded-lg p-6 text-left">
             <code className="text-green-400 font-mono text-sm">
-              npx sysrotcore mi-proyecto
+              npx @rotosaurio/sysrot-core mi-proyecto
             </code>
           </div>
           <Link 

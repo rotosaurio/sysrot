@@ -16,7 +16,7 @@ async function createProject(options) {
 
   console.log(chalk.green('✅ Generando tu proyecto...'));
   console.log(chalk.blue(`📁 Proyecto: ${projectName}`));
-
+  
   try {
     // Crear directorio principal
     fs.mkdirSync(projectPath, { recursive: true });
@@ -427,7 +427,7 @@ async function removeUnusedFiles(projectPath, options) {
         const uploadExamplePath = path.join(examplePath, 'upload.tsx');
         if (fs.existsSync(uploadExamplePath)) {
           await fs.remove(uploadExamplePath);
-        }
+    }
       }
 
       if (!exampleTypes.includes('Ejemplo de Formularios')) {
