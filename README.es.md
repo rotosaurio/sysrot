@@ -1,8 +1,14 @@
-# 🚀 SysrotCore v2.3.6 - Traducciones Completadas + Error de Compilación Corregido
+# SysrotCore
+
+**CLI de nueva generación para crear proyectos Next.js 14+ con integración de IA, soporte Web3, internacionalización completa y arquitectura lista para producción.**
+
+Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, autenticación, bases de datos y 350+ traducciones.
 
 <div align="center">
 
-**CLI de nueva generación para crear proyectos Next.js 14+ con Pages Router, múltiples modelos de IA y ecosistema completo de desarrollo**
+# 🚀 SysrotCore v2.4.4 - CLI de Nueva Generación
+
+**CLI de grado empresarial para crear proyectos Next.js 14+ con integración de IA, internacionalización completa y arquitectura lista para producción**
 
 <!-- Language Selection -->
 <p>
