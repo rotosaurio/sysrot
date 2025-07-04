@@ -3,6 +3,7 @@ const path = require('path');
 const chalk = require('chalk');
 const { execSync } = require('child_process');
 const ora = require('ora');
+const logger = require('./utils/logger');
 
 async function createProject(options) {
   const { projectName } = options;
@@ -10,12 +11,12 @@ async function createProject(options) {
 
   // Verificar si la carpeta ya existe
   if (fs.existsSync(projectPath)) {
-    console.error(chalk.red(`La carpeta ${projectName} ya existe. Por favor elige otro nombre o elimina la carpeta existente.`));
+    logger.error(`La carpeta ${projectName} ya existe. Por favor elige otro nombre o elimina la carpeta existente.`);
     process.exit(1);
   }
 
-  console.log(chalk.green('✅ Generando tu proyecto...'));
-  console.log(chalk.blue(`📁 Proyecto: ${projectName}`));
+  logger.info('Generando tu proyecto...');
+  logger.debug(`Ruta del proyecto: ${projectPath}`);
   
   try {
     // Crear directorio principal
@@ -23,19 +24,19 @@ async function createProject(options) {
     
     // Copiar la plantilla base
     await copyTemplateFiles(projectPath);
-    console.log(chalk.green('√ Archivos de plantilla copiados'));
+    logger.templateStep();
     
     // Asegurar compatibilidad con Pages Router
     await ensurePagesRouterOnly(projectPath);
-    console.log(chalk.green('√ Estructura de carpetas creada'));
+    logger.structureStep();
     
     // Configurar el proyecto según las opciones seleccionadas
     await customizeProject(projectPath, options);
-    console.log(chalk.green('√ Compatibilidad con Pages Router configurada correctamente'));
+    logger.configStep();
     
     // Remover archivos no utilizados
     await removeUnusedFiles(projectPath, options);
-    console.log(chalk.green('√ Proyecto personalizado según tus preferencias'));
+    logger.customizeStep();
     
     // Instalar dependencias
     await installDependencies(projectPath, options);

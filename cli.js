@@ -4,68 +4,84 @@ const { Command } = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const createProject = require('./createProject');
+const logger = require('./utils/logger');
 const path = require('path');
 
 const program = new Command();
 
+// Funciones delegadas al logger
 function showLogo() {
-  console.log(chalk.cyan(`
-  ███████╗██╗   ██╗███████╗██████╗  ██████╗ ████████╗     ██╗  ██╗██╗   ██╗██████╗ 
-  ██╔════╝╚██╗ ██╔╝██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝     ██║  ██║██║   ██║██╔══██╗
-  ███████╗ ╚████╔╝ ███████╗██████╔╝██║   ██║   ██║        ███████║██║   ██║██████╔╝
-  ╚════██║  ╚██╔╝  ╚════██║██╔══██╗██║   ██║   ██║        ██╔══██║██║   ██║██╔══██╗
-  ███████║   ██║   ███████║██║  ██║╚██████╔╝   ██║        ██║  ██║╚██████╔╝██████╔╝
-  ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝        ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ 
-                                                                                   
-  🚀 Next-Generation Development CLI v0.8.5
-  `));
-  console.log(chalk.green(`
-  ✨ Generador de proyectos Next.js 14+ con IA integrada
-  🤖 3 modelos de IA | 🎨 50+ componentes | 🌍 Internacionalización
-  `));
+  logger.showLogo();
+  logger.showFeatures();
 }
 
 function showHelp() {
-  console.log(chalk.yellow('\n📖 Uso del CLI:'));
-  console.log('  npx sysrot-hub [nombre-proyecto]');
-  console.log('');
-  console.log(chalk.yellow('📋 Ejemplos:'));
-  console.log('  npx sysrot-hub mi-app');
-  console.log('  npx sysrot-hub');
-  console.log('');
-  console.log(chalk.cyan('🔗 Más información: https://github.com/rotosaurio/sysrot-hub'));
+  logger.showHelp();
 }
 
 program
   .name('sysrot-hub')
-  .description('CLI para crear proyectos Next.js 14+ con IA, autenticación y más')
+  .description('CLI de nueva generación para crear proyectos Next.js 14+ con IA, autenticación y más')
   .version('0.8.5')
   .argument('[proyecto]', 'Nombre del proyecto')
-  .option('-h, --help', 'Mostrar ayuda')
+  .option('-h, --help', 'Mostrar ayuda completa')
+  .option('-v, --version', 'Mostrar versión')
+  .option('--verbose', 'Modo detallado de logging')
   .action(async (projectName, options) => {
+    // Configurar modo verbose si está habilitado
+    if (options.verbose) {
+      process.env.SYSROT_VERBOSE = 'true';
+    }
+
     if (options.help) {
       showHelp();
       return;
     }
 
+    if (options.version) {
+      logger.showVersion('0.8.5');
+      return;
+    }
+
     showLogo();
 
+    // Validar nombre del proyecto
     if (!projectName) {
+      logger.info('Configurando tu proyecto...');
       const { name } = await inquirer.prompt([
         {
           type: 'input',
           name: 'name',
           message: '📝 Nombre del proyecto:',
-          default: 'mi-proyecto-sysrot'
+          default: 'mi-proyecto-sysrot',
+          validate: (input) => {
+            if (!input || input.trim().length === 0) {
+              return 'El nombre del proyecto es requerido';
+            }
+            if (!/^[a-zA-Z0-9-_]+$/.test(input)) {
+              return 'El nombre solo puede contener letras, números, guiones y guiones bajos';
+            }
+            if (input.length > 50) {
+              return 'El nombre debe tener menos de 50 caracteres';
+            }
+            return true;
+          }
         }
       ]);
-      projectName = name;
+      projectName = name.trim();
     }
 
-    console.log(chalk.blue(`\n🚀 Creando proyecto: ${projectName}`));
+    // Validar que el nombre del proyecto es válido
+    if (!/^[a-zA-Z0-9-_]+$/.test(projectName)) {
+      logger.error('Nombre de proyecto inválido. Solo se permiten letras, números, guiones y guiones bajos.');
+      process.exit(1);
+    }
+
+    logger.projectStart(projectName);
     
     try {
-      await createProject({ 
+      // Configuración predeterminada optimizada
+      const defaultConfig = {
         projectName,
         typescript: true,
         tailwindcss: true,
@@ -100,19 +116,16 @@ program
         ],
         envExample: true,
         documentation: true
-      });
+      };
+
+      logger.debug('Configuración del proyecto:', defaultConfig);
       
-      console.log(chalk.green(`\n✅ ¡Proyecto ${projectName} creado exitosamente!`));
-      console.log(chalk.yellow('\n📋 Próximos pasos:'));
-      console.log(chalk.white(`  cd ${projectName}`));
-      console.log(chalk.white('  npm install'));
-      console.log(chalk.white('  cp .env.example .env.local'));
-      console.log(chalk.white('  npm run dev'));
-      console.log(chalk.cyan('\n🌐 Tu aplicación estará disponible en http://localhost:3000'));
+      await createProject(defaultConfig);
+      
+      logger.projectSuccess(projectName);
       
     } catch (error) {
-      console.error(chalk.red('\n❌ Error al crear el proyecto:'));
-      console.error(chalk.red(error.message));
+      logger.handleError(error, 'crear el proyecto');
       process.exit(1);
     }
   });
