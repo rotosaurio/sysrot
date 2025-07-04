@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageSwitcher } from '@/components/ui/language-switcher';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { useTranslation } from 'react-intl';
+import { useTranslation } from '@/components/providers/intl-provider';
 import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -12,7 +12,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { formatMessage } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className={`${inter.className} min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 transition-colors duration-300`}>
@@ -27,19 +27,19 @@ export default function Layout({ children }: LayoutProps) {
               href="/" 
               className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
-              {formatMessage({ id: 'nav.home' })}
+              {t('nav.home')}
             </Link>
             <Link 
               href="/ejemplos" 
               className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
-              {formatMessage({ id: 'nav.examples' })}
+              {t('nav.examples')}
             </Link>
             <Link 
               href="/blog" 
               className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
-              {formatMessage({ id: 'nav.blog' })}
+              {t('nav.blog')}
             </Link>
           </nav>
 
@@ -58,7 +58,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-center md:text-left mb-4 md:mb-0">
-              <span>{formatMessage({ id: 'footer.by' })} SysRot Team</span>
+              <span>{t('footer.by')} SysRot Team</span>
             </div>
             
             <div className="flex space-x-6">
