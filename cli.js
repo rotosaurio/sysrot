@@ -65,7 +65,42 @@ program
     console.log(chalk.blue(`\n🚀 Creando proyecto: ${projectName}`));
     
     try {
-      await createProject(projectName);
+      await createProject({ 
+        projectName,
+        typescript: true,
+        tailwindcss: true,
+        eslint: true,
+        database: 'MongoDB',
+        auth: true,
+        authProviders: ['Google', 'GitHub'],
+        roles: true,
+        middleware: true,
+        ai: true,
+        aiModels: ['GPT-4o (OpenAI)', 'Claude 3.5 (Anthropic)', 'Gemini Flash Pro (Google)'],
+        cloudinary: true,
+        blog: true,
+        mdxFeatures: true,
+        forms: true,
+        darkMode: true,
+        uiComponents: true,
+        framerMotion: true,
+        notifications: true,
+        examplePages: true,
+        exampleTypes: [
+          'Ejemplo de Autenticación',
+          'Ejemplo de IA (Multi-modelo)',
+          'Biblioteca de Componentes',
+          'Ejemplo de Carga de Imágenes',
+          'Ejemplo de Formularios',
+          'Ejemplo de Animaciones',
+          'Ejemplo de Notificaciones',
+          'Ejemplo de Base de Datos',
+          'Ejemplo de UI y Temas',
+          'Ejemplo de TypeScript'
+        ],
+        envExample: true,
+        documentation: true
+      });
       
       console.log(chalk.green(`\n✅ ¡Proyecto ${projectName} creado exitosamente!`));
       console.log(chalk.yellow('\n📋 Próximos pasos:'));
