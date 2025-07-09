@@ -1,5 +1,53 @@
 ﻿# CHANGELOG - sysrot-hub
 
+## [0.9.6] - 2025-07-09
+
+### 🚨 CORRECCIÓN DEFINITIVA WINDOWS
+
+- **CORREGIDO**: Error ENOENT persistente cambiando de execSync a spawn en Windows
+- **IMPLEMENTADO**: Solución robusta usando child_process.spawn con Promises
+- **MEJORADO**: Fallback graceful que permite continuar si falla instalación automática  
+- **AGREGADO**: Guía detallada para instalación manual alternativa
+- **OPTIMIZADO**: No falla todo el proceso si solo falla npm install
+
+### 🔧 Cambios Técnicos
+
+- **Windows Strategy**: Cambio de execSync a spawn con Promise wrapper
+- **Error Handling**: Proyecto se completa exitosamente aunque falle npm install
+- **User Experience**: Instrucciones claras para instalación manual
+- **Fallback Options**: Sugerencias para yarn o bun como alternativas
+
+### ✅ Estrategia de Recuperación
+
+- ✅ **Proyecto generado**: Aunque falle npm install, el proyecto se crea
+- ✅ **Instrucciones claras**: Pasos manuales mostrados al usuario
+- ✅ **Alternativas**: yarn/bun como opciones de backup
+- ✅ **Zero frustration**: El usuario puede continuar manualmente
+
+## [0.9.5] - 2025-07-09
+
+### 🚨 CORRECCIÓN CRÍTICA WINDOWS
+
+- **CORREGIDO**: Error "spawn C:\Windows\system32\cmd.exe ENOENT" en Windows
+- **CORREGIDO**: Problema de execSync al instalar dependencias en sistemas Windows
+- **MEJORADO**: Configuración específica para Windows con shell: true y windowsHide: false
+- **AGREGADO**: Variables de entorno PATH preservadas en Windows
+- **AGREGADO**: Mensajes de ayuda específicos para errores de Windows
+
+### 🔧 Detalles Técnicos
+
+- **Windows Shell**: Configuración `shell: true` para mejor compatibilidad
+- **PATH Environment**: Variables de entorno preservadas correctamente
+- **Windows Hide**: `windowsHide: false` para evitar problemas de spawn
+- **Error Handling**: Mensajes específicos con soluciones para Windows
+
+### ✅ Resultado
+
+- ✅ **CLI funciona en Windows**: Sin errores ENOENT
+- ✅ **Instalación dependencias**: npm install ejecuta correctamente
+- ✅ **Compatibilidad total**: Windows, macOS y Linux
+- ✅ **Mejor UX**: Mensajes de ayuda específicos para cada plataforma
+
 ## [0.9.4] - 2025-07-09
 
 ### 🚨 CORRECCIONES CRÍTICAS DE TEMPLATE

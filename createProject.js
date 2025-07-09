@@ -577,22 +577,59 @@ async function installDependencies(projectPath, options) {
   const spinner = ora('Instalando dependencias (esto puede tardar unos minutos)...').start();
   
   try {
-    // Configuración específica para Windows
     const isWindows = process.platform === 'win32';
-    const command = isWindows ? 'npm.cmd install' : 'npm install';
     
-    // Ejecutar npm install en el directorio del proyecto
-    execSync(command, { 
-      cwd: projectPath,
-      stdio: 'inherit',
-      shell: isWindows
-    });
+    if (isWindows) {
+      // Solución robusta para Windows usando spawn
+      const { spawn } = require('child_process');
+      
+      await new Promise((resolve, reject) => {
+        const npmProcess = spawn('npm', ['install'], {
+          cwd: projectPath,
+          stdio: 'inherit',
+          shell: true,
+          env: process.env
+        });
+        
+        npmProcess.on('close', (code) => {
+          if (code === 0) {
+            resolve();
+          } else {
+            reject(new Error(`npm install falló con código ${code}`));
+          }
+        });
+        
+        npmProcess.on('error', (error) => {
+          reject(error);
+        });
+      });
+    } else {
+      // En Unix/Linux/macOS usar execSync
+      execSync('npm install', { 
+        cwd: projectPath,
+        stdio: 'inherit'
+      });
+    }
     
     spinner.succeed('Dependencias instaladas correctamente');
   } catch (error) {
     spinner.fail('Error al instalar las dependencias');
     console.error(chalk.red(`Error: ${error.message}`));
-    throw error;
+    
+    // Fallback: Guía manual para el usuario
+    console.error(chalk.yellow('\n🚨 SOLUCIÓN ALTERNATIVA:'));
+    console.error(chalk.yellow('El CLI generó el proyecto exitosamente, pero falló la instalación automática.'));
+    console.error(chalk.yellow('Ejecuta estos comandos manualmente:'));
+    console.error(chalk.cyan(`   cd ${path.basename(projectPath)}`));
+    console.error(chalk.cyan('   npm install'));
+    console.error(chalk.cyan('   npm run dev'));
+    console.error(chalk.yellow('\n💡 Si npm install también falla:'));
+    console.error(chalk.yellow('   1. Usa yarn: yarn install'));
+    console.error(chalk.yellow('   2. O bun: bun install'));
+    console.error(chalk.yellow('   3. Verifica Node.js versión: node --version (necesita >=18)'));
+    
+    // No lanzar error para que el proyecto se complete
+    console.log(chalk.green('\n✅ Proyecto generado exitosamente. Instala las dependencias manualmente.'));
   }
 }
 
