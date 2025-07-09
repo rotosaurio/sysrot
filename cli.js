@@ -3,7 +3,7 @@
 const { Command } = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
-const createProject = require('./createProject');
+const { createProject } = require('./createProject');
 const logger = require('./utils/logger');
 const path = require('path');
 
@@ -43,7 +43,7 @@ const AVAILABLE_EXAMPLES = [
     name: 'Personal Portfolio',
     value: 'portfolio',
     description: 'Responsive personal portfolio showcase',
-    dependencies: ['react-typed', 'react-scroll']
+    dependencies: ['typed.js', 'react-scroll']
   },
   {
     name: 'Task Management App',
@@ -71,10 +71,283 @@ const AVAILABLE_EXAMPLES = [
   }
 ];
 
+async function askProjectConfiguration() {
+  console.log(chalk.blue('\n🛠️  Configuración del Proyecto\n'));
+  
+  const config = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'typescript',
+      message: '🔷 ¿Deseas TypeScript configurado?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'tailwindcss',
+      message: '🎨 ¿Deseas TailwindCSS configurado?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'eslint',
+      message: '📏 ¿Deseas ESLint configurado?',
+      default: true
+    },
+    {
+      type: 'list',
+      name: 'database',
+      message: '💾 ¿Qué base de datos deseas usar?',
+      choices: [
+        { name: 'MongoDB', value: 'MongoDB' },
+        { name: 'Supabase', value: 'Supabase' },
+        { name: 'Firebase', value: 'Firebase' },
+        { name: 'Ninguna', value: 'None' }
+      ],
+      default: 'MongoDB'
+    },
+    {
+      type: 'confirm',
+      name: 'auth',
+      message: '🔐 ¿Deseas sistema de autenticación con NextAuth.js?',
+      default: true
+    }
+  ]);
+  
+  // Preguntas condicionales para autenticación
+  if (config.auth) {
+    const authConfig = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'authProviders',
+        message: '🔑 Selecciona los proveedores de autenticación:',
+        choices: [
+          { name: 'Google', value: 'Google', checked: true },
+          { name: 'GitHub', value: 'GitHub', checked: true },
+          { name: 'Email', value: 'Email' },
+          { name: 'Discord', value: 'Discord' },
+          { name: 'Twitter', value: 'Twitter' }
+        ],
+        validate: (answer) => {
+          if (answer.length === 0) {
+            return 'Debes seleccionar al menos un proveedor de autenticación.';
+          }
+          return true;
+        }
+      },
+      {
+        type: 'confirm',
+        name: 'roles',
+        message: '👤 ¿Deseas incluir sistema de roles básico (admin/user)?',
+        default: true
+      },
+      {
+        type: 'confirm',
+        name: 'middleware',
+        message: '🛡️ ¿Deseas middleware de protección de rutas?',
+        default: true
+      }
+    ]);
+    
+    Object.assign(config, authConfig);
+  }
+  
+  // Continuar con más configuraciones
+  const aiConfig = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'ai',
+      message: '🤖 ¿Deseas integración con modelos de IA?',
+      default: true
+    }
+  ]);
+  
+  if (aiConfig.ai) {
+    const aiModels = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'aiModels',
+        message: '🧠 Selecciona los modelos de IA a integrar:',
+        choices: [
+          { name: 'GPT-4o (OpenAI)', value: 'GPT-4o (OpenAI)', checked: true },
+          { name: 'Claude 3.5 (Anthropic)', value: 'Claude 3.5 (Anthropic)', checked: true },
+          { name: 'Gemini Flash Pro (Google)', value: 'Gemini Flash Pro (Google)', checked: true },
+          { name: 'DeepSeek V3 Chat', value: 'DeepSeek V3 Chat' },
+          { name: 'DeepSeek R1 Reasoner', value: 'DeepSeek R1 Reasoner' }
+        ],
+        validate: (answer) => {
+          if (answer.length === 0) {
+            return 'Debes seleccionar al menos un modelo de IA.';
+          }
+          return true;
+        }
+      }
+    ]);
+    
+    Object.assign(aiConfig, aiModels);
+  }
+  
+  Object.assign(config, aiConfig);
+  
+  // Configuraciones adicionales
+  const additionalConfig = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'cloudinary',
+      message: '☁️ ¿Deseas integración con Cloudinary para carga de imágenes?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'blog',
+      message: '📝 ¿Deseas agregar un blog con MDX?',
+      default: true
+    }
+  ]);
+  
+  if (additionalConfig.blog) {
+    const blogFeatures = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'mdxFeatures',
+        message: '✨ ¿Deseas características avanzadas de MDX (syntax highlighting, slugs automáticos)?',
+        default: true
+      }
+    ]);
+    
+    Object.assign(additionalConfig, blogFeatures);
+  }
+  
+  const uiConfig = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'forms',
+      message: '📋 ¿Deseas integración de formularios (react-hook-form + zod)?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'darkMode',
+      message: '🌙 ¿Deseas integración de temas (modo claro/oscuro)?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'uiComponents',
+      message: '🎨 ¿Deseas componentes UI reutilizables (layout, iconos, botones)?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'framerMotion',
+      message: '🎬 ¿Deseas animaciones con framer-motion?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'notifications',
+      message: '🔔 ¿Deseas sistema de notificaciones toast (react-hot-toast)?',
+      default: true
+    }
+  ]);
+  
+  Object.assign(config, additionalConfig, uiConfig);
+  
+  // Ejemplos funcionales
+  const examplesConfig = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'examplePages',
+      message: '📄 ¿Deseas incluir páginas de ejemplo funcionales?',
+      default: true
+    }
+  ]);
+  
+  if (examplesConfig.examplePages) {
+    const exampleTypes = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'exampleTypes',
+        message: '📚 Selecciona los ejemplos a incluir:',
+        choices: [
+          { name: 'Ejemplo de Autenticación', value: 'Ejemplo de Autenticación', checked: true },
+          { name: 'Ejemplo de IA (Multi-modelo)', value: 'Ejemplo de IA (Multi-modelo)', checked: true },
+          { name: 'Biblioteca de Componentes', value: 'Biblioteca de Componentes', checked: true },
+          { name: 'Ejemplo de Carga de Imágenes', value: 'Ejemplo de Carga de Imágenes', checked: true },
+          { name: 'Ejemplo de Formularios', value: 'Ejemplo de Formularios', checked: true },
+          { name: 'Ejemplo de Animaciones', value: 'Ejemplo de Animaciones', checked: true },
+          { name: 'Ejemplo de Notificaciones', value: 'Ejemplo de Notificaciones', checked: true },
+          { name: 'Ejemplo de Base de Datos', value: 'Ejemplo de Base de Datos', checked: true },
+          { name: 'Ejemplo de UI y Temas', value: 'Ejemplo de UI y Temas', checked: true },
+          { name: 'Ejemplo de TypeScript', value: 'Ejemplo de TypeScript', checked: true }
+        ]
+      }
+    ]);
+    
+    Object.assign(examplesConfig, exampleTypes);
+  }
+  
+  Object.assign(config, examplesConfig);
+  
+  // Ejemplos premium
+  const premiumConfig = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'includePremiumExamples',
+      message: '🎨 ¿Deseas incluir ejemplos premium adicionales?',
+      default: false
+    }
+  ]);
+  
+  if (premiumConfig.includePremiumExamples) {
+    const premiumExamples = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'premiumExamples',
+        message: '🎯 Selecciona los ejemplos premium que deseas incluir:',
+        choices: AVAILABLE_EXAMPLES.map(example => ({
+          name: `${example.name} - ${example.description}`,
+          value: example.value,
+          checked: false
+        })),
+        validate: (answer) => {
+          if (answer.length === 0) {
+            return 'Debes seleccionar al menos un ejemplo o desmarcar la opción anterior.';
+          }
+          return true;
+        }
+      }
+    ]);
+    
+    Object.assign(premiumConfig, premiumExamples);
+  }
+  
+  Object.assign(config, premiumConfig);
+  
+  // Configuraciones finales
+  const finalConfig = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'envExample',
+      message: '⚙️ ¿Deseas archivo .env.example con todas las variables configuradas?',
+      default: true
+    },
+    {
+      type: 'confirm',
+      name: 'documentation',
+      message: '📖 ¿Deseas documentación completa (README.md y DOCUMENTACION.md)?',
+      default: true
+    }
+  ]);
+  
+  Object.assign(config, finalConfig);
+  
+  return config;
+}
+
 program
   .name('sysrot-hub')
   .description('CLI de nueva generación para crear proyectos Next.js 14+ con IA, autenticación y más')
-  .version('0.9.0')
+  .version('0.9.3')
   .argument('[proyecto]', 'Nombre del proyecto')
   .option('-h, --help', 'Mostrar ayuda completa')
   .option('-v, --version', 'Mostrar versión')
@@ -92,7 +365,7 @@ program
     }
 
     if (options.version) {
-      logger.showVersion('0.9.0');
+      logger.showVersion('0.9.3');
       return;
     }
 
@@ -140,91 +413,41 @@ program
       process.exit(1);
     }
 
-    // Ask about premium examples
-    const { includePremiumExamples } = await inquirer.prompt([
+    // Configuración interactiva completa
+    const config = await askProjectConfiguration();
+    config.projectName = projectName;
+
+    // Mostrar resumen de configuración
+    logger.showConfigSummary(config);
+    
+    // Confirmación final
+    const { proceed } = await inquirer.prompt([
       {
         type: 'confirm',
-        name: 'includePremiumExamples',
-        message: '🎨 ¿Deseas incluir ejemplos premium adicionales?',
-        default: false
+        name: 'proceed',
+        message: '✅ ¿Deseas continuar con esta configuración?',
+        default: true
       }
     ]);
-
-    let selectedExamples = [];
-    if (includePremiumExamples) {
-      const { examples } = await inquirer.prompt([
-        {
-          type: 'checkbox',
-          name: 'examples',
-          message: '🎯 Selecciona los ejemplos que deseas incluir (puedes elegir múltiples):',
-          choices: AVAILABLE_EXAMPLES.map(example => ({
-            name: `${example.name} - ${example.description}`,
-            value: example.value,
-            checked: false
-          })),
-          validate: (answer) => {
-            if (answer.length === 0) {
-              return 'Debes seleccionar al menos un ejemplo o desmarcar la opción anterior.';
-            }
-            return true;
-          }
-        }
-      ]);
-      selectedExamples = examples;
+    
+    if (!proceed) {
+      logger.info('Operación cancelada por el usuario.');
+      process.exit(0);
     }
 
     logger.projectStart(projectName);
     
     try {
-      // Configuración predeterminada optimizada
-      const defaultConfig = {
-        projectName,
-        typescript: true,
-        tailwindcss: true,
-        eslint: true,
-        database: 'MongoDB',
-        auth: true,
-        authProviders: ['Google', 'GitHub'],
-        roles: true,
-        middleware: true,
-        ai: true,
-        aiModels: ['GPT-4o (OpenAI)', 'Claude 3.5 (Anthropic)', 'Gemini Flash Pro (Google)'],
-        cloudinary: true,
-        blog: true,
-        mdxFeatures: true,
-        forms: true,
-        darkMode: true,
-        uiComponents: true,
-        framerMotion: true,
-        notifications: true,
-        examplePages: true,
-        exampleTypes: [
-          'Ejemplo de Autenticación',
-          'Ejemplo de IA (Multi-modelo)',
-          'Biblioteca de Componentes',
-          'Ejemplo de Carga de Imágenes',
-          'Ejemplo de Formularios',
-          'Ejemplo de Animaciones',
-          'Ejemplo de Notificaciones',
-          'Ejemplo de Base de Datos',
-          'Ejemplo de UI y Temas',
-          'Ejemplo de TypeScript'
-        ],
-        premiumExamples: selectedExamples,
-        envExample: true,
-        documentation: true
-      };
-
-      logger.debug('Configuración del proyecto:', defaultConfig);
+      logger.debug('Configuración del proyecto:', config);
       
-      await createProject(defaultConfig);
+      await createProject(config);
       
       logger.projectSuccess(projectName);
       
       // Show information about selected examples
-      if (selectedExamples.length > 0) {
+      if (config.premiumExamples && config.premiumExamples.length > 0) {
         console.log(chalk.green('\n✨ Ejemplos premium incluidos:'));
-        selectedExamples.forEach(exampleValue => {
+        config.premiumExamples.forEach(exampleValue => {
           const example = AVAILABLE_EXAMPLES.find(e => e.value === exampleValue);
           console.log(chalk.cyan(`   • ${example.name}`));
         });

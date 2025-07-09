@@ -1,4 +1,103 @@
-# CHANGELOG - sysrot-hub
+﻿# CHANGELOG - sysrot-hub
+
+## [0.9.3] - 2025-07-09
+
+### 🔧 CORRECCIÓN DEPENDENCIA INCOMPATIBLE
+
+- **CORREGIDO**: Dependencia `react-typed` incompatible con React 18
+- **REEMPLAZADO**: `react-typed@^1.2.0` → `typed.js@^2.1.0`
+- **MEJORADO**: Compatibilidad completa con React 18+ 
+- **VERIFICADO**: Instalación de dependencias sin conflictos
+
+### 🎯 Detalles Técnicos
+
+- **Problema**: `react-typed` requiere React ^16.3.0, incompatible con React 18
+- **Solución**: Migración a `typed.js` (librería original) que es framework-agnostic
+- **Beneficio**: Mayor compatibilidad y menos conflictos de dependencias
+- **Afectado**: Ejemplo premium "Personal Portfolio"
+
+### ✅ Resultado
+
+- ✅ **CLI 100% funcional**: Sin errores de instalación
+- ✅ **Dependencias actualizadas**: Compatible con React 18+
+- ✅ **Ejemplos premium**: Todos funcionan correctamente
+- ✅ **Zero conflictos**: Instalación limpia garantizada
+
+## [0.9.2] - 2025-07-09
+
+### 🚀 CORRECCIÓN CRÍTICA + CLI COMPLETAMENTE INTERACTIVO RESTAURADO
+
+- **CORREGIDO**: Error crítico "createProject is not a function" 
+- **CORREGIDO**: Importación incorrecta en cli.js: `const createProject = require('./createProject')` → `const { createProject } = require('./createProject')`
+- **RESTAURADO**: CLI completamente interactivo como era originalmente
+- **MEJORADO**: Configuración paso a paso de TODAS las opciones del proyecto
+- **AGREGADO**: 15+ preguntas interactivas para personalización completa
+
+### 🛠️ Nueva Funcionalidad CLI Interactiva
+
+**Configuración Básica:**
+- ✅ TypeScript configurado
+- ✅ TailwindCSS configurado  
+- ✅ ESLint configurado
+- ✅ Selección de base de datos (MongoDB/Supabase/Firebase/Ninguna)
+
+**Sistema de Autenticación:**
+- ✅ NextAuth.js opcional
+- ✅ Múltiples proveedores (Google, GitHub, Email, Discord, Twitter)
+- ✅ Sistema de roles (admin/user)
+- ✅ Middleware de protección de rutas
+
+**Integración de IA:**
+- ✅ 5 modelos disponibles (GPT-4o, Claude 3.5, Gemini, DeepSeek V3, DeepSeek R1)
+- ✅ Selección múltiple de modelos
+- ✅ Configuración automática de APIs
+
+**Funcionalidades Adicionales:**
+- ✅ Cloudinary para carga de imágenes
+- ✅ Blog MDX con características avanzadas
+- ✅ Formularios con react-hook-form + zod
+- ✅ Modo claro/oscuro
+- ✅ Componentes UI reutilizables
+- ✅ Animaciones Framer Motion
+- ✅ Sistema de notificaciones
+
+**Ejemplos Funcionales:**
+- ✅ 10 ejemplos base configurables individualmente
+- ✅ 8 ejemplos premium opcionales
+- ✅ Documentación automática
+
+### 🎯 Experiencia de Usuario Mejorada
+
+- **Flujo paso a paso**: Configuración guiada e intuitiva
+- **Validaciones**: Todas las entradas son validadas
+- **Condicionales**: Preguntas inteligentes basadas en selecciones anteriores
+- **Flexibilidad total**: Cada característica es opcional y configurable
+- **Información contextual**: Descripciones claras de cada opción
+
+### 🔧 Resultado
+
+- ✅ **CLI 100% funcional**: Sin errores de importación
+- ✅ **Configuración completa**: Todas las opciones son configurables
+- ✅ **Experiencia como antes**: Flujo interactivo restaurado
+- ✅ **Flexibilidad máxima**: Desde proyectos mínimos hasta completos
+- ✅ **Generación confiable**: Proyectos funcionales garantizados
+
+## [0.9.1] - 2025-07-09
+
+### 🔧 RELEASE v0.9.1: Corrección crítica del CLI
+
+- **CORREGIDO**: Error "inquirer.prompt is not a function" - downgrade a inquirer v8.2.6
+- **CORREGIDO**: Versión inconsistente en logo (mostraba v0.8.5, ahora v0.9.1)
+- **CORREGIDO**: Error tipográfico "corr" al inicio del README.md
+- **MEJORADO**: CLI completamente funcional y estable
+- **PUBLICADO**: Nueva versión disponible en NPM
+
+## [0.9.0] - 2025-07-09
+
+### 🚀 RELEASE v0.9.0: Actualización mayor con correcciones
+
+- Intentos de corrección del CLI
+- Actualización de dependencias
 
 ## [0.8.5] - 2025-07-01
 

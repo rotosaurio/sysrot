@@ -279,7 +279,7 @@ async function customizeProject(projectPath, options) {
           devDeps: []
         },
         'portfolio': {
-          deps: ['react-typed', 'react-scroll'],
+          deps: ['typed.js', 'react-scroll'],
           devDeps: []
         },
         'task-app': {
@@ -313,7 +313,7 @@ async function customizeProject(projectPath, options) {
             else if (dep === 'react-parallax') dependencies[dep] = '^3.5.1';
             else if (dep === 'zustand') dependencies[dep] = '^4.4.7';
             else if (dep === 'react-currency-input-field') dependencies[dep] = '^3.6.11';
-            else if (dep === 'react-typed') dependencies[dep] = '^1.2.0';
+            else if (dep === 'typed.js') dependencies[dep] = '^2.1.0';
             else if (dep === 'react-scroll') dependencies[dep] = '^1.9.0';
             else if (dep === 'use-local-storage-state') dependencies[dep] = '^19.2.0';
             else if (dep === 'react-beautiful-dnd') dependencies[dep] = '^13.1.1';

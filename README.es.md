@@ -6,7 +6,7 @@ Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, aut
 
 <div align="center">
 
-# 🚀 sysrot-hub v0.8.5 - CLI de Nueva Generación
+# 🚀 sysrot-hub v0.9.1 - CLI de Nueva Generación
 
 **CLI de grado empresarial para crear proyectos Next.js 14+ con integración de IA, internacionalización completa y arquitectura lista para producción**
 
@@ -32,7 +32,7 @@ Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, aut
 
 </div>
 
-## ✅ **¡NUEVA VERSIÓN v0.8.5 - COMPLETAMENTE FUNCIONAL!**
+## ✅ **¡NUEVA VERSIÓN v0.9.1 - COMPLETAMENTE FUNCIONAL!**
 
 ### 🔧 **Correcciones Críticas Resueltas**
 - ✅ **ERROR DE COMPILACIÓN CORREGIDO** - Import duplicado `useTranslation` eliminado

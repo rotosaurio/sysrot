@@ -21,7 +21,7 @@ class Logger {
   ███████║   ██║   ███████║██║  ██║╚██████╔╝   ██║        ██║  ██║╚██████╔╝██████╔╝
   ╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝    ╚═╝        ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ 
                                                                                    
-  🚀 Next-Generation Development CLI v0.8.5
+  🚀 Next-Generation Development CLI v0.9.3
     `));
     console.log(chalk.green(`
   ✨ Generador de proyectos Next.js 14+ con IA integrada
@@ -92,6 +92,61 @@ class Logger {
     console.log('  --verbose      Modo detallado');
     console.log('');
     console.log(chalk.cyan('🔗 Más información: https://github.com/rotosaurio/sysrot-hub'));
+  }
+
+  // Mostrar resumen de configuración
+  showConfigSummary(config) {
+    console.log(chalk.blue('\n📋 Resumen de Configuración:'));
+    console.log(chalk.dim('─'.repeat(50)));
+    
+    // Configuración básica
+    console.log(chalk.yellow('🛠️  Configuración Básica:'));
+    console.log(`  TypeScript: ${config.typescript ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  TailwindCSS: ${config.tailwindcss ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  ESLint: ${config.eslint ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  Base de datos: ${chalk.cyan(config.database || 'Ninguna')}`);
+    
+    // Autenticación
+    if (config.auth) {
+      console.log(chalk.yellow('\n🔐 Autenticación:'));
+      console.log(`  NextAuth.js: ${chalk.green('✅ Habilitado')}`);
+      if (config.authProviders && config.authProviders.length > 0) {
+        console.log(`  Proveedores: ${chalk.cyan(config.authProviders.join(', '))}`);
+      }
+      console.log(`  Sistema de roles: ${config.roles ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+      console.log(`  Middleware: ${config.middleware ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    }
+    
+    // IA
+    if (config.ai && config.aiModels && config.aiModels.length > 0) {
+      console.log(chalk.yellow('\n🤖 Integración de IA:'));
+      config.aiModels.forEach(model => {
+        console.log(`  ${chalk.cyan('• ' + model)}`);
+      });
+    }
+    
+    // Funcionalidades adicionales
+    console.log(chalk.yellow('\n✨ Funcionalidades:'));
+    console.log(`  Cloudinary: ${config.cloudinary ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  Blog MDX: ${config.blog ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  Formularios: ${config.forms ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  Modo oscuro: ${config.darkMode ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  Animaciones: ${config.framerMotion ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    console.log(`  Notificaciones: ${config.notifications ? chalk.green('✅ Sí') : chalk.gray('❌ No')}`);
+    
+    // Ejemplos
+    if (config.examplePages) {
+      console.log(chalk.yellow('\n📚 Ejemplos:'));
+      if (config.exampleTypes && config.exampleTypes.length > 0) {
+        console.log(`  Ejemplos base: ${chalk.cyan(config.exampleTypes.length + ' seleccionados')}`);
+      }
+      if (config.premiumExamples && config.premiumExamples.length > 0) {
+        console.log(`  Ejemplos premium: ${chalk.cyan(config.premiumExamples.length + ' seleccionados')}`);
+      }
+    }
+    
+    console.log(chalk.dim('\n─'.repeat(50)));
+    console.log(chalk.green('🚀 ¡Iniciando creación del proyecto!'));
   }
 
   // Spinners para operaciones largas
