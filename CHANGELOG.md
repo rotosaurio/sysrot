@@ -1,5 +1,29 @@
 ﻿# CHANGELOG - sysrot-hub
 
+## [0.9.4] - 2025-07-09
+
+### 🚨 CORRECCIONES CRÍTICAS DE TEMPLATE
+
+- **CORREGIDO**: Error "Element type is invalid" en _app.tsx línea 22
+- **CORREGIDO**: Importación incorrecta del componente Layout (named vs default import)
+- **CORREGIDO**: Error "Cannot find module 'critters'" agregando dependencia faltante
+- **CORREGIDO**: Warning de viewport meta tag en _document.tsx (movido fuera de <Head>)
+- **MEJORADO**: Template genera proyectos funcionales sin errores
+
+### 🔧 Detalles Técnicos
+
+- **Layout Import**: `import { Layout }` → `import Layout` (default import)
+- **Critters Dependency**: Agregado `critters@^0.0.20` para optimización CSS
+- **Viewport Meta**: Removido de _document.tsx (Next.js lo maneja automáticamente)
+- **Next.js Config**: Restaurada optimización CSS con dependencia correcta
+
+### ✅ Resultado
+
+- ✅ **Template 100% funcional**: Sin errores críticos al ejecutar npm run dev
+- ✅ **Componentes cargan correctamente**: Layout y providers funcionan
+- ✅ **Optimizaciones CSS**: Critters funciona correctamente
+- ✅ **Sin warnings**: Configuración limpia de Next.js
+
 ## [0.9.3] - 2025-07-09
 
 ### 🔧 CORRECCIÓN DEPENDENCIA INCOMPATIBLE

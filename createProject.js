@@ -160,6 +160,7 @@ async function customizeProject(projectPath, options) {
       dependencies["autoprefixer"] = "^10.4.16";
       dependencies["clsx"] = "^2.0.0";
       dependencies["tailwind-merge"] = "^2.2.0";
+      dependencies["critters"] = "^0.0.20"; // Para optimización CSS
     }
     
     // ESLint (opcional)

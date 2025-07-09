@@ -58,7 +58,6 @@ export default function Document() {
         <link rel="manifest" href="/manifest.json" />
         
         {/* Performance optimizations */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         
         {/* Prefetch next pages for better navigation */}

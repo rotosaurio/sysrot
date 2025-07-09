@@ -347,7 +347,7 @@ async function askProjectConfiguration() {
 program
   .name('sysrot-hub')
   .description('CLI de nueva generación para crear proyectos Next.js 14+ con IA, autenticación y más')
-  .version('0.9.3')
+  .version('0.9.4')
   .argument('[proyecto]', 'Nombre del proyecto')
   .option('-h, --help', 'Mostrar ayuda completa')
   .option('-v, --version', 'Mostrar versión')
@@ -365,7 +365,7 @@ program
     }
 
     if (options.version) {
-      logger.showVersion('0.9.3');
+      logger.showVersion('0.9.4');
       return;
     }
 

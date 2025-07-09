@@ -4,7 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from 'react-hot-toast';
 import { IntlProvider } from '@/components/providers/intl-provider';
-import { Layout } from '@/components/ui/layout';
+import Layout from '@/components/ui/layout';
 
 export default function App({
   Component,
