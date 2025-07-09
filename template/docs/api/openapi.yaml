@@ -1,0 +1,559 @@
+openapi: 3.0.3
+info:
+  title: Sysrot-Hub Template API
+  description: |
+    Complete API documentation for the Next.js 14+ template generated with sysrot-hub.
+    
+    This API provides endpoints for:
+    - 🤖 AI model integration (GPT-4o, Claude 3.5 Sonnet, Gemini Flash Pro)
+    - 🔐 Authentication with NextAuth.js
+    - 📤 File upload with Cloudinary
+    - 🗄️ Database operations (MongoDB, Supabase, Firebase)
+    - 📝 Content management with MDX
+    
+    ## Authentication
+    
+    Most endpoints require authentication. Use NextAuth.js session tokens:
+    
+    ```javascript
+    // Client-side authentication check
+    import { useSession } from 'next-auth/react'
+    
+    const { data: session, status } = useSession()
+    if (status === 'authenticated') {
+      // Make authenticated API calls
+    }
+    ```
+    
+    ## Rate Limiting
+    
+    API endpoints are rate-limited to prevent abuse:
+    - AI endpoints: 10 requests per minute per user
+    - Upload endpoints: 20 requests per minute per user
+    - General endpoints: 100 requests per minute per user
+    
+    ## Error Handling
+    
+    All endpoints return consistent error responses:
+    
+    ```json
+    {
+      "error": "Error message",
+      "code": "ERROR_CODE",
+      "details": {
+        "field": "Additional error context"
+      }
+    }
+    ```
+    
+  version: 1.0.0
+  contact:
+    name: Sysrot-Hub Support
+    url: https://github.com/rotosaurio/sysrotcore
+    email: support@sysrot.dev
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+  - url: https://your-domain.vercel.app/api
+    description: Production server
+
+tags:
+  - name: AI
+    description: AI model integration endpoints
+  - name: Auth
+    description: Authentication endpoints (NextAuth.js)
+  - name: Upload
+    description: File upload endpoints
+  - name: Database
+    description: Database operation endpoints
+  - name: Content
+    description: Content management endpoints
+
+paths:
+  /ai:
+    post:
+      tags: [AI]
+      summary: Generate AI response
+      description: |
+        Generate a response using one of the integrated AI models.
+        Supports streaming responses for real-time interaction.
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [prompt]
+              properties:
+                prompt:
+                  type: string
+                  description: The input prompt for the AI model
+                  example: "Write a creative story about a robot learning to paint"
+                model:
+                  type: string
+                  enum: [gpt-4o, claude-3.5-sonnet, gemini-flash-pro]
+                  default: gpt-4o
+                  description: Which AI model to use
+                max_tokens:
+                  type: integer
+                  minimum: 1
+                  maximum: 4000
+                  default: 1000
+                  description: Maximum tokens in the response
+                temperature:
+                  type: number
+                  minimum: 0
+                  maximum: 2
+                  default: 0.7
+                  description: Creativity level (0 = focused, 2 = very creative)
+                stream:
+                  type: boolean
+                  default: false
+                  description: Whether to stream the response
+            examples:
+              simple:
+                summary: Simple text generation
+                value:
+                  prompt: "Explain quantum computing in simple terms"
+                  model: "gpt-4o"
+              creative:
+                summary: Creative writing with high temperature
+                value:
+                  prompt: "Write a poem about artificial intelligence"
+                  model: "claude-3.5-sonnet"
+                  temperature: 1.2
+                  max_tokens: 500
+      responses:
+        '200':
+          description: AI response generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: The generated AI response
+                  model:
+                    type: string
+                    description: The model used for generation
+                  usage:
+                    type: object
+                    properties:
+                      prompt_tokens:
+                        type: integer
+                      completion_tokens:
+                        type: integer
+                      total_tokens:
+                        type: integer
+              examples:
+                success:
+                  summary: Successful generation
+                  value:
+                    response: "Quantum computing is a revolutionary technology that uses quantum mechanics..."
+                    model: "gpt-4o"
+                    usage:
+                      prompt_tokens: 15
+                      completion_tokens: 150
+                      total_tokens: 165
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /upload:
+    post:
+      tags: [Upload]
+      summary: Upload file to Cloudinary
+      description: |
+        Upload files (images, videos, documents) to Cloudinary CDN.
+        Supports automatic optimization and transformation.
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file to upload
+                folder:
+                  type: string
+                  description: Cloudinary folder to organize uploads
+                  example: "user-uploads"
+                transformation:
+                  type: object
+                  description: Cloudinary transformation parameters
+                  properties:
+                    width:
+                      type: integer
+                      example: 800
+                    height:
+                      type: integer
+                      example: 600
+                    crop:
+                      type: string
+                      enum: [scale, fit, fill, crop, limit]
+                      example: "limit"
+                    quality:
+                      type: string
+                      enum: [auto, auto:low, auto:good, auto:best]
+                      example: "auto"
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  secure_url:
+                    type: string
+                    format: uri
+                    description: HTTPS URL of the uploaded file
+                  public_id:
+                    type: string
+                    description: Cloudinary public ID for the file
+                  width:
+                    type: integer
+                    description: Image width in pixels
+                  height:
+                    type: integer
+                    description: Image height in pixels
+                  format:
+                    type: string
+                    description: File format (jpg, png, etc.)
+                  resource_type:
+                    type: string
+                    description: Type of resource (image, video, etc.)
+              example:
+                secure_url: "https://res.cloudinary.com/demo/image/upload/v1234567890/user-uploads/sample.jpg"
+                public_id: "user-uploads/sample"
+                width: 800
+                height: 600
+                format: "jpg"
+                resource_type: "image"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '413':
+          description: File too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "File size exceeds 10MB limit"
+                code: "FILE_TOO_LARGE"
+
+  /auth/session:
+    get:
+      tags: [Auth]
+      summary: Get current user session
+      description: Retrieve the current authenticated user's session information
+      responses:
+        '200':
+          description: Session information
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+                      expires:
+                        type: string
+                        format: date-time
+                  - type: 'null'
+                    description: No active session
+              examples:
+                authenticated:
+                  summary: User is authenticated
+                  value:
+                    user:
+                      id: "user_123"
+                      name: "John Doe"
+                      email: "john@example.com"
+                      image: "https://example.com/avatar.jpg"
+                      role: "user"
+                    expires: "2024-02-01T12:00:00.000Z"
+                unauthenticated:
+                  summary: No active session
+                  value: null
+
+  /database/test:
+    get:
+      tags: [Database]
+      summary: Test database connections
+      description: |
+        Test connectivity to all configured databases.
+        Useful for health checks and debugging.
+      security:
+        - sessionAuth: []
+      responses:
+        '200':
+          description: Database test results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mongodb:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: [connected, error, not_configured]
+                      message:
+                        type: string
+                  supabase:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: [connected, error, not_configured]
+                      message:
+                        type: string
+                  firebase:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum: [connected, error, not_configured]
+                      message:
+                        type: string
+              example:
+                mongodb:
+                  status: "connected"
+                  message: "Successfully connected to MongoDB"
+                supabase:
+                  status: "connected"
+                  message: "Supabase client initialized"
+                firebase:
+                  status: "not_configured"
+                  message: "Firebase credentials not provided"
+
+  /blog/posts:
+    get:
+      tags: [Content]
+      summary: Get blog posts
+      description: Retrieve a list of published blog posts with pagination
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Page number for pagination
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+          description: Number of posts per page
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Filter posts by category
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search posts by title or content
+      responses:
+        '200':
+          description: List of blog posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BlogPost'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+              example:
+                posts:
+                  - slug: "getting-started-with-nextjs"
+                    title: "Getting Started with Next.js 14"
+                    excerpt: "Learn the basics of Next.js 14 and its new features"
+                    publishedAt: "2024-01-15T10:00:00.000Z"
+                    author: "John Doe"
+                    category: "Tutorial"
+                    readingTime: 5
+                pagination:
+                  page: 1
+                  limit: 10
+                  total: 25
+                  pages: 3
+
+components:
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: next-auth.session-token
+      description: NextAuth.js session cookie
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique user identifier
+        name:
+          type: string
+          description: User's display name
+        email:
+          type: string
+          format: email
+          description: User's email address
+        image:
+          type: string
+          format: uri
+          description: User's profile image URL
+        role:
+          type: string
+          enum: [admin, user, moderator]
+          description: User's role in the system
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last account update timestamp
+
+    BlogPost:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: URL-friendly identifier
+        title:
+          type: string
+          description: Post title
+        excerpt:
+          type: string
+          description: Brief post summary
+        content:
+          type: string
+          description: Full post content (MDX)
+        publishedAt:
+          type: string
+          format: date-time
+          description: Publication timestamp
+        author:
+          type: string
+          description: Post author name
+        category:
+          type: string
+          description: Post category
+        tags:
+          type: array
+          items:
+            type: string
+          description: Post tags
+        readingTime:
+          type: integer
+          description: Estimated reading time in minutes
+        featured:
+          type: boolean
+          description: Whether the post is featured
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+        code:
+          type: string
+          description: Machine-readable error code
+        details:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Invalid request parameters"
+            code: "INVALID_PARAMS"
+            details:
+              field: "prompt"
+              message: "Prompt cannot be empty"
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Authentication required"
+            code: "UNAUTHORIZED"
+
+    RateLimit:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Rate limit exceeded. Try again in 60 seconds"
+            code: "RATE_LIMIT_EXCEEDED"
+            details:
+              reset_time: "2024-01-01T12:01:00.000Z"
+              limit: 10
+              remaining: 0
+
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Internal server error"
+            code: "INTERNAL_ERROR"
