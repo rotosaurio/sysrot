@@ -19,14 +19,67 @@ function showHelp() {
   logger.showHelp();
 }
 
+// Available example templates with descriptions
+const AVAILABLE_EXAMPLES = [
+  {
+    name: 'Analytics Dashboard',
+    value: 'analytics-dashboard',
+    description: 'Interactive dashboard with Chart.js and D3.js visualizations',
+    dependencies: ['chart.js', 'react-chartjs-2', 'd3', '@types/d3']
+  },
+  {
+    name: 'Modern Landing Page',
+    value: 'landing-page',
+    description: 'Professional landing page with multiple sections',
+    dependencies: ['react-intersection-observer', 'react-parallax']
+  },
+  {
+    name: 'E-commerce with Cart',
+    value: 'ecommerce',
+    description: 'Basic e-commerce with shopping cart functionality',
+    dependencies: ['zustand', 'react-currency-input-field']
+  },
+  {
+    name: 'Personal Portfolio',
+    value: 'portfolio',
+    description: 'Responsive personal portfolio showcase',
+    dependencies: ['react-typed', 'react-scroll']
+  },
+  {
+    name: 'Task Management App',
+    value: 'task-app',
+    description: 'Task app with local storage persistence',
+    dependencies: ['use-local-storage-state', 'react-beautiful-dnd']
+  },
+  {
+    name: 'Real-time Chat',
+    value: 'chat',
+    description: 'Real-time chat application with WebSockets',
+    dependencies: ['socket.io-client', 'uuid', '@types/uuid']
+  },
+  {
+    name: 'Multi-tenant SaaS',
+    value: 'saas',
+    description: 'Multi-tenant SaaS example with subscription management',
+    dependencies: ['@stripe/stripe-js', 'stripe']
+  },
+  {
+    name: 'Marketplace with Reviews',
+    value: 'marketplace',
+    description: 'Marketplace platform with ratings and reviews system',
+    dependencies: ['react-rating-stars-component', 'react-image-gallery']
+  }
+];
+
 program
   .name('sysrot-hub')
   .description('CLI de nueva generación para crear proyectos Next.js 14+ con IA, autenticación y más')
-  .version('0.8.5')
+  .version('0.9.0')
   .argument('[proyecto]', 'Nombre del proyecto')
   .option('-h, --help', 'Mostrar ayuda completa')
   .option('-v, --version', 'Mostrar versión')
   .option('--verbose', 'Modo detallado de logging')
+  .option('--examples', 'Mostrar ejemplos disponibles')
   .action(async (projectName, options) => {
     // Configurar modo verbose si está habilitado
     if (options.verbose) {
@@ -39,7 +92,17 @@ program
     }
 
     if (options.version) {
-      logger.showVersion('0.8.5');
+      logger.showVersion('0.9.0');
+      return;
+    }
+
+    if (options.examples) {
+      console.log(chalk.blue('\n🎨 Available Premium Examples:\n'));
+      AVAILABLE_EXAMPLES.forEach((example, index) => {
+        console.log(chalk.cyan(`${index + 1}. ${example.name}`));
+        console.log(chalk.gray(`   ${example.description}`));
+        console.log('');
+      });
       return;
     }
 
@@ -75,6 +138,39 @@ program
     if (!/^[a-zA-Z0-9-_]+$/.test(projectName)) {
       logger.error('Nombre de proyecto inválido. Solo se permiten letras, números, guiones y guiones bajos.');
       process.exit(1);
+    }
+
+    // Ask about premium examples
+    const { includePremiumExamples } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'includePremiumExamples',
+        message: '🎨 ¿Deseas incluir ejemplos premium adicionales?',
+        default: false
+      }
+    ]);
+
+    let selectedExamples = [];
+    if (includePremiumExamples) {
+      const { examples } = await inquirer.prompt([
+        {
+          type: 'checkbox',
+          name: 'examples',
+          message: '🎯 Selecciona los ejemplos que deseas incluir (puedes elegir múltiples):',
+          choices: AVAILABLE_EXAMPLES.map(example => ({
+            name: `${example.name} - ${example.description}`,
+            value: example.value,
+            checked: false
+          })),
+          validate: (answer) => {
+            if (answer.length === 0) {
+              return 'Debes seleccionar al menos un ejemplo o desmarcar la opción anterior.';
+            }
+            return true;
+          }
+        }
+      ]);
+      selectedExamples = examples;
     }
 
     logger.projectStart(projectName);
@@ -114,6 +210,7 @@ program
           'Ejemplo de UI y Temas',
           'Ejemplo de TypeScript'
         ],
+        premiumExamples: selectedExamples,
         envExample: true,
         documentation: true
       };
@@ -123,6 +220,16 @@ program
       await createProject(defaultConfig);
       
       logger.projectSuccess(projectName);
+      
+      // Show information about selected examples
+      if (selectedExamples.length > 0) {
+        console.log(chalk.green('\n✨ Ejemplos premium incluidos:'));
+        selectedExamples.forEach(exampleValue => {
+          const example = AVAILABLE_EXAMPLES.find(e => e.value === exampleValue);
+          console.log(chalk.cyan(`   • ${example.name}`));
+        });
+        console.log(chalk.yellow('\n📚 Revisa la documentación en /pages/ejemplos/premium/ para más detalles'));
+      }
       
     } catch (error) {
       logger.handleError(error, 'crear el proyecto');

@@ -1,6 +1,6 @@
 {
   "name": "sysrot-hub",
-  "version": "0.8.5",
+  "version": "0.9.0",
   "description": "CLI de nueva generación para proyectos Next.js 14+ con IA multi-modelo, Web3 integration, internacionalización completa y roadmap realista 2025-2026",
   "main": "cli.js",
   "bin": {
@@ -8,7 +8,8 @@
     "sysrot": "./cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "echo \"Ready for npm publish\""
   },
   "keywords": [
     "nextjs",
@@ -40,16 +41,23 @@
     "gemini",
     "complete-documentation",
     "enterprise-ready",
-    "production-ready"
+    "production-ready",
+    "dashboard",
+    "ecommerce",
+    "portfolio",
+    "chat",
+    "websockets",
+    "saas",
+    "marketplace"
   ],
   "author": "rotosaurio",
   "license": "MIT",
   "dependencies": {
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "chalk": "^4.1.2",
     "ora": "^5.4.1",
-    "commander": "^9.4.1",
-    "inquirer": "^8.2.5"
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.15"
   },
   "repository": {
     "type": "git",
@@ -58,5 +66,8 @@
   "homepage": "https://github.com/rotosaurio/sysrotcore#readme",
   "bugs": {
     "url": "https://github.com/rotosaurio/sysrotcore/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

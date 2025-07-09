@@ -34,6 +34,12 @@ async function createProject(options) {
     await customizeProject(projectPath, options);
     logger.configStep();
     
+    // Añadir ejemplos premium si están seleccionados
+    if (options.premiumExamples && options.premiumExamples.length > 0) {
+      await addPremiumExamples(projectPath, options.premiumExamples);
+      logger.info('Ejemplos premium añadidos');
+    }
+    
     // Remover archivos no utilizados
     await removeUnusedFiles(projectPath, options);
     logger.customizeStep();
@@ -118,6 +124,7 @@ async function customizeProject(projectPath, options) {
     notifications,
     examplePages,
     exampleTypes,
+    premiumExamples,
     envExample,
     documentation
   } = options;
@@ -254,6 +261,79 @@ async function customizeProject(projectPath, options) {
     // Notificaciones
     if (notifications) {
     dependencies["react-hot-toast"] = "^2.4.1";
+    }
+    
+    // Premium Examples Dependencies
+    if (premiumExamples && premiumExamples.length > 0) {
+      const EXAMPLE_DEPENDENCIES = {
+        'analytics-dashboard': {
+          deps: ['chart.js', 'react-chartjs-2', 'd3'],
+          devDeps: ['@types/d3']
+        },
+        'landing-page': {
+          deps: ['react-intersection-observer', 'react-parallax'],
+          devDeps: []
+        },
+        'ecommerce': {
+          deps: ['zustand', 'react-currency-input-field'],
+          devDeps: []
+        },
+        'portfolio': {
+          deps: ['react-typed', 'react-scroll'],
+          devDeps: []
+        },
+        'task-app': {
+          deps: ['use-local-storage-state', 'react-beautiful-dnd'],
+          devDeps: []
+        },
+        'chat': {
+          deps: ['socket.io-client', 'uuid'],
+          devDeps: ['@types/uuid']
+        },
+        'saas': {
+          deps: ['@stripe/stripe-js', 'stripe'],
+          devDeps: []
+        },
+        'marketplace': {
+          deps: ['react-rating-stars-component', 'react-image-gallery'],
+          devDeps: []
+        }
+      };
+
+      // Add dependencies for selected premium examples
+      premiumExamples.forEach(exampleKey => {
+        const exampleDeps = EXAMPLE_DEPENDENCIES[exampleKey];
+        if (exampleDeps) {
+          // Add regular dependencies
+          exampleDeps.deps.forEach(dep => {
+            if (dep === 'chart.js') dependencies[dep] = '^4.4.1';
+            else if (dep === 'react-chartjs-2') dependencies[dep] = '^5.2.0';
+            else if (dep === 'd3') dependencies[dep] = '^7.8.5';
+            else if (dep === 'react-intersection-observer') dependencies[dep] = '^9.5.3';
+            else if (dep === 'react-parallax') dependencies[dep] = '^3.5.1';
+            else if (dep === 'zustand') dependencies[dep] = '^4.4.7';
+            else if (dep === 'react-currency-input-field') dependencies[dep] = '^3.6.11';
+            else if (dep === 'react-typed') dependencies[dep] = '^1.2.0';
+            else if (dep === 'react-scroll') dependencies[dep] = '^1.9.0';
+            else if (dep === 'use-local-storage-state') dependencies[dep] = '^19.2.0';
+            else if (dep === 'react-beautiful-dnd') dependencies[dep] = '^13.1.1';
+            else if (dep === 'socket.io-client') dependencies[dep] = '^4.7.4';
+            else if (dep === 'uuid') dependencies[dep] = '^9.0.1';
+            else if (dep === '@stripe/stripe-js') dependencies[dep] = '^2.4.0';
+            else if (dep === 'stripe') dependencies[dep] = '^14.13.0';
+            else if (dep === 'react-rating-stars-component') dependencies[dep] = '^2.2.0';
+            else if (dep === 'react-image-gallery') dependencies[dep] = '^1.3.0';
+            else dependencies[dep] = 'latest';
+          });
+          
+          // Add dev dependencies
+          exampleDeps.devDeps.forEach(dep => {
+            if (dep === '@types/d3') devDependencies[dep] = '^7.4.3';
+            else if (dep === '@types/uuid') devDependencies[dep] = '^9.0.7';
+            else devDependencies[dep] = 'latest';
+          });
+        }
+      });
     }
     
     // Actualizar package.json
@@ -513,6 +593,144 @@ async function installDependencies(projectPath, options) {
     console.error(chalk.red(`Error: ${error.message}`));
     throw error;
   }
+}
+
+async function addPremiumExamples(projectPath, selectedExamples) {
+  const spinner = ora('Añadiendo ejemplos premium seleccionados...').start();
+  
+  try {
+    // Create premium examples directory
+    const premiumExamplesPath = path.join(projectPath, 'pages/ejemplos/premium');
+    fs.mkdirSync(premiumExamplesPath, { recursive: true });
+    
+    // Copy premium example files from templates
+    const templatePremiumPath = path.resolve(__dirname, 'template/pages/ejemplos/premium');
+    
+    for (const exampleKey of selectedExamples) {
+      const exampleFilePath = path.join(templatePremiumPath, `${exampleKey}.tsx`);
+      const targetFilePath = path.join(premiumExamplesPath, `${exampleKey}.tsx`);
+      
+      if (fs.existsSync(exampleFilePath)) {
+        await fs.copy(exampleFilePath, targetFilePath);
+      }
+    }
+    
+    // Create premium examples index page
+    const indexContent = generatePremiumExamplesIndex(selectedExamples);
+    const indexPath = path.join(premiumExamplesPath, 'index.tsx');
+    await fs.writeFile(indexPath, indexContent);
+    
+    spinner.succeed('Ejemplos premium añadidos correctamente');
+  } catch (error) {
+    spinner.fail('Error al añadir ejemplos premium');
+    throw error;
+  }
+}
+
+function generatePremiumExamplesIndex(selectedExamples) {
+  const exampleMappings = {
+    'analytics-dashboard': {
+      title: 'Analytics Dashboard',
+      description: 'Dashboard interactivo con visualizaciones avanzadas'
+    },
+    'landing-page': {
+      title: 'Modern Landing Page',
+      description: 'Página de aterrizaje moderna con múltiples secciones'
+    },
+    'ecommerce': {
+      title: 'E-commerce with Cart',
+      description: 'Tienda en línea básica con carrito de compras'
+    },
+    'portfolio': {
+      title: 'Personal Portfolio',
+      description: 'Portfolio personal responsivo y profesional'
+    },
+    'task-app': {
+      title: 'Task Management App',
+      description: 'Aplicación de gestión de tareas con persistencia local'
+    },
+    'chat': {
+      title: 'Real-time Chat',
+      description: 'Chat en tiempo real con WebSockets'
+    },
+    'saas': {
+      title: 'Multi-tenant SaaS',
+      description: 'Ejemplo de SaaS multi-tenant con gestión de suscripciones'
+    },
+    'marketplace': {
+      title: 'Marketplace with Reviews',
+      description: 'Marketplace con sistema de calificaciones y reseñas'
+    }
+  };
+
+  const exampleItems = selectedExamples.map(key => {
+    const example = exampleMappings[key];
+    return `          <Link href="/ejemplos/premium/${key}">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                ${example.title}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                ${example.description}
+              </p>
+            </div>
+          </Link>`;
+  }).join('\n');
+
+  return `import Head from 'next/head';
+import Link from 'next/link';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
+export default function PremiumExamplesIndex() {
+  return (
+    <>
+      <Head>
+        <title>Ejemplos Premium - sysrot-hub</title>
+        <meta name="description" content="Ejemplos premium incluidos en tu proyecto sysrot-hub" />
+      </Head>
+
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <Link href="/ejemplos" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4">
+              <ArrowLeftIcon className="w-4 h-4 mr-2" />
+              Volver a Ejemplos
+            </Link>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              🎨 Ejemplos Premium
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Colección de ejemplos avanzados incluidos en tu proyecto. Cada uno demuestra 
+              patrones modernos de desarrollo y mejores prácticas.
+            </p>
+          </div>
+
+          {/* Examples Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+${exampleItems}
+          </div>
+
+          {/* Documentation Note */}
+          <div className="mt-16 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-8 text-center">
+            <h2 className="text-2xl font-semibold text-blue-900 dark:text-blue-100 mb-4">
+              📚 Documentación Completa
+            </h2>
+            <p className="text-blue-700 dark:text-blue-300 mb-6">
+              Cada ejemplo incluye documentación detallada, comentarios explicativos y guías de uso.
+            </p>
+            <Link 
+              href="/docs/premium-examples" 
+              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Ver Documentación Completa
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}`;
 }
 
 async function generateReadme(projectPath, options) {
