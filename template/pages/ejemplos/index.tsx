@@ -61,6 +61,72 @@ export default function EjemplosPage() {
       icon: <BookOpen className="h-10 w-10 text-cyan-600" />
     },
     {
+      title: t('examples.typescript.title'),
+      description: t('examples.typescript.description'),
+      href: "/ejemplos/typescript",
+      icon: <Code className="h-10 w-10 text-blue-600" />
+    },
+    {
+      title: "Analytics Dashboard",
+      description: "Interactive dashboard with charts and real-time data visualization using Chart.js and D3.js",
+      href: "/ejemplos/dashboard",
+      icon: <div className="h-10 w-10 text-blue-600 text-2xl">📊</div>
+    },
+    {
+      title: "E-Commerce Store",
+      description: "Complete online store with shopping cart, product filtering, and checkout functionality",
+      href: "/ejemplos/ecommerce",
+      icon: <div className="h-10 w-10 text-green-600 text-2xl">🛍️</div>
+    },
+    {
+      title: "Task Manager",
+      description: "Personal task management app with local storage, priority levels, and progress tracking",
+      href: "/ejemplos/task-app",
+      icon: <div className="h-10 w-10 text-purple-600 text-2xl">📝</div>
+    },
+    {
+      title: "Real-time Chat",
+      description: "WebSocket-powered chat application with user presence and typing indicators",
+      href: "/ejemplos/chat",
+      icon: <div className="h-10 w-10 text-indigo-600 text-2xl">💬</div>
+    },
+    {
+      title: "Personal Portfolio",
+      description: "Responsive portfolio website with smooth animations, skills showcase, and contact form",
+      href: "/ejemplos/portfolio",
+      icon: <div className="h-10 w-10 text-orange-600 text-2xl">👨‍💻</div>
+    },
+    {
+      title: "Marketplace",
+      description: "Multi-vendor marketplace with ratings, reviews, and advanced product filtering",
+      href: "/ejemplos/marketplace",
+      icon: <div className="h-10 w-10 text-red-600 text-2xl">🛒</div>
+    },
+    {
+      title: "SaaS Platform",
+      description: "Multi-tenant SaaS application with subscription management and tenant administration",
+      href: "/ejemplos/saas",
+      icon: <div className="h-10 w-10 text-teal-600 text-2xl">🏢</div>
+    },
+    {
+      title: "Analytics Dashboard",
+      description: "Interactive dashboard with charts and real-time data visualization using Chart.js and D3.js",
+      href: "/ejemplos/analytics-dashboard",
+      icon: <div className="h-10 w-10 text-blue-600 text-2xl">📊</div>
+    },
+    {
+      title: "Modern Landing Page",
+      description: "Professional landing page with hero section, features, pricing, and testimonials",
+      href: "/ejemplos/landing-page",
+      icon: <div className="h-10 w-10 text-green-600 text-2xl">🚀</div>
+    },
+    {
+      title: "Multi-Tenant SaaS",
+      description: "Complete multi-tenant platform with tenant management, billing, and role-based access",
+      href: "/ejemplos/multi-tenant-saas",
+      icon: <div className="h-10 w-10 text-purple-600 text-2xl">🏢</div>
+    },
+    {
       title: t('examples.blog.title'),
       description: t('examples.blog.description'),
       href: "/blog",

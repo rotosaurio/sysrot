@@ -22,7 +22,7 @@ function showHelp() {
 program
   .name('sysrot-hub')
   .description('CLI de nueva generación para crear proyectos Next.js 14+ con IA, autenticación y más')
-  .version('0.8.5')
+  .version('0.9.0')
   .argument('[proyecto]', 'Nombre del proyecto')
   .option('-h, --help', 'Mostrar ayuda completa')
   .option('-v, --version', 'Mostrar versión')
@@ -39,7 +39,7 @@ program
     }
 
     if (options.version) {
-      logger.showVersion('0.8.5');
+      logger.showVersion('0.9.0');
       return;
     }
 
@@ -112,7 +112,17 @@ program
           'Ejemplo de Notificaciones',
           'Ejemplo de Base de Datos',
           'Ejemplo de UI y Temas',
-          'Ejemplo de TypeScript'
+          'Ejemplo de TypeScript',
+          'Dashboard de Analytics',
+          'Tienda E-Commerce',
+          'Gestor de Tareas',
+          'Chat en Tiempo Real',
+          'Portfolio Personal',
+          'Marketplace',
+          'Plataforma SaaS',
+          'Analytics Dashboard (Nuevo)',
+          'Modern Landing Page (Nuevo)',
+          'Multi-Tenant SaaS (Nuevo)'
         ],
         envExample: true,
         documentation: true
