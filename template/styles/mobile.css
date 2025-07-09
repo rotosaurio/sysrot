@@ -1,0 +1,572 @@
+/* Mobile-First CSS Optimizations */
+
+/* Root variables for mobile */
+:root {
+  --touch-target-size: 44px;
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+  
+  /* Pull to refresh variables */
+  --pull-opacity: 0;
+  --pull-ready: 0;
+  --pull-refreshing: 0;
+  
+  /* Performance variables */
+  --animation-duration: 0.3s;
+  --animation-easing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Safe area handling for notched devices */
+.safe-area-padding {
+  padding-top: max(1rem, var(--safe-area-inset-top));
+  padding-right: max(1rem, var(--safe-area-inset-right));
+  padding-bottom: max(1rem, var(--safe-area-inset-bottom));
+  padding-left: max(1rem, var(--safe-area-inset-left));
+}
+
+/* Touch target optimization */
+.touch-target {
+  min-height: var(--touch-target-size);
+  min-width: var(--touch-target-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Enhanced touch feedback */
+.touch-feedback {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.1s ease;
+}
+
+.touch-feedback::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+  pointer-events: none;
+}
+
+.touch-feedback:active {
+  transform: scale(0.98);
+}
+
+.touch-feedback:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+/* Momentum scrolling for iOS */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* App-like animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInSlide {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Page transitions */
+.page-enter {
+  animation: slideInUp var(--animation-duration) var(--animation-easing);
+}
+
+.page-exit {
+  animation: slideInDown var(--animation-duration) var(--animation-easing) reverse;
+}
+
+.modal-enter {
+  animation: scaleIn var(--animation-duration) var(--animation-easing);
+}
+
+.item-enter {
+  animation: fadeInSlide var(--animation-duration) var(--animation-easing);
+}
+
+/* Pull to refresh styles */
+.pull-to-refresh-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.pull-to-refresh-indicator {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: var(--pull-opacity);
+  transition: opacity 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pull-to-refresh-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+  transform: rotate(calc(var(--pull-ready) * 180deg));
+}
+
+.pull-refreshing .pull-to-refresh-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* PWA specific styles */
+@media (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Hide scroll bars in standalone mode */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Status bar spacing */
+  .app-header {
+    padding-top: var(--safe-area-inset-top);
+  }
+}
+
+/* Offline mode styles */
+.offline-mode {
+  --primary-color: #6b7280;
+}
+
+.offline-mode .offline-indicator {
+  display: flex !important;
+  position: fixed;
+  top: var(--safe-area-inset-top);
+  left: 0;
+  right: 0;
+  background: #ef4444;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 14px;
+  z-index: 9999;
+  animation: slideInDown 0.3s ease;
+}
+
+.offline-indicator {
+  display: none;
+}
+
+/* Battery save mode */
+.battery-save-mode {
+  --animation-duration: 0s;
+}
+
+.battery-save-mode * {
+  animation-duration: 0s !important;
+  transition-duration: 0s !important;
+}
+
+.battery-save-mode .expensive-animation {
+  display: none;
+}
+
+/* Mobile navigation styles */
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  padding-bottom: max(8px, var(--safe-area-inset-bottom));
+  display: flex;
+  justify-content: space-around;
+  z-index: 50;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  min-width: var(--touch-target-size);
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item.active {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.mobile-nav-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.mobile-nav-label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Responsive images */
+.responsive-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.responsive-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.responsive-image-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Touch-friendly form controls */
+.mobile-input {
+  min-height: var(--touch-target-size);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  font-size: 16px; /* Prevent zoom on iOS */
+  transition: border-color 0.2s ease;
+}
+
+.mobile-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.mobile-button {
+  min-height: var(--touch-target-size);
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-button:active {
+  transform: scale(0.98);
+}
+
+/* Swipe gestures visual feedback */
+.swipe-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-hint {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.swipe-hint.left {
+  left: 20px;
+}
+
+.swipe-hint.right {
+  right: 20px;
+}
+
+.swipe-container:hover .swipe-hint {
+  opacity: 1;
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Dark mode optimizations for mobile */
+@media (prefers-color-scheme: dark) {
+  .mobile-nav {
+    background: rgba(17, 24, 39, 0.95);
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .pull-to-refresh-indicator {
+    background: rgba(17, 24, 39, 0.9);
+  }
+  
+  .mobile-input {
+    background: #1f2937;
+    border-color: #374151;
+    color: white;
+  }
+  
+  .mobile-input:focus {
+    border-color: #60a5fa;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) {
+  .mobile-nav {
+    display: none; /* Hide bottom nav in landscape */
+  }
+  
+  .landscape-hidden {
+    display: none;
+  }
+  
+  .landscape-visible {
+    display: block;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .pull-to-refresh-indicator,
+  .touch-feedback,
+  .page-enter,
+  .modal-enter,
+  .item-enter {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .mobile-button {
+    border: 2px solid currentColor;
+  }
+  
+  .mobile-nav-item:hover,
+  .mobile-nav-item.active {
+    border: 2px solid currentColor;
+  }
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .ios-fix {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .mobile-input {
+    -webkit-appearance: none;
+    border-radius: 12px;
+  }
+  
+  /* Fix for iOS viewport units */
+  .full-height-mobile {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+}
+
+/* Loading states for lazy content */
+.lazy-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* PWA install prompt */
+.pwa-install-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slideInUp 0.3s ease;
+}
+
+.pwa-install-prompt h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.pwa-install-prompt p {
+  margin: 0 0 16px 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.pwa-install-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.pwa-install-button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pwa-install-button.primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.pwa-install-button.secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.pwa-install-button:hover {
+  transform: translateY(-1px);
+}
+
+/* Utility classes */
+.no-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.prevent-zoom {
+  touch-action: manipulation;
+}
+
+.enable-3d {
+  transform-style: preserve-3d;
+}
+
+/* Mobile-specific grid layouts */
+.mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.mobile-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .mobile-stack {
+    flex-direction: row;
+  }
+}
