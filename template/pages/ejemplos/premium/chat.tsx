@@ -318,7 +318,7 @@ export default function RealtimeChat() {
   return (
     <>
       <Head>
-        <title>Real-time Chat - Premium Examples</title>
+        <title>Real-time Chat - Full Integration Examples</title>
         <meta name="description" content="Chat en tiempo real con WebSockets" />
       </Head>
 

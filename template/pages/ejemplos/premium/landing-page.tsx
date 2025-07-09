@@ -125,7 +125,7 @@ export default function ModernLandingPage() {
   return (
     <>
       <Head>
-        <title>Modern Landing Page - Premium Examples</title>
+        <title>Modern Landing Page - Full Integration Examples</title>
         <meta name="description" content="Página de aterrizaje moderna con múltiples secciones y animaciones" />
       </Head>
 

@@ -193,7 +193,7 @@ export default function AnalyticsDashboard() {
   return (
     <>
       <Head>
-        <title>Analytics Dashboard - Premium Examples</title>
+        <title>Analytics Dashboard - Full Integration Examples</title>
         <meta name="description" content="Dashboard de analíticas interactivo con Chart.js y D3.js" />
       </Head>
 

@@ -401,7 +401,7 @@ export default function TaskApp() {
   return (
     <>
       <Head>
-        <title>Task Management App - Premium Examples</title>
+        <title>Task Management App - Full Integration Examples</title>
         <meta name="description" content="Aplicación de gestión de tareas con persistencia local" />
       </Head>
 

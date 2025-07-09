@@ -324,7 +324,7 @@ export default function EcommerceDemo() {
   return (
     <>
       <Head>
-        <title>E-commerce Demo - Premium Examples</title>
+        <title>E-commerce Demo - Full Integration Examples</title>
         <meta name="description" content="Tienda en línea básica con carrito de compras funcional" />
       </Head>
 
