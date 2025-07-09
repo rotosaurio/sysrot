@@ -47,15 +47,43 @@ export default function ComponentesExample(): React.ReactElement {
   );
 
   return (
-    <div className="container mx-auto py-12 space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent mb-4">
-          {t('pages.components.title')}
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-          {t('pages.components.description')}
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-cyan-600/10 py-16">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.05),transparent)]"></div>
+        </div>
+        
+        <div className="relative container mx-auto px-6">
+          <div className="text-center max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <span>🎨</span>
+              Galería de Componentes
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent mb-6">
+              {t('pages.components.title')}
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              {t('pages.components.description')}
+            </p>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-2xl mx-auto">
+              <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 border border-white/20 dark:border-gray-700/20">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">50+</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Componentes</div>
+              </div>
+              <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 border border-white/20 dark:border-gray-700/20">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">7</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Categorías</div>
+              </div>
+              <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 border border-white/20 dark:border-gray-700/20">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">100%</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Responsive</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Notificaciones */}
@@ -63,30 +91,64 @@ export default function ComponentesExample(): React.ReactElement {
         {notifications.map((notification, index) => (
           <div
             key={index}
-            className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-in slide-in-from-right duration-300"
+            className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl shadow-xl backdrop-blur-sm border border-white/20 animate-in slide-in-from-right duration-300"
           >
-            {notification}
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+              </svg>
+              {notification}
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Categorías */}
-      <div className="flex flex-wrap gap-3 justify-center p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => setActiveCategory(category.id)}
-            className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-              activeCategory === category.id
-                ? 'bg-white dark:bg-gray-700 shadow-lg scale-105 text-blue-600 dark:text-blue-400'
-                : 'hover:bg-white/50 dark:hover:bg-gray-700/50'
-            }`}
-          >
-            <span className="mr-2">{category.icon}</span>
-            {category.name}
-          </button>
-        ))}
+      {/* Navigation Categories */}
+      <div className="container mx-auto px-6 py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 p-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              Explora por Categorías
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Selecciona una categoría para ver los componentes disponibles
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                className={`group relative p-6 rounded-xl font-medium transition-all duration-300 text-center ${
+                  activeCategory === category.id
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg scale-105'
+                    : 'bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 hover:scale-105'
+                }`}
+              >
+                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                  {category.icon}
+                </div>
+                <div className="text-sm font-semibold leading-tight">
+                  {category.name.replace(/🎯|📝|🧭|💬|📊|📐|🚀/g, '').trim()}
+                </div>
+                
+                {/* Active indicator */}
+                {activeCategory === category.id && (
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                    <svg className="w-3 h-3 text-yellow-900" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {/* Content Area */}
+      <div className="container mx-auto px-6 pb-12">
 
       {/* Contenido por Categorías */}
       {activeCategory === 'basicos' && (
@@ -922,6 +984,7 @@ export default function ComponentesExample(): React.ReactElement {
           </section>
         </div>
       )}
+      </div>
     </div>
   );
 } 
