@@ -103,6 +103,19 @@ model User {
   livestreamChats    LivestreamChat[]   @relation("LivestreamChatter")
   reportedVideos     VideoReport[]      @relation("VideoReporter")
   reviewedReports    VideoReport[]      @relation("ReportReviewer")
+  
+  // Learning Management System relations
+  taughtCourses      Course[]           @relation("CourseInstructor")
+  enrollments        Enrollment[]       @relation("StudentEnrollment")
+  lessonProgress     LessonProgress[]   @relation("StudentProgress")
+  quizAttempts       QuizAttempt[]      @relation("QuizAttemptStudent")
+  assignments        AssignmentSubmission[] @relation("AssignmentSubmissionStudent")
+  gradedAssignments  AssignmentSubmission[] @relation("AssignmentGrader")
+  courseReviews      CourseReview[]     @relation("CourseReviewer")
+  discussions        CourseDiscussion[] @relation("DiscussionAuthor")
+  certificates       Certificate[]      @relation("CertificateRecipient")
+  learningPaths      LearningPath[]     @relation("LearningPathCreator")
+  pathEnrollments    LearningPathEnrollment[] @relation("PathStudent")
 }
 
 model VerificationToken {
@@ -2424,4 +2437,683 @@ enum ReportStatus {
   REVIEWING
   RESOLVED
   DISMISSED
+}
+
+// Learning Management System Models
+model Course {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  slug              String   @unique
+  
+  // Course content
+  thumbnail         String?
+  trailer           String?  // Course preview video
+  language          String   @default("en")
+  level             CourseLevel @default(BEGINNER)
+  category          CourseCategory @default(TECHNOLOGY)
+  tags              String[]
+  
+  // Course structure
+  duration          Int      @default(0) // Total duration in minutes
+  lessonCount       Int      @default(0)
+  
+  // Pricing and access
+  price             Float    @default(0)
+  originalPrice     Float?   // For discounts
+  currency          String   @default("USD")
+  access            CourseAccess @default(PAID)
+  
+  // Course status
+  status            CourseStatus @default(DRAFT)
+  publishedAt       DateTime?
+  
+  // Requirements and outcomes
+  requirements      String[] // Prerequisites
+  outcomes          String[] // What students will learn
+  
+  // Instructor and organization
+  instructorId      String
+  instructor        User     @relation("CourseInstructor", fields: [instructorId], references: [id])
+  organizationId    String?  // For institutional courses
+  
+  // Course content
+  modules           CourseModule[]
+  lessons           Lesson[]
+  
+  // Student interaction
+  enrollments       Enrollment[]
+  reviews           CourseReview[]
+  discussions       CourseDiscussion[]
+  
+  // Analytics and tracking
+  analytics         CourseAnalytics[]
+  certificates      Certificate[]
+  
+  // Marketing
+  featured          Boolean  @default(false)
+  trending          Boolean  @default(false)
+  
+  // Stats (denormalized for performance)
+  enrollmentCount   Int      @default(0)
+  completionCount   Int      @default(0)
+  averageRating     Float    @default(0)
+  reviewCount       Int      @default(0)
+  revenue           Float    @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([instructorId, status])
+  @@index([category, level, status])
+  @@index([featured, trending])
+  @@index([slug])
+}
+
+model CourseModule {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String?
+  order             Int      // Module order in course
+  
+  // Module content
+  lessons           Lesson[]
+  
+  // Module settings
+  isLocked          Boolean  @default(false) // Requires previous modules
+  duration          Int      @default(0) // Total duration in minutes
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([courseId, order])
+  @@index([courseId, order])
+}
+
+model Lesson {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  moduleId          String?
+  module            CourseModule? @relation(fields: [moduleId], references: [id], onDelete: SetNull)
+  
+  title             String
+  description       String?
+  order             Int      // Lesson order in course/module
+  
+  // Lesson content
+  type              LessonType @default(VIDEO)
+  content           String?  // Text content for articles
+  videoUrl          String?  // Video URL
+  videoDuration     Int?     // Video duration in seconds
+  attachments       LessonAttachment[]
+  
+  // Interactive elements
+  quiz              Quiz?
+  assignment        Assignment?
+  
+  // Lesson settings
+  isPreview         Boolean  @default(false) // Free preview
+  isRequired        Boolean  @default(true)
+  
+  // Student interaction
+  progress          LessonProgress[]
+  notes             StudentNote[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([courseId, order])
+  @@index([courseId, order])
+  @@index([moduleId, order])
+}
+
+model LessonAttachment {
+  id                String   @id @default(cuid())
+  lessonId          String
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String?
+  fileUrl           String
+  fileType          String   // pdf, doc, zip, etc.
+  fileSize          Int      // Size in bytes
+  
+  isDownloadable    Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([lessonId])
+}
+
+model Enrollment {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("StudentEnrollment", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Enrollment details
+  enrolledAt        DateTime @default(now())
+  completedAt       DateTime?
+  expiresAt         DateTime? // For time-limited access
+  
+  // Payment information
+  amount            Float    @default(0)
+  currency          String   @default("USD")
+  paymentMethod     String?  // stripe, paypal, free, etc.
+  transactionId     String?  // External payment reference
+  
+  // Progress tracking
+  status            EnrollmentStatus @default(ACTIVE)
+  progress          Float    @default(0) // Percentage 0-100
+  lastAccessedAt    DateTime @default(now())
+  
+  // Time tracking
+  totalTimeSpent    Int      @default(0) // Total time in minutes
+  
+  // Student interaction
+  lessonProgress    LessonProgress[]
+  notes             StudentNote[]
+  certificates      Certificate[]
+  
+  // Completion tracking
+  completedLessons  Int      @default(0)
+  totalLessons      Int      @default(0)
+  
+  @@unique([courseId, studentId])
+  @@index([studentId, status])
+  @@index([courseId, status])
+}
+
+model LessonProgress {
+  id                String   @id @default(cuid())
+  enrollmentId      String
+  enrollment        Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId          String
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  // Progress details
+  status            ProgressStatus @default(NOT_STARTED)
+  progress          Float    @default(0) // Percentage 0-100
+  timeSpent         Int      @default(0) // Time in minutes
+  
+  // Video-specific progress
+  lastPosition      Int?     // Last video position in seconds
+  watchTime         Int      @default(0) // Total watch time in seconds
+  
+  // Completion tracking
+  startedAt         DateTime?
+  completedAt       DateTime?
+  lastAccessedAt    DateTime @default(now())
+  
+  @@unique([enrollmentId, lessonId])
+  @@index([enrollmentId])
+  @@index([lessonId])
+}
+
+model Quiz {
+  id                String   @id @default(cuid())
+  lessonId          String   @unique
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String?
+  instructions      String?
+  
+  // Quiz settings
+  timeLimit         Int?     // Time limit in minutes
+  maxAttempts       Int      @default(1)
+  passingScore      Float    @default(70) // Percentage
+  isRandomized      Boolean  @default(false)
+  showCorrectAnswers Boolean @default(true)
+  
+  // Quiz content
+  questions         QuizQuestion[]
+  attempts          QuizAttempt[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model QuizQuestion {
+  id                String   @id @default(cuid())
+  quizId            String
+  quiz              Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  
+  question          String
+  explanation       String?  // Explanation for correct answer
+  order             Int
+  
+  type              QuestionType @default(MULTIPLE_CHOICE)
+  points            Int      @default(1)
+  
+  // Question options
+  options           QuizOption[]
+  answers           QuizAnswer[]
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([quizId, order])
+  @@index([quizId, order])
+}
+
+model QuizOption {
+  id                String   @id @default(cuid())
+  questionId        String
+  question          QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  text              String
+  order             Int
+  isCorrect         Boolean  @default(false)
+  
+  @@unique([questionId, order])
+  @@index([questionId])
+}
+
+model QuizAttempt {
+  id                String   @id @default(cuid())
+  quizId            String
+  quiz              Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("QuizAttemptStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Attempt details
+  score             Float    @default(0) // Percentage score
+  totalPoints       Int      @default(0)
+  earnedPoints      Int      @default(0)
+  
+  // Timing
+  startedAt         DateTime @default(now())
+  completedAt       DateTime?
+  timeSpent         Int?     // Time spent in minutes
+  
+  // Status
+  status            AttemptStatus @default(IN_PROGRESS)
+  isPassed          Boolean  @default(false)
+  
+  // Attempt content
+  answers           QuizAnswer[]
+  
+  @@index([quizId, studentId])
+  @@index([studentId])
+}
+
+model QuizAnswer {
+  id                String   @id @default(cuid())
+  attemptId         String
+  attempt           QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId        String
+  question          QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  answer            String   // Student's answer
+  isCorrect         Boolean  @default(false)
+  pointsEarned      Int      @default(0)
+  
+  @@unique([attemptId, questionId])
+  @@index([attemptId])
+}
+
+model Assignment {
+  id                String   @id @default(cuid())
+  lessonId          String   @unique
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String
+  instructions      String?
+  
+  // Assignment settings
+  dueDate           DateTime?
+  maxPoints         Int      @default(100)
+  allowLateSubmission Boolean @default(true)
+  
+  // File requirements
+  allowedFileTypes  String[] // pdf, doc, zip, etc.
+  maxFileSize       Int      @default(10485760) // 10MB default
+  
+  // Assignment submissions
+  submissions       AssignmentSubmission[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model AssignmentSubmission {
+  id                String   @id @default(cuid())
+  assignmentId      String
+  assignment        Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("AssignmentSubmissionStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Submission content
+  content           String?  // Text submission
+  fileUrl           String?  // File submission
+  fileName          String?
+  fileSize          Int?
+  
+  // Grading
+  score             Float?   // Points earned
+  grade             String?  // Letter grade
+  feedback          String?  // Instructor feedback
+  
+  // Status and timing
+  status            SubmissionStatus @default(SUBMITTED)
+  submittedAt       DateTime @default(now())
+  gradedAt          DateTime?
+  gradedById        String?  // Instructor who graded
+  gradedBy          User?    @relation("AssignmentGrader", fields: [gradedById], references: [id])
+  
+  @@unique([assignmentId, studentId])
+  @@index([assignmentId])
+  @@index([studentId])
+}
+
+model StudentNote {
+  id                String   @id @default(cuid())
+  enrollmentId      String
+  enrollment        Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId          String?
+  lesson            Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  
+  content           String
+  timestamp         Int?     // Video timestamp for video notes
+  
+  isPrivate         Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([enrollmentId])
+  @@index([lessonId])
+}
+
+model CourseReview {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("CourseReviewer", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  rating            Int      // 1-5 stars
+  title             String?
+  content           String?
+  
+  // Review moderation
+  isApproved        Boolean  @default(true)
+  isHelpful         Boolean  @default(false)
+  helpfulVotes      Int      @default(0)
+  
+  // Review verification
+  isVerifiedPurchase Boolean @default(false)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([courseId, studentId])
+  @@index([courseId, rating])
+  @@index([studentId])
+}
+
+model CourseDiscussion {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  authorId          String
+  author            User     @relation("DiscussionAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  
+  title             String
+  content           String
+  
+  // Discussion threading
+  parentId          String?
+  parent            CourseDiscussion? @relation("DiscussionThread", fields: [parentId], references: [id])
+  replies           CourseDiscussion[] @relation("DiscussionThread")
+  
+  // Interaction
+  isResolved        Boolean  @default(false)
+  isPinned          Boolean  @default(false)
+  upvotes           Int      @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([courseId, createdAt])
+  @@index([authorId])
+}
+
+model Certificate {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrollmentId      String
+  enrollment        Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("CertificateRecipient", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Certificate details
+  certificateNumber String   @unique
+  title             String
+  description       String?
+  
+  // Certificate design
+  templateId        String?  // Reference to certificate template
+  customization     Json?    // Custom colors, fonts, etc.
+  
+  // Verification
+  issuedAt          DateTime @default(now())
+  expiresAt         DateTime? // For time-limited certificates
+  verificationUrl   String?  // Public verification URL
+  
+  // Skills and achievements
+  skills            String[] // Skills demonstrated
+  grade             String?  // Final grade
+  score             Float?   // Final score percentage
+  
+  // Certificate file
+  certificateUrl    String?  // Generated certificate PDF
+  
+  @@index([studentId])
+  @@index([courseId])
+  @@index([certificateNumber])
+}
+
+model CourseAnalytics {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  
+  // Enrollment metrics
+  newEnrollments    Int      @default(0)
+  totalEnrollments  Int      @default(0)
+  completions       Int      @default(0)
+  dropouts          Int      @default(0)
+  
+  // Engagement metrics
+  totalTimeSpent    Int      @default(0) // Total time in minutes
+  averageProgress   Float    @default(0) // Average completion percentage
+  activeLearners    Int      @default(0) // Students who accessed course
+  
+  // Revenue metrics
+  revenue           Float    @default(0)
+  refunds           Float    @default(0)
+  
+  // Content metrics
+  mostWatchedLesson String?
+  leastWatchedLesson String?
+  averageQuizScore  Float?
+  
+  // Student feedback
+  averageRating     Float?
+  newReviews        Int      @default(0)
+  
+  @@unique([courseId, date])
+  @@index([courseId, date])
+}
+
+model LearningPath {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  slug              String   @unique
+  
+  // Path content
+  thumbnail         String?
+  estimatedDuration Int      @default(0) // Total duration in hours
+  level             CourseLevel @default(BEGINNER)
+  category          CourseCategory @default(TECHNOLOGY)
+  
+  // Path structure
+  courses           LearningPathCourse[]
+  
+  // Path ownership
+  creatorId         String
+  creator           User     @relation("LearningPathCreator", fields: [creatorId], references: [id])
+  
+  // Path enrollment
+  enrollments       LearningPathEnrollment[]
+  
+  // Path stats
+  enrollmentCount   Int      @default(0)
+  completionCount   Int      @default(0)
+  
+  // Path settings
+  isPublic          Boolean  @default(true)
+  isFeatured        Boolean  @default(false)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([creatorId])
+  @@index([category, level])
+  @@index([slug])
+}
+
+model LearningPathCourse {
+  id                String   @id @default(cuid())
+  pathId            String
+  path              LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  courseId          String
+  course            Course   @relation("PathCourses", fields: [courseId], references: [id], onDelete: Cascade)
+  
+  order             Int      // Course order in learning path
+  isRequired        Boolean  @default(true)
+  
+  @@unique([pathId, courseId])
+  @@unique([pathId, order])
+  @@index([pathId, order])
+}
+
+model LearningPathEnrollment {
+  id                String   @id @default(cuid())
+  pathId            String
+  path              LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("PathStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Enrollment details
+  enrolledAt        DateTime @default(now())
+  completedAt       DateTime?
+  
+  // Progress tracking
+  progress          Float    @default(0) // Percentage 0-100
+  completedCourses  Int      @default(0)
+  totalCourses      Int      @default(0)
+  
+  @@unique([pathId, studentId])
+  @@index([studentId])
+  @@index([pathId])
+}
+
+// Enums for Learning Management System
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+  ALL_LEVELS
+}
+
+enum CourseCategory {
+  TECHNOLOGY
+  BUSINESS
+  DESIGN
+  MARKETING
+  PERSONAL_DEVELOPMENT
+  HEALTH_FITNESS
+  MUSIC
+  LANGUAGE
+  PHOTOGRAPHY
+  COOKING
+  ARTS_CRAFTS
+  LIFESTYLE
+  ACADEMIC
+  TEST_PREP
+}
+
+enum CourseAccess {
+  FREE
+  PAID
+  SUBSCRIPTION
+  INVITATION_ONLY
+}
+
+enum CourseStatus {
+  DRAFT
+  UNDER_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum LessonType {
+  VIDEO
+  ARTICLE
+  QUIZ
+  ASSIGNMENT
+  INTERACTIVE
+  LIVE_SESSION
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  DROPPED
+  EXPIRED
+  SUSPENDED
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  SKIPPED
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  FILL_IN_BLANK
+  SHORT_ANSWER
+  ESSAY
+  MATCHING
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  SUBMITTED
+  ABANDONED
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  GRADED
+  RETURNED
+  LATE
+  MISSING
 }
