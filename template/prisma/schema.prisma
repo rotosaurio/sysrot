@@ -67,6 +67,12 @@ model User {
   readReceipts  ChatReadReceipt[] @relation("ChatReadReceipt")
   notifications ChatNotification[] @relation("ChatNotification")
   typingIndicators ChatTypingIndicator[] @relation("ChatTypingIndicator")
+  
+  // AI Chatbot relations
+  createdChatbots    Chatbot[]          @relation("ChatbotCreator")
+  botConversations   BotConversation[]  @relation("BotConversationUser")
+  knowledgeItems     KnowledgeItem[]    @relation("KnowledgeCreator")
+  botHandoffs        BotHandoff[]       @relation("BotHandoffUser")
 }
 
 model VerificationToken {
@@ -351,6 +357,7 @@ model Organization {
   invitations   OrganizationInvitation[]
   activities    Activity[]
   usage         Usage[]
+  chatbots      Chatbot[]
   
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -756,4 +763,458 @@ enum NotificationType {
   ROOM_INVITE
   ROOM_UPDATE
   SYSTEM
+}
+
+// AI Chatbot System Models
+model Chatbot {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  avatar            String?
+  
+  // Configuration
+  model             String   @default("gpt-4o") // AI model to use
+  temperature       Float    @default(0.7)
+  maxTokens         Int      @default(1000)
+  systemPrompt      String   @default("You are a helpful AI assistant.")
+  
+  // Behavior settings
+  personality       Json?    // Personality traits, tone, style
+  capabilities      String[] // What the bot can do
+  restrictions      String[] // What the bot cannot do
+  languages         String[] @default(["en"])
+  
+  // Integration settings
+  isPublic          Boolean  @default(false)
+  isEmbeddable      Boolean  @default(true)
+  webhookUrl        String?
+  fallbackMessage   String?
+  
+  // Business settings
+  businessHours     Json?    // Working hours configuration
+  autoAssign        Boolean  @default(false)
+  maxConversations  Int?     @default(100)
+  
+  // Relations
+  organizationId    String?
+  organization      Organization? @relation(fields: [organizationId], references: [id])
+  createdBy         String
+  creator           User     @relation("ChatbotCreator", fields: [createdBy], references: [id])
+  
+  conversations     BotConversation[]
+  knowledgeItems    KnowledgeItem[]
+  intents           BotIntent[]
+  responses         BotResponse[]
+  analytics         BotAnalytics[]
+  integrations      BotIntegration[]
+  
+  // Status
+  isActive          Boolean  @default(true)
+  isTraining        Boolean  @default(false)
+  lastTrainedAt     DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organizationId, isActive])
+  @@index([createdBy, isActive])
+}
+
+model BotConversation {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Participant info
+  userId            String?  // If registered user
+  user              User?    @relation("BotConversationUser", fields: [userId], references: [id])
+  visitorId         String?  // If anonymous visitor
+  visitorInfo       Json?    // Browser, location, etc.
+  
+  // Conversation metadata
+  title             String?
+  summary           String?
+  category          String?
+  priority          ConversationPriority @default(MEDIUM)
+  status            ConversationStatus @default(ACTIVE)
+  
+  // Channel information
+  channel           ConversationChannel @default(WEB)
+  source            String?  // URL, app, integration source
+  referrer          String?
+  
+  // Session info
+  sessionId         String?
+  ipAddress         String?
+  userAgent         String?
+  location          Json?    // Geolocation data
+  
+  // Business context
+  tags              String[]
+  customFields      Json?
+  
+  // Relations
+  messages          BotMessage[]
+  handoffs          BotHandoff[]
+  ratings           BotRating[]
+  
+  // Timestamps
+  startedAt         DateTime @default(now())
+  lastMessageAt     DateTime @default(now())
+  endedAt           DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([chatbotId, status, lastMessageAt])
+  @@index([userId, startedAt])
+  @@index([visitorId, startedAt])
+}
+
+model BotMessage {
+  id                String   @id @default(cuid())
+  conversationId    String
+  conversation      BotConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  // Message content
+  content           String
+  contentType       BotMessageType @default(TEXT)
+  metadata          Json?    // Rich content, attachments, etc.
+  
+  // Message attribution
+  role              BotRole  @default(USER)
+  sender            String?  // AI model name or user identifier
+  
+  // AI processing
+  intent            String?  // Detected intent
+  entities          Json?    // Extracted entities
+  confidence        Float?   // AI confidence score
+  
+  // Response generation
+  prompt            String?  // Prompt used for AI
+  modelUsed         String?  // AI model used
+  tokensUsed        Int?     // Token consumption
+  responseTime      Int?     // Response time in ms
+  
+  // Interaction data
+  wasHelpful        Boolean?
+  userFeedback      String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([conversationId, createdAt])
+  @@index([role, createdAt])
+  @@index([intent, createdAt])
+}
+
+model KnowledgeItem {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Content
+  title             String
+  content           String
+  summary           String?
+  
+  // Categorization
+  category          String?
+  tags              String[]
+  keywords          String[]
+  
+  // Content metadata
+  contentType       KnowledgeType @default(TEXT)
+  source            String?  // URL, file path, etc.
+  language          String   @default("en")
+  
+  // AI processing
+  embedding         Json?    // Vector embedding for similarity search
+  priority          Int      @default(0)
+  isEnabled         Boolean  @default(true)
+  
+  // Usage analytics
+  accessCount       Int      @default(0)
+  lastAccessedAt    DateTime?
+  
+  // Management
+  createdBy         String
+  creator           User     @relation("KnowledgeCreator", fields: [createdBy], references: [id])
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([chatbotId, isEnabled, priority])
+  @@index([category, tags])
+  @@fulltext([title, content, keywords])
+}
+
+model BotIntent {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Intent definition
+  name              String
+  description       String?
+  category          String?
+  
+  // Training data
+  examples          String[] // Example phrases
+  patterns          String[] // Regex patterns
+  entities          Json?    // Expected entities
+  
+  // Response configuration
+  isEnabled         Boolean  @default(true)
+  confidence        Float    @default(0.8)
+  priority          Int      @default(0)
+  
+  // Relations
+  responses         BotResponse[]
+  
+  // Analytics
+  matchCount        Int      @default(0)
+  successRate       Float?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([chatbotId, name])
+  @@index([chatbotId, isEnabled])
+}
+
+model BotResponse {
+  id                String   @id @default(cuid())
+  intentId          String?
+  intent            BotIntent? @relation(fields: [intentId], references: [id], onDelete: Cascade)
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Response content
+  content           String
+  contentType       BotMessageType @default(TEXT)
+  metadata          Json?    // Rich content, quick replies, etc.
+  
+  // Conditions
+  conditions        Json?    // When to use this response
+  context           Json?    // Required context
+  
+  // Response behavior
+  isEnabled         Boolean  @default(true)
+  weight            Int      @default(100)
+  cooldown          Int?     // Seconds before reuse
+  
+  // Analytics
+  useCount          Int      @default(0)
+  rating            Float?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([chatbotId, isEnabled])
+  @@index([intentId, isEnabled])
+}
+
+model BotHandoff {
+  id                String   @id @default(cuid())
+  conversationId    String
+  conversation      BotConversation @relation(fields: [conversationId], references: [id])
+  
+  // Handoff details
+  reason            String
+  toUserId          String?
+  toUser            User?    @relation("BotHandoffUser", fields: [toUserId], references: [id])
+  toTeam            String?
+  
+  // Status
+  status            HandoffStatus @default(PENDING)
+  resolvedAt        DateTime?
+  notes             String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([conversationId, status])
+  @@index([toUserId, status])
+}
+
+model BotRating {
+  id                String   @id @default(cuid())
+  conversationId    String
+  conversation      BotConversation @relation(fields: [conversationId], references: [id])
+  
+  // Rating data
+  rating            Int      // 1-5 stars
+  feedback          String?
+  categories        Json?    // What was rated (helpfulness, accuracy, etc.)
+  
+  // Context
+  messageId         String?  // Specific message rated
+  reason            String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([conversationId, rating])
+  @@index([rating, createdAt])
+}
+
+model BotAnalytics {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Time period
+  date              DateTime
+  period            AnalyticsPeriod @default(DAY)
+  
+  // Conversation metrics
+  conversationsStarted    Int @default(0)
+  conversationsCompleted  Int @default(0)
+  averageSessionLength    Int @default(0) // seconds
+  
+  // Message metrics
+  messagesReceived        Int @default(0)
+  messagesSent           Int @default(0)
+  averageResponseTime     Int @default(0) // milliseconds
+  
+  // Intent metrics
+  intentMatches          Int @default(0)
+  intentMisses           Int @default(0)
+  averageConfidence      Float @default(0)
+  
+  // User satisfaction
+  ratingsReceived        Int @default(0)
+  averageRating          Float @default(0)
+  positiveRatings        Int @default(0)
+  negativeRatings        Int @default(0)
+  
+  // Handoff metrics
+  handoffsRequested      Int @default(0)
+  handoffsCompleted      Int @default(0)
+  
+  // Cost metrics
+  totalTokensUsed        Int @default(0)
+  estimatedCost          Float @default(0)
+  
+  // Additional metrics
+  customMetrics          Json?
+  
+  createdAt              DateTime @default(now())
+  
+  @@unique([chatbotId, date, period])
+  @@index([chatbotId, date])
+}
+
+model BotIntegration {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Integration details
+  type              IntegrationType
+  name              String
+  description       String?
+  
+  // Configuration
+  config            Json     // Integration-specific configuration
+  webhookUrl        String?
+  apiKey            String?  // Encrypted
+  
+  // Status
+  isActive          Boolean  @default(true)
+  lastSyncAt        DateTime?
+  syncStatus        String?
+  
+  // Analytics
+  requestCount      Int      @default(0)
+  successCount      Int      @default(0)
+  errorCount        Int      @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([chatbotId, type, name])
+  @@index([chatbotId, isActive])
+}
+
+// Enums for Chatbot System
+enum ConversationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ConversationStatus {
+  ACTIVE
+  WAITING
+  RESOLVED
+  CLOSED
+  ESCALATED
+}
+
+enum ConversationChannel {
+  WEB
+  MOBILE
+  EMAIL
+  SLACK
+  DISCORD
+  WHATSAPP
+  TELEGRAM
+  API
+}
+
+enum BotMessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  CARD
+  CAROUSEL
+  QUICK_REPLY
+  BUTTON
+  LIST
+}
+
+enum BotRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  AGENT
+}
+
+enum KnowledgeType {
+  TEXT
+  FAQ
+  DOCUMENT
+  URL
+  VIDEO
+  IMAGE
+}
+
+enum HandoffStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CANCELLED
+}
+
+enum AnalyticsPeriod {
+  HOUR
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+enum IntegrationType {
+  SLACK
+  DISCORD
+  WHATSAPP
+  TELEGRAM
+  EMAIL
+  WEBHOOK
+  ZAPIER
+  API
+  WIDGET
 }
