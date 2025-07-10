@@ -13,7 +13,9 @@
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force && npm run db:seed",
+    "db:seed:saas": "tsx prisma/seed-saas.ts",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
+    "setup:saas": "npm run db:push && npm run db:seed:saas",
     "type-check": "tsc --noEmit"
   },
   "prisma": {
@@ -67,10 +69,13 @@
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "zod": "^3.22.4",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "recharts": "^2.8.0",
+    "crypto-js": "^4.2.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/crypto-js": "^4.2.1",
     "@types/js-cookie": "^3.0.6",
     "@types/nodemailer": "^6.4.14",
     "eslint": "^8.56.0",

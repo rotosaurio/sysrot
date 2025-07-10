@@ -51,6 +51,12 @@ model User {
   wishlist      WishlistItem[]
   cart          CartItem[]
   addresses     Address[]
+  
+  // Multi-tenant SaaS relations
+  memberships   OrganizationMember[]
+  invitations   OrganizationInvitation[]
+  activities    Activity[]
+  extended      UserExtended?
 }
 
 model VerificationToken {
@@ -304,4 +310,222 @@ enum CouponStatus {
   ACTIVE
   INACTIVE
   EXPIRED
+}
+
+// Multi-tenant SaaS Models
+model Organization {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  domain        String?  @unique // Custom domain
+  logo          String?
+  description   String?
+  settings      Json?    // Organization-specific settings
+  
+  // Subscription
+  planId        String?
+  plan          Plan?    @relation(fields: [planId], references: [id])
+  subscription  Subscription?
+  
+  // Limits and usage
+  userLimit     Int      @default(5)
+  storageLimit  Int      @default(1000) // MB
+  apiLimit      Int      @default(1000) // Requests per month
+  
+  // Status
+  status        OrganizationStatus @default(ACTIVE)
+  trialEndsAt   DateTime?
+  
+  // Relations
+  members       OrganizationMember[]
+  invitations   OrganizationInvitation[]
+  activities    Activity[]
+  usage         Usage[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model OrganizationMember {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role          OrganizationRole @default(MEMBER)
+  permissions   String[] // Array of permissions
+  joinedAt      DateTime @default(now())
+  lastActiveAt  DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([organizationId, userId])
+}
+
+model OrganizationInvitation {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role          OrganizationRole @default(MEMBER)
+  token         String   @unique
+  invitedBy     String?
+  inviter       User?    @relation(fields: [invitedBy], references: [id])
+  status        InvitationStatus @default(PENDING)
+  expiresAt     DateTime
+  acceptedAt    DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([organizationId, email])
+}
+
+model Plan {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  slug          String   @unique
+  description   String?
+  price         Float    // Monthly price
+  yearlyPrice   Float?   // Yearly price (if different)
+  currency      String   @default("usd")
+  
+  // Features and limits
+  features      Json     // Plan features
+  userLimit     Int      @default(5)
+  storageLimit  Int      @default(1000) // MB
+  apiLimit      Int      @default(1000) // Requests per month
+  
+  // Stripe
+  stripePriceId String?  @unique
+  stripeProductId String? @unique
+  
+  // Status
+  status        PlanStatus @default(ACTIVE)
+  popular       Boolean  @default(false)
+  
+  // Relations
+  organizations Organization[]
+  subscriptions Subscription[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Subscription {
+  id                String   @id @default(cuid())
+  organizationId    String   @unique
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  planId            String
+  plan              Plan     @relation(fields: [planId], references: [id])
+  
+  // Stripe
+  stripeCustomerId       String?
+  stripeSubscriptionId   String?  @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+  
+  // Status
+  status            SubscriptionStatus @default(ACTIVE)
+  cancelAtPeriodEnd Boolean @default(false)
+  canceledAt        DateTime?
+  
+  // Billing
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  trialStart        DateTime?
+  trialEnd          DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Usage {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  // Usage metrics
+  month          Int      // 1-12
+  year           Int
+  users          Int      @default(0)
+  storage        Int      @default(0) // MB used
+  apiRequests    Int      @default(0)
+  bandwidth      Int      @default(0) // MB
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  @@unique([organizationId, month, year])
+}
+
+model Activity {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id])
+  
+  // Activity details
+  action         String   // e.g., "user_invited", "plan_upgraded"
+  target         String?  // Target entity
+  targetId       String?  // Target entity ID
+  metadata       Json?    // Additional data
+  ipAddress      String?
+  userAgent      String?
+  
+  createdAt      DateTime @default(now())
+  
+  @@index([organizationId, createdAt])
+}
+
+// Update User model for multi-tenant relations
+model UserExtended {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // SaaS specific fields
+  onboardingCompleted Boolean @default(false)
+  lastLoginAt         DateTime?
+  preferences         Json?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// Enums for multi-tenant
+enum OrganizationStatus {
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+}
+
+enum PlanStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  UNPAID
+  TRIALING
 }
