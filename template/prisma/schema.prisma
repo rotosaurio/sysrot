@@ -87,6 +87,22 @@ model User {
   approvedTimeEntries TimeEntry[]       @relation("TimeEntryApprover")
   projectActivities  ProjectActivity[]  @relation("ProjectActivity")
   createdReports     ProjectReport[]    @relation("ProjectReportCreator")
+  
+  // Video Streaming relations
+  ownedChannels      VideoChannel[]     @relation("ChannelOwner")
+  channelSubscriptions ChannelSubscription[] @relation("ChannelSubscriber")
+  channelCollaborations ChannelCollaborator[] @relation("ChannelCollaborator")
+  uploadedVideos     Video[]            @relation("VideoUploader")
+  videoComments      VideoComment[]     @relation("VideoCommentAuthor")
+  videoLikes         VideoLike[]        @relation("VideoLiker")
+  commentLikes       CommentLike[]      @relation("CommentLiker")
+  createdPlaylists   Playlist[]         @relation("PlaylistCreator")
+  playlistItems      PlaylistItem[]     @relation("PlaylistItemAdder")
+  playlistCollaborations PlaylistCollaborator[] @relation("PlaylistCollaborator")
+  watchHistory       WatchHistory[]     @relation("VideoWatcher")
+  livestreamChats    LivestreamChat[]   @relation("LivestreamChatter")
+  reportedVideos     VideoReport[]      @relation("VideoReporter")
+  reviewedReports    VideoReport[]      @relation("ReportReviewer")
 }
 
 model VerificationToken {
@@ -1852,4 +1868,560 @@ enum ProjectIntegrationType {
   WEBHOOK
   ZAPIER
   API
+}
+
+// Video Streaming and Media System Models
+model VideoChannel {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  handle            String   @unique // @channelname
+  avatar            String?
+  banner            String?
+  
+  // Channel settings
+  isVerified        Boolean  @default(false)
+  isMonetized       Boolean  @default(false)
+  category          ChannelCategory @default(GENERAL)
+  
+  // Stats
+  subscriberCount   Int      @default(0)
+  videoCount        Int      @default(0)
+  totalViews        Int      @default(0)
+  totalWatchTime    Int      @default(0) // in seconds
+  
+  // Business
+  monetization      Json?    // Monetization settings
+  socialLinks       Json?    // Social media links
+  
+  // Relations
+  ownerId           String
+  owner             User     @relation("ChannelOwner", fields: [ownerId], references: [id])
+  
+  videos            Video[]
+  playlists         Playlist[]
+  subscribers       ChannelSubscription[]
+  collaborators     ChannelCollaborator[]
+  analytics         ChannelAnalytics[]
+  livestreams       Livestream[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([ownerId])
+  @@index([handle])
+  @@index([category, subscriberCount])
+}
+
+model ChannelSubscription {
+  id                String   @id @default(cuid())
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ChannelSubscriber", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isNotificationsEnabled Boolean @default(true)
+  subscribedAt      DateTime @default(now())
+  
+  @@unique([channelId, userId])
+  @@index([userId])
+}
+
+model ChannelCollaborator {
+  id                String   @id @default(cuid())
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ChannelCollaborator", fields: [userId], references: [id], onDelete: Cascade)
+  
+  role              CollaboratorRole @default(EDITOR)
+  permissions       String[] // Specific permissions
+  
+  invitedAt         DateTime @default(now())
+  acceptedAt        DateTime?
+  isActive          Boolean  @default(true)
+  
+  @@unique([channelId, userId])
+}
+
+model Video {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  thumbnail         String?
+  
+  // Video file details
+  videoUrl          String   // Original video URL
+  duration          Int      // Duration in seconds
+  fileSize          Int      // File size in bytes
+  resolution        String?  // e.g., "1920x1080"
+  fps               Int?     // Frames per second
+  bitrate           Int?     // Bitrate in kbps
+  
+  // Processing status
+  status            VideoStatus @default(PROCESSING)
+  processingProgress Int     @default(0) // 0-100
+  
+  // Video qualities (transcoded versions)
+  qualities         VideoQuality[]
+  
+  // Metadata
+  category          VideoCategory @default(GENERAL)
+  tags              String[]
+  language          String?      @default("en")
+  
+  // Privacy and monetization
+  visibility        VideoVisibility @default(PRIVATE)
+  isAgeRestricted   Boolean  @default(false)
+  isMonetized       Boolean  @default(false)
+  licensedContent   Boolean  @default(false)
+  
+  // Engagement
+  viewCount         Int      @default(0)
+  likeCount         Int      @default(0)
+  dislikeCount      Int      @default(0)
+  commentCount      Int      @default(0)
+  shareCount        Int      @default(0)
+  
+  // Upload info
+  uploadProgress    Int      @default(0) // 0-100
+  uploadedAt        DateTime?
+  publishedAt       DateTime?
+  
+  // Relations
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  uploadedById      String
+  uploadedBy        User     @relation("VideoUploader", fields: [uploadedById], references: [id])
+  
+  comments          VideoComment[]
+  likes             VideoLike[]
+  analytics         VideoAnalytics[]
+  playlistItems     PlaylistItem[]
+  watchHistory      WatchHistory[]
+  reports           VideoReport[]
+  
+  // SEO
+  slug              String?  @unique
+  customThumbnails  String[] // Additional thumbnail options
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([channelId, status])
+  @@index([category, publishedAt])
+  @@index([visibility, publishedAt])
+  @@index([slug])
+}
+
+model VideoQuality {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  quality           String   // "144p", "240p", "360p", "480p", "720p", "1080p", "1440p", "2160p"
+  resolution        String   // "1920x1080"
+  videoUrl          String   // URL to quality-specific video file
+  fileSize          Int      // File size in bytes
+  bitrate           Int      // Bitrate in kbps
+  
+  processingStatus  String   @default("pending") // pending, processing, completed, failed
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([videoId, quality])
+  @@index([videoId])
+}
+
+model VideoComment {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  authorId          String
+  author            User     @relation("VideoCommentAuthor", fields: [authorId], references: [id])
+  
+  content           String
+  
+  // Thread support
+  parentId          String?
+  parent            VideoComment? @relation("CommentThread", fields: [parentId], references: [id])
+  replies           VideoComment[] @relation("CommentThread")
+  
+  // Engagement
+  likeCount         Int      @default(0)
+  dislikeCount      Int      @default(0)
+  
+  // Moderation
+  isPinned          Boolean  @default(false)
+  isHearted         Boolean  @default(false) // Hearted by video owner
+  isSpam            Boolean  @default(false)
+  isDeleted         Boolean  @default(false)
+  
+  likes             CommentLike[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([videoId, createdAt])
+  @@index([authorId])
+}
+
+model VideoLike {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("VideoLiker", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isLike            Boolean  // true for like, false for dislike
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([videoId, userId])
+  @@index([userId])
+}
+
+model CommentLike {
+  id                String   @id @default(cuid())
+  commentId         String
+  comment           VideoComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("CommentLiker", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isLike            Boolean  // true for like, false for dislike
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([commentId, userId])
+}
+
+model Playlist {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  thumbnail         String?
+  
+  // Settings
+  visibility        PlaylistVisibility @default(PRIVATE)
+  isCollaborative   Boolean  @default(false)
+  
+  // Stats
+  videoCount        Int      @default(0)
+  totalDuration     Int      @default(0) // Total duration in seconds
+  viewCount         Int      @default(0)
+  
+  // Relations
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  createdById       String
+  createdBy         User     @relation("PlaylistCreator", fields: [createdById], references: [id])
+  
+  items             PlaylistItem[]
+  collaborators     PlaylistCollaborator[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([channelId, visibility])
+  @@index([createdById])
+}
+
+model PlaylistItem {
+  id                String   @id @default(cuid())
+  playlistId        String
+  playlist          Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  position          Int      // Order in playlist
+  addedAt           DateTime @default(now())
+  addedById         String
+  addedBy           User     @relation("PlaylistItemAdder", fields: [addedById], references: [id])
+  
+  @@unique([playlistId, videoId])
+  @@index([playlistId, position])
+}
+
+model PlaylistCollaborator {
+  id                String   @id @default(cuid())
+  playlistId        String
+  playlist          Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("PlaylistCollaborator", fields: [userId], references: [id], onDelete: Cascade)
+  
+  canAdd            Boolean  @default(true)
+  canRemove         Boolean  @default(false)
+  canEdit           Boolean  @default(false)
+  
+  invitedAt         DateTime @default(now())
+  
+  @@unique([playlistId, userId])
+}
+
+model WatchHistory {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation("VideoWatcher", fields: [userId], references: [id], onDelete: Cascade)
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  // Watch details
+  watchedAt         DateTime @default(now())
+  watchDuration     Int      // Seconds watched
+  lastPosition      Int      @default(0) // Last position in seconds
+  isCompleted       Boolean  @default(false)
+  
+  // Session info
+  deviceType        String?  // mobile, desktop, tv, etc.
+  quality           String?  // Quality watched
+  
+  @@unique([userId, videoId])
+  @@index([userId, watchedAt])
+  @@index([videoId])
+}
+
+model VideoAnalytics {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  
+  // View metrics
+  views             Int      @default(0)
+  uniqueViews       Int      @default(0)
+  watchTime         Int      @default(0) // Total watch time in seconds
+  averageViewDuration Float  @default(0) // Average view duration
+  
+  // Engagement metrics
+  likes             Int      @default(0)
+  dislikes          Int      @default(0)
+  comments          Int      @default(0)
+  shares            Int      @default(0)
+  subscribersGained Int      @default(0)
+  
+  // Audience metrics
+  demographics      Json?    // Age, gender, location data
+  trafficSources    Json?    // Where views came from
+  deviceTypes       Json?    // Device breakdown
+  
+  @@unique([videoId, date])
+  @@index([videoId, date])
+}
+
+model ChannelAnalytics {
+  id                String   @id @default(cuid())
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  
+  // Channel metrics
+  subscriberCount   Int      @default(0)
+  totalViews        Int      @default(0)
+  totalWatchTime    Int      @default(0)
+  videoPublished    Int      @default(0)
+  
+  // Revenue metrics (if monetized)
+  revenue           Float?   @default(0)
+  rpm               Float?   // Revenue per mille
+  cpm               Float?   // Cost per mille
+  
+  // Audience metrics
+  demographics      Json?
+  topCountries      Json?
+  topVideos         Json?
+  
+  @@unique([channelId, date])
+  @@index([channelId, date])
+}
+
+model Livestream {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  thumbnail         String?
+  
+  // Stream settings
+  streamKey         String   @unique
+  rtmpUrl           String?
+  hlsUrl            String?
+  
+  // Stream status
+  status            LivestreamStatus @default(SCHEDULED)
+  scheduledAt       DateTime?
+  startedAt         DateTime?
+  endedAt           DateTime?
+  
+  // Stream quality
+  maxQuality        String   @default("1080p")
+  enableChat        Boolean  @default(true)
+  enableDonations   Boolean  @default(false)
+  
+  // Metrics
+  peakViewers       Int      @default(0)
+  totalViews        Int      @default(0)
+  chatMessages      Int      @default(0)
+  
+  // Relations
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  
+  chatMessages      LivestreamChat[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([channelId, status])
+  @@index([scheduledAt])
+}
+
+model LivestreamChat {
+  id                String   @id @default(cuid())
+  livestreamId      String
+  livestream        Livestream @relation(fields: [livestreamId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("LivestreamChatter", fields: [userId], references: [id])
+  
+  message           String
+  
+  // Message type
+  type              ChatMessageType @default(NORMAL)
+  
+  // Moderation
+  isDeleted         Boolean  @default(false)
+  isPinned          Boolean  @default(false)
+  
+  sentAt            DateTime @default(now())
+  
+  @@index([livestreamId, sentAt])
+  @@index([userId])
+}
+
+model VideoReport {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  reportedById      String
+  reportedBy        User     @relation("VideoReporter", fields: [reportedById], references: [id])
+  
+  reason            ReportReason
+  description       String?
+  
+  // Moderation
+  status            ReportStatus @default(PENDING)
+  reviewedAt        DateTime?
+  reviewedById      String?
+  reviewedBy        User?    @relation("ReportReviewer", fields: [reviewedById], references: [id])
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([videoId])
+  @@index([status])
+}
+
+// Enums for Video Streaming System
+enum ChannelCategory {
+  GENERAL
+  GAMING
+  MUSIC
+  SPORTS
+  ENTERTAINMENT
+  NEWS
+  EDUCATION
+  SCIENCE_TECH
+  TRAVEL
+  LIFESTYLE
+  COOKING
+  FITNESS
+  BUSINESS
+  COMEDY
+  DOCUMENTARY
+  KIDS
+  LIVE
+}
+
+enum CollaboratorRole {
+  VIEWER
+  EDITOR
+  MODERATOR
+  ADMIN
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+  DELETED
+}
+
+enum VideoCategory {
+  GENERAL
+  GAMING
+  MUSIC
+  SPORTS
+  ENTERTAINMENT
+  NEWS
+  EDUCATION
+  SCIENCE_TECH
+  TRAVEL
+  LIFESTYLE
+  COOKING
+  FITNESS
+  BUSINESS
+  COMEDY
+  DOCUMENTARY
+  KIDS
+  LIVE
+  ANIMATION
+  TUTORIAL
+  REVIEW
+  VLOG
+}
+
+enum VideoVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+  SCHEDULED
+}
+
+enum PlaylistVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+}
+
+enum LivestreamStatus {
+  SCHEDULED
+  LIVE
+  ENDED
+  CANCELLED
+}
+
+enum ChatMessageType {
+  NORMAL
+  SUPER_CHAT
+  MODERATOR
+  SYSTEM
+}
+
+enum ReportReason {
+  SPAM
+  VIOLENCE
+  HARASSMENT
+  HATE_SPEECH
+  NUDITY
+  COPYRIGHT
+  MISLEADING
+  CHILD_SAFETY
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWING
+  RESOLVED
+  DISMISSED
 }

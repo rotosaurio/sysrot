@@ -20,6 +20,7 @@
     "setup:saas": "npm run db:push && npm run db:seed:saas",
     "setup:chat": "npm run db:push && npm run db:seed:chat",
     "setup:chatbot": "npm run db:push && npm run db:seed:chatbot",
+    "setup:videos": "npm run db:push && tsx prisma/seed-videos.ts",
     "type-check": "tsc --noEmit"
   },
   "prisma": {
