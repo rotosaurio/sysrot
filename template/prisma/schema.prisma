@@ -73,6 +73,20 @@ model User {
   botConversations   BotConversation[]  @relation("BotConversationUser")
   knowledgeItems     KnowledgeItem[]    @relation("KnowledgeCreator")
   botHandoffs        BotHandoff[]       @relation("BotHandoffUser")
+  
+  // Project Management relations
+  ownedProjects      Project[]          @relation("ProjectOwner")
+  projectMemberships ProjectMember[]    @relation("ProjectMember")
+  assignedTasks      Task[]             @relation("TaskAssignee")
+  reportedTasks      Task[]             @relation("TaskReporter")
+  taskComments       TaskComment[]      @relation("TaskCommentAuthor")
+  taskAttachments    TaskAttachment[]   @relation("TaskAttachmentUploader")
+  watchedTasks       TaskWatcher[]      @relation("TaskWatcher")
+  taskHistory        TaskHistory[]      @relation("TaskHistoryChanger")
+  timeEntries        TimeEntry[]        @relation("TimeEntryUser")
+  approvedTimeEntries TimeEntry[]       @relation("TimeEntryApprover")
+  projectActivities  ProjectActivity[]  @relation("ProjectActivity")
+  createdReports     ProjectReport[]    @relation("ProjectReportCreator")
 }
 
 model VerificationToken {
@@ -358,6 +372,7 @@ model Organization {
   activities    Activity[]
   usage         Usage[]
   chatbots      Chatbot[]
+  projects      Project[]
   
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -1217,4 +1232,624 @@ enum IntegrationType {
   ZAPIER
   API
   WIDGET
+}
+
+// Project Management System Models
+model Project {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  key               String   @unique // Project key like PROJ-001
+  avatar            String?
+  color             String?  @default("#3B82F6")
+  
+  // Project settings
+  projectType       ProjectType @default(SOFTWARE)
+  methodology       ProjectMethodology @default(AGILE)
+  status            ProjectStatus @default(ACTIVE)
+  visibility        ProjectVisibility @default(PRIVATE)
+  
+  // Timeline & Planning
+  startDate         DateTime?
+  endDate           DateTime?
+  estimatedHours    Int?
+  actualHours       Int      @default(0)
+  
+  // Business context
+  budget            Float?
+  client            String?
+  priority          ProjectPriority @default(MEDIUM)
+  
+  // Configuration
+  settings          Json?    // Project-specific settings
+  template          Json?    // Project template configuration
+  
+  // Relations
+  organizationId    String?
+  organization      Organization? @relation(fields: [organizationId], references: [id])
+  ownerId           String
+  owner             User     @relation("ProjectOwner", fields: [ownerId], references: [id])
+  
+  members           ProjectMember[]
+  tasks             Task[]
+  sprints           Sprint[]
+  categories        TaskCategory[]
+  labels            TaskLabel[]
+  workflows         Workflow[]
+  milestones        Milestone[]
+  timeEntries       TimeEntry[]
+  activities        ProjectActivity[]
+  reports           ProjectReport[]
+  integrations      ProjectIntegration[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organizationId, status])
+  @@index([ownerId, status])
+  @@index([key])
+}
+
+model ProjectMember {
+  id                String   @id @default(cuid())
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ProjectMember", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Role and permissions
+  role              ProjectRole @default(MEMBER)
+  permissions       String[] // Array of specific permissions
+  hourlyRate        Float?   // For time tracking and billing
+  
+  // Participation
+  joinedAt          DateTime @default(now())
+  lastActiveAt      DateTime?
+  isActive          Boolean  @default(true)
+  
+  // Notifications
+  notificationSettings Json?
+  
+  @@unique([projectId, userId])
+  @@index([userId, isActive])
+}
+
+model Task {
+  id                String   @id @default(cuid())
+  key               String   @unique // Task key like PROJ-123
+  title             String
+  description       String?
+  
+  // Classification
+  type              TaskType @default(TASK)
+  status            TaskStatus @default(TODO)
+  priority          TaskPriority @default(MEDIUM)
+  
+  // Assignment
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assigneeId        String?
+  assignee          User?    @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  reporterId        String
+  reporter          User     @relation("TaskReporter", fields: [reporterId], references: [id])
+  
+  // Categorization
+  categoryId        String?
+  category          TaskCategory? @relation(fields: [categoryId], references: [id])
+  labels            TaskLabel[]
+  
+  // Planning
+  sprintId          String?
+  sprint            Sprint?  @relation(fields: [sprintId], references: [id])
+  epicId            String?
+  epic              Task?    @relation("EpicSubtasks", fields: [epicId], references: [id])
+  subtasks          Task[]   @relation("EpicSubtasks")
+  
+  // Time tracking
+  estimatedHours    Float?
+  originalEstimate  Float?
+  remainingEstimate Float?
+  timeSpent         Float    @default(0)
+  storyPoints       Int?
+  
+  // Dates
+  startDate         DateTime?
+  dueDate           DateTime?
+  resolvedAt        DateTime?
+  
+  // Business fields
+  businessValue     Int?     @default(0)
+  riskLevel         RiskLevel @default(LOW)
+  
+  // Technical fields
+  resolution        TaskResolution?
+  environment       String?
+  version           String?
+  fixVersion        String?
+  
+  // Relations
+  dependencies      TaskDependency[] @relation("TaskDependencies")
+  dependentOn       TaskDependency[] @relation("DependentTasks")
+  comments          TaskComment[]
+  attachments       TaskAttachment[]
+  worklog           TimeEntry[]
+  watchers          TaskWatcher[]
+  history           TaskHistory[]
+  
+  // Workflow
+  workflowId        String?
+  workflow          Workflow? @relation(fields: [workflowId], references: [id])
+  workflowStep      String?
+  
+  // Custom fields
+  customFields      Json?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, status])
+  @@index([assigneeId, status])
+  @@index([sprintId, status])
+  @@index([key])
+}
+
+model TaskCategory {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  color             String   @default("#3B82F6")
+  icon              String?
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  tasks             Task[]
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([projectId, name])
+}
+
+model TaskLabel {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  color             String   @default("#3B82F6")
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  tasks             Task[]
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([projectId, name])
+}
+
+model Sprint {
+  id                String   @id @default(cuid())
+  name              String
+  goal              String?
+  description       String?
+  
+  // Sprint timeline
+  startDate         DateTime
+  endDate           DateTime
+  status            SprintStatus @default(PLANNED)
+  
+  // Planning
+  capacity          Int?     // Team capacity in hours
+  velocity          Int?     // Expected story points
+  actualVelocity    Int?     // Actual story points completed
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  tasks             Task[]
+  burndown          SprintBurndown[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, status])
+}
+
+model SprintBurndown {
+  id                String   @id @default(cuid())
+  sprintId          String
+  sprint            Sprint   @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  remainingWork     Float    // Remaining work in hours/story points
+  idealBurndown     Float    // Ideal burndown for this date
+  scope             Int      // Number of tasks in scope
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([sprintId, date])
+}
+
+model TaskDependency {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation("TaskDependencies", fields: [taskId], references: [id], onDelete: Cascade)
+  dependsOnId       String
+  dependsOn         Task     @relation("DependentTasks", fields: [dependsOnId], references: [id], onDelete: Cascade)
+  
+  type              DependencyType @default(BLOCKS)
+  description       String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([taskId, dependsOnId])
+}
+
+model TaskComment {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  authorId          String
+  author            User     @relation("TaskCommentAuthor", fields: [authorId], references: [id])
+  
+  content           String
+  isInternal        Boolean  @default(false)
+  
+  // Thread support
+  parentId          String?
+  parent            TaskComment? @relation("CommentThread", fields: [parentId], references: [id])
+  replies           TaskComment[] @relation("CommentThread")
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([taskId, createdAt])
+}
+
+model TaskAttachment {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  uploadedById      String
+  uploadedBy        User     @relation("TaskAttachmentUploader", fields: [uploadedById], references: [id])
+  
+  fileName          String
+  originalName      String
+  fileSize          Int
+  mimeType          String
+  fileUrl           String
+  thumbnailUrl      String?
+  
+  description       String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([taskId])
+}
+
+model TaskWatcher {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("TaskWatcher", fields: [userId], references: [id], onDelete: Cascade)
+  
+  watchedAt         DateTime @default(now())
+  
+  @@unique([taskId, userId])
+}
+
+model TaskHistory {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  changedById       String
+  changedBy         User     @relation("TaskHistoryChanger", fields: [changedById], references: [id])
+  
+  field             String   // Field that changed
+  oldValue          String?
+  newValue          String?
+  description       String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([taskId, createdAt])
+}
+
+model TimeEntry {
+  id                String   @id @default(cuid())
+  
+  // Time tracking
+  hours             Float
+  description       String?
+  date              DateTime @default(now())
+  
+  // Relations
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId            String?
+  task              Task?    @relation(fields: [taskId], references: [id])
+  userId            String
+  user              User     @relation("TimeEntryUser", fields: [userId], references: [id])
+  
+  // Billing
+  billable          Boolean  @default(true)
+  hourlyRate        Float?
+  
+  // Approval
+  approved          Boolean  @default(false)
+  approvedById      String?
+  approvedBy        User?    @relation("TimeEntryApprover", fields: [approvedById], references: [id])
+  approvedAt        DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, date])
+  @@index([userId, date])
+  @@index([taskId, date])
+}
+
+model Workflow {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  // Workflow configuration
+  config            Json     // Workflow steps and transitions
+  isDefault         Boolean  @default(false)
+  isActive          Boolean  @default(true)
+  
+  tasks             Task[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([projectId, name])
+}
+
+model Milestone {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  dueDate           DateTime
+  status            MilestoneStatus @default(OPEN)
+  progress          Int      @default(0) // 0-100
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, dueDate])
+}
+
+model ProjectActivity {
+  id                String   @id @default(cuid())
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ProjectActivity", fields: [userId], references: [id])
+  
+  action            String   // Action performed
+  entityType        String   // Type of entity (task, project, etc.)
+  entityId          String?  // ID of the entity
+  description       String
+  metadata          Json?    // Additional data
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([projectId, createdAt])
+  @@index([userId, createdAt])
+}
+
+model ProjectReport {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  type              ReportType
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdById       String
+  createdBy         User     @relation("ProjectReportCreator", fields: [createdById], references: [id])
+  
+  // Report configuration
+  config            Json     // Report parameters and filters
+  data              Json?    // Cached report data
+  
+  // Scheduling
+  isScheduled       Boolean  @default(false)
+  schedule          Json?    // Cron-like schedule configuration
+  lastGeneratedAt   DateTime?
+  nextGenerationAt  DateTime?
+  
+  // Sharing
+  isPublic          Boolean  @default(false)
+  sharedWith        String[] // User IDs with access
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, type])
+  @@index([createdById])
+}
+
+model ProjectIntegration {
+  id                String   @id @default(cuid())
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  type              ProjectIntegrationType
+  name              String
+  description       String?
+  
+  // Configuration
+  config            Json     // Integration-specific configuration
+  credentials       Json?    // Encrypted credentials
+  
+  // Status
+  isActive          Boolean  @default(true)
+  lastSyncAt        DateTime?
+  syncStatus        String?
+  
+  // Analytics
+  requestCount      Int      @default(0)
+  successCount      Int      @default(0)
+  errorCount        Int      @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([projectId, type, name])
+  @@index([projectId, isActive])
+}
+
+// Enums for Project Management
+enum ProjectType {
+  SOFTWARE
+  MARKETING
+  DESIGN
+  RESEARCH
+  BUSINESS
+  PERSONAL
+  OTHER
+}
+
+enum ProjectMethodology {
+  AGILE
+  SCRUM
+  KANBAN
+  WATERFALL
+  HYBRID
+  CUSTOM
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+  ARCHIVED
+}
+
+enum ProjectVisibility {
+  PRIVATE
+  TEAM
+  ORGANIZATION
+  PUBLIC
+}
+
+enum ProjectPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ProjectRole {
+  OWNER
+  ADMIN
+  MANAGER
+  DEVELOPER
+  DESIGNER
+  TESTER
+  MEMBER
+  VIEWER
+}
+
+enum TaskType {
+  EPIC
+  STORY
+  TASK
+  BUG
+  IMPROVEMENT
+  RESEARCH
+  SPIKE
+  SUB_TASK
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  TESTING
+  DONE
+  CANCELLED
+  BLOCKED
+}
+
+enum TaskPriority {
+  LOWEST
+  LOW
+  MEDIUM
+  HIGH
+  HIGHEST
+}
+
+enum TaskResolution {
+  FIXED
+  WONT_FIX
+  DUPLICATE
+  INCOMPLETE
+  CANNOT_REPRODUCE
+  DONE
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum SprintStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+  CLOSED
+}
+
+enum DependencyType {
+  BLOCKS
+  IS_BLOCKED_BY
+  RELATES_TO
+  DUPLICATES
+  IS_DUPLICATED_BY
+  CAUSES
+  IS_CAUSED_BY
+}
+
+enum MilestoneStatus {
+  OPEN
+  CLOSED
+  OVERDUE
+}
+
+enum ReportType {
+  BURNDOWN
+  VELOCITY
+  TIME_TRACKING
+  PERFORMANCE
+  WORKLOAD
+  CUSTOM
+}
+
+enum ProjectIntegrationType {
+  GITHUB
+  GITLAB
+  BITBUCKET
+  JIRA
+  CONFLUENCE
+  SLACK
+  DISCORD
+  TEAMS
+  EMAIL
+  WEBHOOK
+  ZAPIER
+  API
 }
