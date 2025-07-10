@@ -193,7 +193,7 @@ export default function AnalyticsDashboard() {
   return (
     <>
       <Head>
-        <title>Analytics Dashboard - Full Integration Examples</title>
+        <title>Analytics Dashboard - Integración Completa</title>
         <meta name="description" content="Dashboard de analíticas interactivo con Chart.js y D3.js" />
       </Head>
 
@@ -203,7 +203,7 @@ export default function AnalyticsDashboard() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-6">
               <div className="flex items-center">
-                <Link href="/ejemplos/premium" className="text-blue-600 hover:text-blue-800 mr-4">
+                <Link href="/ejemplos" className="text-blue-600 hover:text-blue-800 mr-4">
                   <ArrowLeftIcon className="w-5 h-5" />
                 </Link>
                 <div>
@@ -230,18 +230,15 @@ export default function AnalyticsDashboard() {
           </div>
         </div>
 
+        {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* KPIs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          {/* KPI Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <CurrencyDollarIcon className="h-8 w-8 text-green-600" />
-                </div>
+                <CurrencyDollarIcon className="h-8 w-8 text-green-600" />
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                    Ingresos Totales
-                  </p>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Ingresos Totales</p>
                   <p className="text-2xl font-semibold text-gray-900 dark:text-white">
                     ${data.totalRevenue.toLocaleString()}
                   </p>
@@ -249,15 +246,11 @@ export default function AnalyticsDashboard() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <UsersIcon className="h-8 w-8 text-blue-600" />
-                </div>
+                <UsersIcon className="h-8 w-8 text-blue-600" />
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                    Usuarios Totales
-                  </p>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Usuarios Totales</p>
                   <p className="text-2xl font-semibold text-gray-900 dark:text-white">
                     {data.totalUsers.toLocaleString()}
                   </p>
@@ -265,15 +258,11 @@ export default function AnalyticsDashboard() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <ChartBarIcon className="h-8 w-8 text-purple-600" />
-                </div>
+                <ChartBarIcon className="h-8 w-8 text-purple-600" />
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                    Sesiones Promedio
-                  </p>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Sesiones Promedio</p>
                   <p className="text-2xl font-semibold text-gray-900 dark:text-white">
                     {data.avgSessions.toLocaleString()}
                   </p>
@@ -281,15 +270,11 @@ export default function AnalyticsDashboard() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <TrendingUpIcon className="h-8 w-8 text-indigo-600" />
-                </div>
+                <TrendingUpIcon className="h-8 w-8 text-orange-600" />
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                    Crecimiento
-                  </p>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Crecimiento</p>
                   <p className="text-2xl font-semibold text-gray-900 dark:text-white">
                     {data.growth}%
                   </p>
@@ -298,57 +283,46 @@ export default function AnalyticsDashboard() {
             </div>
           </div>
 
-          {/* Charts Grid */}
+          {/* Charts */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Revenue Chart */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Ingresos Mensuales
+                Ingresos por Mes (Chart.js)
               </h3>
               <Bar data={revenueChartData} options={chartOptions} />
             </div>
 
             {/* User Growth Chart */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Crecimiento de Usuarios
+                Crecimiento de Usuarios (Chart.js)
               </h3>
               <Line data={userGrowthData} options={chartOptions} />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Traffic Sources */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Fuentes de Tráfico
+                Fuentes de Tráfico (Chart.js)
               </h3>
-              <div className="w-full h-64 flex justify-center">
-                <Doughnut 
-                  data={trafficSourceData} 
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        position: 'bottom',
-                      },
-                    },
-                  }} 
-                />
+              <div className="w-64 mx-auto">
+                <Doughnut data={trafficSourceData} />
               </div>
             </div>
 
             {/* D3.js Visualization */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Visualización D3.js - Últimos 6 Meses
+                Visualización Personalizada (D3.js)
               </h3>
-              <div id="d3-chart" className="w-full flex justify-center"></div>
+              <div id="d3-chart" className="flex justify-center"></div>
             </div>
           </div>
 
-          {/* Documentation */}
+          {/* Features Section */}
           <div className="mt-12 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-8">
             <h2 className="text-2xl font-semibold text-blue-900 dark:text-blue-100 mb-4">
               📚 Características del Dashboard
@@ -378,4 +352,4 @@ export default function AnalyticsDashboard() {
       </div>
     </>
   );
-}
+} 

@@ -1,8 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowLeftIcon, ShoppingCartIcon, PlusIcon, MinusIcon, TrashIcon, HeartIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
+import { ArrowLeftIcon, ShoppingCartIcon, PlusIcon, MinusIcon, TrashIcon, HeartIcon, HeartSolidIcon } from '@/components/ui/icons';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 

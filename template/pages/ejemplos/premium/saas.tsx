@@ -1,17 +1,16 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { 
-  ArrowLeftIcon, 
-  BuildingOfficeIcon, 
-  UserGroupIcon, 
-  CreditCardIcon,
+import {
+  CheckIcon,
+  XMarkIcon,
   ChartBarIcon,
-  CogIcon,
-  BellIcon,
-  CheckCircleIcon,
-  XCircleIcon
-} from '@heroicons/react/24/outline';
+  UsersIcon,
+  CurrencyDollarIcon,
+  ArrowLeftIcon,
+  TrendingUpIcon,
+  StarIcon
+} from '@/components/ui/icons';
 
 // Mock data for tenants and subscriptions
 const mockTenants = [
@@ -73,7 +72,7 @@ function TenantCard({ tenant }: { tenant: any }) {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-            <BuildingOfficeIcon className="w-6 h-6 text-blue-600" />
+            {/* BuildingOfficeIcon */}
           </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -140,7 +139,7 @@ function PlanCard({ plan }: { plan: any }) {
         <ul className="space-y-2 mb-6">
           {plan.features.map((feature, index) => (
             <li key={index} className="flex items-center justify-center text-gray-700 dark:text-gray-300">
-              <CheckCircleIcon className="w-4 h-4 text-green-500 mr-2" />
+              <CheckIcon className="w-4 h-4 text-green-500 mr-2" />
               {feature}
             </li>
           ))}
@@ -169,10 +168,10 @@ export default function SaaSDemo() {
 
   const tabs = [
     { id: 'dashboard', name: 'Dashboard', icon: ChartBarIcon },
-    { id: 'tenants', name: 'Tenants', icon: BuildingOfficeIcon },
-    { id: 'users', name: 'Usuarios', icon: UserGroupIcon },
-    { id: 'billing', name: 'Facturación', icon: CreditCardIcon },
-    { id: 'settings', name: 'Configuración', icon: CogIcon }
+    { id: 'tenants', name: 'Tenants', icon: UsersIcon },
+    { id: 'users', name: 'Usuarios', icon: UsersIcon },
+    { id: 'billing', name: 'Facturación', icon: CurrencyDollarIcon },
+    { id: 'settings', name: 'Configuración', icon: TrendingUpIcon }
   ];
 
   const metrics = [
@@ -210,7 +209,7 @@ export default function SaaSDemo() {
               
               <div className="flex items-center space-x-4">
                 <div className="relative">
-                  <BellIcon className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+                  {/* BellIcon */}
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                     {notifications.length}
                   </span>
@@ -292,9 +291,9 @@ export default function SaaSDemo() {
                 <div className="space-y-3">
                   {notifications.map((notification) => (
                     <div key={notification.id} className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
-                      {notification.type === 'success' && <CheckCircleIcon className="w-5 h-5 text-green-500" />}
-                      {notification.type === 'warning' && <XCircleIcon className="w-5 h-5 text-yellow-500" />}
-                      {notification.type === 'info' && <BellIcon className="w-5 h-5 text-blue-500" />}
+                      {notification.type === 'success' && <CheckIcon className="w-5 h-5 text-green-500" />}
+                      {notification.type === 'warning' && <XMarkIcon className="w-5 h-5 text-yellow-500" />}
+                      {notification.type === 'info' && <ChartBarIcon className="w-5 h-5 text-blue-500" />}
                       <span className="text-gray-900 dark:text-white">{notification.message}</span>
                     </div>
                   ))}

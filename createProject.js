@@ -34,10 +34,10 @@ async function createProject(options) {
     await customizeProject(projectPath, options);
     logger.configStep();
     
-    // Añadir ejemplos premium si están seleccionados
-    if (options.premiumExamples && options.premiumExamples.length > 0) {
-      await addPremiumExamples(projectPath, options.premiumExamples);
-      logger.info('Ejemplos premium añadidos');
+    // Añadir ejemplos de integración completa si están seleccionados
+    if (options.fullIntegrationExamples && options.fullIntegrationExamples.length > 0) {
+      await addFullIntegrationExamples(projectPath, options.fullIntegrationExamples);
+      logger.info('Ejemplos de integración completa añadidos');
     }
     
     // Remover archivos no utilizados
@@ -124,7 +124,7 @@ async function customizeProject(projectPath, options) {
     notifications,
     examplePages,
     exampleTypes,
-    premiumExamples,
+      fullIntegrationExamples,
     envExample,
     documentation
   } = options;
@@ -264,8 +264,8 @@ async function customizeProject(projectPath, options) {
     dependencies["react-hot-toast"] = "^2.4.1";
     }
     
-    // Premium Examples Dependencies
-    if (premiumExamples && premiumExamples.length > 0) {
+    // Full Integration Examples Dependencies
+    if (fullIntegrationExamples && fullIntegrationExamples.length > 0) {
       const EXAMPLE_DEPENDENCIES = {
         'analytics-dashboard': {
           deps: ['chart.js', 'react-chartjs-2', 'd3'],
@@ -301,8 +301,8 @@ async function customizeProject(projectPath, options) {
         }
       };
 
-      // Add dependencies for selected premium examples
-      premiumExamples.forEach(exampleKey => {
+      // Add dependencies for selected full integration examples
+      fullIntegrationExamples.forEach(exampleKey => {
         const exampleDeps = EXAMPLE_DEPENDENCIES[exampleKey];
         if (exampleDeps) {
           // Add regular dependencies
@@ -585,8 +585,8 @@ async function installDependencies(projectPath, options) {
       
       await new Promise((resolve, reject) => {
         const npmProcess = spawn('npm', ['install'], {
-          cwd: projectPath,
-          stdio: 'inherit',
+      cwd: projectPath,
+      stdio: 'inherit',
           shell: true,
           env: process.env
         });
@@ -633,143 +633,31 @@ async function installDependencies(projectPath, options) {
   }
 }
 
-async function addPremiumExamples(projectPath, selectedExamples) {
-  const spinner = ora('Añadiendo ejemplos premium seleccionados...').start();
+async function addFullIntegrationExamples(projectPath, selectedExamples) {
+  const spinner = ora('Añadiendo ejemplos de integración completa seleccionados...').start();
   
   try {
-    // Create premium examples directory
-    const premiumExamplesPath = path.join(projectPath, 'pages/ejemplos/premium');
-    fs.mkdirSync(premiumExamplesPath, { recursive: true });
-    
-    // Copy premium example files from templates
-    const templatePremiumPath = path.resolve(__dirname, 'template/pages/ejemplos/premium');
+    // Copy full integration example files from templates to main ejemplos directory
+    const ejemplosPath = path.join(projectPath, 'pages/ejemplos');
+    const templateEjemplosPath = path.resolve(__dirname, 'template/pages/ejemplos');
     
     for (const exampleKey of selectedExamples) {
-      const exampleFilePath = path.join(templatePremiumPath, `${exampleKey}.tsx`);
-      const targetFilePath = path.join(premiumExamplesPath, `${exampleKey}.tsx`);
+      const exampleFilePath = path.join(templateEjemplosPath, `${exampleKey}.tsx`);
+      const targetFilePath = path.join(ejemplosPath, `${exampleKey}.tsx`);
       
       if (fs.existsSync(exampleFilePath)) {
         await fs.copy(exampleFilePath, targetFilePath);
       }
     }
     
-    // Create premium examples index page
-    const indexContent = generatePremiumExamplesIndex(selectedExamples);
-    const indexPath = path.join(premiumExamplesPath, 'index.tsx');
-    await fs.writeFile(indexPath, indexContent);
-    
-    spinner.succeed('Ejemplos premium añadidos correctamente');
+    spinner.succeed('Ejemplos de integración completa añadidos correctamente');
   } catch (error) {
-    spinner.fail('Error al añadir ejemplos premium');
+    spinner.fail('Error al añadir ejemplos de integración completa');
     throw error;
   }
 }
 
-function generatePremiumExamplesIndex(selectedExamples) {
-  const exampleMappings = {
-    'analytics-dashboard': {
-      title: 'Analytics Dashboard',
-      description: 'Dashboard interactivo con visualizaciones avanzadas'
-    },
-    'landing-page': {
-      title: 'Modern Landing Page',
-      description: 'Página de aterrizaje moderna con múltiples secciones'
-    },
-    'ecommerce': {
-      title: 'E-commerce with Cart',
-      description: 'Tienda en línea básica con carrito de compras'
-    },
-    'portfolio': {
-      title: 'Personal Portfolio',
-      description: 'Portfolio personal responsivo y profesional'
-    },
-    'task-app': {
-      title: 'Task Management App',
-      description: 'Aplicación de gestión de tareas con persistencia local'
-    },
-    'chat': {
-      title: 'Real-time Chat',
-      description: 'Chat en tiempo real con WebSockets'
-    },
-    'saas': {
-      title: 'Multi-tenant SaaS',
-      description: 'Ejemplo de SaaS multi-tenant con gestión de suscripciones'
-    },
-    'marketplace': {
-      title: 'Marketplace with Reviews',
-      description: 'Marketplace con sistema de calificaciones y reseñas'
-    }
-  };
-
-  const exampleItems = selectedExamples.map(key => {
-    const example = exampleMappings[key];
-    return `          <Link href="/ejemplos/premium/${key}">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 cursor-pointer">
-              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                ${example.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                ${example.description}
-              </p>
-            </div>
-          </Link>`;
-  }).join('\n');
-
-  return `import Head from 'next/head';
-import Link from 'next/link';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
-export default function PremiumExamplesIndex() {
-  return (
-    <>
-      <Head>
-        <title>Ejemplos Premium - sysrot-hub</title>
-        <meta name="description" content="Ejemplos premium incluidos en tu proyecto sysrot-hub" />
-      </Head>
-
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <Link href="/ejemplos" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4">
-              <ArrowLeftIcon className="w-4 h-4 mr-2" />
-              Volver a Ejemplos
-            </Link>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              🎨 Ejemplos Premium
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Colección de ejemplos avanzados incluidos en tu proyecto. Cada uno demuestra 
-              patrones modernos de desarrollo y mejores prácticas.
-            </p>
-          </div>
-
-          {/* Examples Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-${exampleItems}
-          </div>
-
-          {/* Documentation Note */}
-          <div className="mt-16 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-8 text-center">
-            <h2 className="text-2xl font-semibold text-blue-900 dark:text-blue-100 mb-4">
-              📚 Documentación Completa
-            </h2>
-            <p className="text-blue-700 dark:text-blue-300 mb-6">
-              Cada ejemplo incluye documentación detallada, comentarios explicativos y guías de uso.
-            </p>
-            <Link 
-              href="/docs/premium-examples" 
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Ver Documentación Completa
-            </Link>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}`;
-}
+// Function removed - full integration examples are now included directly in main examples page
 
 async function generateReadme(projectPath, options) {
   const spinner = ora('Generando README personalizado...').start();

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { ArrowLeftIcon, PlusIcon, TrashIcon, CheckIcon, ClockIcon, TagIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, PlusIcon, TrashIcon, CheckIcon, ClockIcon, TagIcon } from '@/components/ui/icons';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import useLocalStorageState from 'use-local-storage-state';
 

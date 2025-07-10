@@ -1,21 +1,21 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { 
-  ArrowLeftIcon, 
-  EnvelopeIcon, 
-  PhoneIcon,
-  MapPinIcon,
-  CodeBracketIcon,
-  GlobeAltIcon,
-  DocumentArrowDownIcon,
-  UserIcon,
-  BriefcaseIcon,
-  AcademicCapIcon,
+import {
+  ArrowLeftIcon,
+  CheckIcon,
   StarIcon,
-  EyeIcon,
-  ArrowUpRightIcon
-} from '@heroicons/react/24/outline';
+  UserIcon,
+  ChevronRightIcon,
+  HeartIcon,
+  TagIcon,
+  TrendingUpIcon,
+  CurrencyDollarIcon,
+  UsersIcon,
+  ChartBarIcon,
+  PlusIcon,
+  XMarkIcon
+} from '@/components/ui/icons';
 import { motion } from 'framer-motion';
 
 // Portfolio data
@@ -299,9 +299,9 @@ export default function PortfolioDemo() {
 
   const sections = [
     { id: 'about', name: 'Sobre Mí', icon: UserIcon },
-    { id: 'projects', name: 'Proyectos', icon: BriefcaseIcon },
-    { id: 'experience', name: 'Experiencia', icon: AcademicCapIcon },
-    { id: 'contact', name: 'Contacto', icon: EnvelopeIcon }
+    { id: 'projects', name: 'Proyectos', icon: ChevronRightIcon },
+    { id: 'experience', name: 'Experiencia', icon: TrendingUpIcon },
+    { id: 'contact', name: 'Contacto', icon: HeartIcon }
   ];
 
   const categories = ['All', 'Full Stack', 'Frontend', 'Mobile', 'AI/ML'];

@@ -1,18 +1,17 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState } from 'react';
-import { 
-  ArrowLeftIcon, 
-  StarIcon, 
-  HeartIcon, 
+import {
+  ArrowLeftIcon,
   ShoppingCartIcon,
+  HeartIcon,
+  StarIcon,
+  PlusIcon,
   UserIcon,
-  MapPinIcon,
-  MagnifyingGlassIcon,
-  FunnelIcon,
+  ChevronRightIcon,
   TagIcon
-} from '@heroicons/react/24/outline';
-import { StarIcon as StarSolidIcon, HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
+} from '@/components/ui/icons';
+import { StarSolidIcon, HeartSolidIcon } from '@/components/ui/icons';
 
 // Mock marketplace data
 const vendors = [
@@ -362,7 +361,7 @@ function VendorCard({ vendor }: any) {
               )}
             </div>
             <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-300">
-              <MapPinIcon className="w-4 h-4" />
+              <ChevronRightIcon className="w-4 h-4" />
               <span>{vendor.location}</span>
             </div>
           </div>
@@ -487,7 +486,7 @@ export default function MarketplaceDemo() {
               {/* Search */}
               <div className="flex-1 max-w-lg">
                 <div className="relative">
-                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <ChevronRightIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
                     placeholder="Buscar productos, vendedores..."
@@ -569,7 +568,7 @@ export default function MarketplaceDemo() {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <MagnifyingGlassIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <ChevronRightIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-500 dark:text-gray-400">
                     No se encontraron productos que coincidan con tu búsqueda.
                   </p>

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { ArrowLeftIcon, ChevronRightIcon, CheckIcon, StarIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ChevronRightIcon, CheckIcon, StarIcon } from '@/components/ui/icons';
 import { useInView } from 'react-intersection-observer';
 
 const features = [

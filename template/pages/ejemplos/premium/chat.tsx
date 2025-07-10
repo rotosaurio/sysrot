@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { ArrowLeftIcon, PaperAirplaneIcon, UserIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, PaperAirplaneIcon, UserIcon, EllipsisVerticalIcon } from '@/components/ui/icons';
 import { io, Socket } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 

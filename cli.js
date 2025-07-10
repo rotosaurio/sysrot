@@ -288,22 +288,22 @@ async function askProjectConfiguration() {
   
   Object.assign(config, examplesConfig);
   
-  // Ejemplos premium
-  const premiumConfig = await inquirer.prompt([
+  // Ejemplos de integración completa
+  const fullIntegrationConfig = await inquirer.prompt([
     {
       type: 'confirm',
-      name: 'includePremiumExamples',
-      message: '🎨 ¿Deseas incluir ejemplos premium adicionales?',
+      name: 'includeFullIntegrationExamples',
+      message: '🎨 ¿Deseas incluir ejemplos de integración completa adicionales?',
       default: false
     }
   ]);
   
-  if (premiumConfig.includePremiumExamples) {
-    const premiumExamples = await inquirer.prompt([
+  if (fullIntegrationConfig.includeFullIntegrationExamples) {
+    const fullIntegrationExamples = await inquirer.prompt([
       {
         type: 'checkbox',
-        name: 'premiumExamples',
-        message: '🎯 Selecciona los ejemplos premium que deseas incluir:',
+        name: 'fullIntegrationExamples',
+        message: '🎯 Selecciona los ejemplos de integración completa que deseas incluir:',
         choices: AVAILABLE_EXAMPLES.map(example => ({
           name: `${example.name} - ${example.description}`,
           value: example.value,
@@ -318,10 +318,10 @@ async function askProjectConfiguration() {
       }
     ]);
     
-    Object.assign(premiumConfig, premiumExamples);
+    Object.assign(fullIntegrationConfig, fullIntegrationExamples);
   }
   
-  Object.assign(config, premiumConfig);
+  Object.assign(config, fullIntegrationConfig);
   
   // Configuraciones finales
   const finalConfig = await inquirer.prompt([
@@ -347,7 +347,7 @@ async function askProjectConfiguration() {
 program
   .name('sysrot-hub')
   .description('CLI de nueva generación para crear proyectos Next.js 14+ con IA, autenticación y más')
-  .version('0.9.4')
+  .version('1.0.1')
   .argument('[proyecto]', 'Nombre del proyecto')
   .option('-h, --help', 'Mostrar ayuda completa')
   .option('-v, --version', 'Mostrar versión')
@@ -365,12 +365,12 @@ program
     }
 
     if (options.version) {
-      logger.showVersion('0.9.4');
+      logger.showVersion('1.0.1');
       return;
     }
 
     if (options.examples) {
-      console.log(chalk.blue('\n🎨 Available Premium Examples:\n'));
+      console.log(chalk.blue('\n🎨 Available Full Integration Examples:\n'));
       AVAILABLE_EXAMPLES.forEach((example, index) => {
         console.log(chalk.cyan(`${index + 1}. ${example.name}`));
         console.log(chalk.gray(`   ${example.description}`));
@@ -445,13 +445,13 @@ program
       logger.projectSuccess(projectName);
       
       // Show information about selected examples
-      if (config.premiumExamples && config.premiumExamples.length > 0) {
-        console.log(chalk.green('\n✨ Ejemplos premium incluidos:'));
-        config.premiumExamples.forEach(exampleValue => {
+      if (config.fullIntegrationExamples && config.fullIntegrationExamples.length > 0) {
+        console.log(chalk.green('\n✨ Ejemplos de integración completa incluidos:'));
+        config.fullIntegrationExamples.forEach(exampleValue => {
           const example = AVAILABLE_EXAMPLES.find(e => e.value === exampleValue);
           console.log(chalk.cyan(`   • ${example.name}`));
         });
-        console.log(chalk.yellow('\n📚 Revisa la documentación en /pages/ejemplos/premium/ para más detalles'));
+        console.log(chalk.yellow('\n📚 Revisa la documentación en /pages/ejemplos/ para más detalles'));
       }
       
     } catch (error) {
