@@ -1,5 +1,5 @@
 // Service Worker for SysRot Hub
-// Version 1.0.0
+// Version 1.0.5
 
 const CACHE_NAME = 'sysrot-hub-v1';
 const STATIC_CACHE_NAME = 'sysrot-hub-static-v1';

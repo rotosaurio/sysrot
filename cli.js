@@ -346,13 +346,13 @@ async function askProjectConfiguration() {
 
 program
   .name('sysrot-hub')
-  .description('CLI de nueva generación para crear proyectos Next.js 14+ con IA, autenticación y más')
-  .version('1.0.1')
-  .argument('[proyecto]', 'Nombre del proyecto')
-  .option('-h, --help', 'Mostrar ayuda completa')
+  .description('CLI de nueva generación para proyectos Next.js con IA, autenticación y más')
+  .version('1.0.5')
+  .argument('[project-name]', 'Nombre del proyecto')
+  .option('-y, --yes', 'Usar configuración por defecto')
   .option('-v, --version', 'Mostrar versión')
-  .option('--verbose', 'Modo detallado de logging')
-  .option('--examples', 'Mostrar ejemplos disponibles')
+  .option('--verbose', 'Mostrar logs detallados')
+  .option('--skip-install', 'Saltar instalación de dependencias')
   .action(async (projectName, options) => {
     // Configurar modo verbose si está habilitado
     if (options.verbose) {
@@ -365,7 +365,7 @@ program
     }
 
     if (options.version) {
-      logger.showVersion('1.0.1');
+      logger.showVersion('1.0.5');
       return;
     }
 

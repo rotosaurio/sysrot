@@ -154,7 +154,7 @@ export default function ModernLandingPage() {
   return (
     <>
       <Head>
-        <title>Modern Landing Page Pro - Full Integration Examples</title>
+        <title>Página de Aterrizaje Moderna Pro - Ejemplos de Integración Completa</title>
         <meta name="description" content="Página de aterrizaje profesional con animaciones avanzadas, scroll parallax y componentes interactivos" />
       </Head>
 

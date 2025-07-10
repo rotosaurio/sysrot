@@ -207,7 +207,7 @@ setTheme('dark');   // force dark`}</pre>
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center text-white text-xl mb-4 group-hover:rotate-12 transition-transform duration-300">
                   📊
                 </div>
-                <h4 className="text-xl font-semibold mb-2">Analytics Card</h4>
+                <h4 className="text-xl font-semibold mb-2">Tarjeta de Análisis</h4>
                 <p className="text-muted-foreground mb-4">Tarjeta con animaciones hover y efectos de profundidad.</p>
                 <div className="flex justify-between items-center">
                   <span className="text-2xl font-bold text-blue-600">+24%</span>

@@ -193,7 +193,7 @@ export default function AnalyticsDashboard() {
   return (
     <>
       <Head>
-        <title>Analytics Dashboard - Full Integration Examples</title>
+        <title>Panel de Análisis - Ejemplos de Integración Completa</title>
         <meta name="description" content="Dashboard de analíticas interactivo con Chart.js y D3.js" />
       </Head>
 
@@ -208,7 +208,7 @@ export default function AnalyticsDashboard() {
                 </Link>
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    📊 Analytics Dashboard
+                    📊 Panel de Análisis
                   </h1>
                   <p className="text-gray-600 dark:text-gray-300">
                     Dashboard interactivo con Chart.js y D3.js

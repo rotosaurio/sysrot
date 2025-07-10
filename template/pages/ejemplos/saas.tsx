@@ -249,7 +249,7 @@ export default function SaaSDemo() {
                     SaaS Multi-tenant Pro
                   </div>
                   <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Enterprise Dashboard
+                    Panel Empresarial
                   </h1>
                   <div className="flex items-center space-x-4 mt-1">
                     <span className="text-gray-600 dark:text-gray-300 text-sm">
@@ -358,7 +358,7 @@ function SaaSPlatform() {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                Enterprise Dashboard
+                                 Panel Empresarial
               </h1>
               <div className="flex items-center space-x-4 mt-1">
                 <span className="text-gray-600 text-sm">

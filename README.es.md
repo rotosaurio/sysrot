@@ -1,14 +1,10 @@
-# sysrot-hub
-
-**CLI de nueva generación para crear proyectos Next.js 14+ con integración de IA, soporte Web3, internacionalización completa y arquitectura lista para producción.**
-
-Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, autenticación, bases de datos y 350+ traducciones.
+# 🚀 sysrot-hub v1.0.5
 
 <div align="center">
 
-# 🚀 sysrot-hub v0.9.1 - CLI de Nueva Generación
+**CLI de nueva generación para crear proyectos Next.js 15+ con Pages Router, múltiples modelos de IA, ejemplos completos de integración y ecosistema de desarrollo completo**
 
-**CLI de grado empresarial para crear proyectos Next.js 14+ con integración de IA, internacionalización completa y arquitectura lista para producción**
+Genera aplicaciones web modernas en segundos con 3 modelos de IA integrados, autenticación, bases de datos y 350+ traducciones.
 
 <!-- Language Selection -->
 <p>

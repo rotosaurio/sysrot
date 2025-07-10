@@ -1,4 +1,4 @@
-import Head from 'next/head';
+﻿import Head from 'next/head';
 import Link from 'next/link';
 import { useState } from 'react';
 import {
@@ -885,7 +885,7 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }) {
                     🛒
                   </div>
                   <h3 className="font-bold text-green-900 dark:text-green-100 ml-3">
-                    Shopping Experience
+                    Experiencia de Compra
                   </h3>
                 </div>
                 <ul className="text-green-800 dark:text-green-200 space-y-2 text-sm">
@@ -902,7 +902,7 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }) {
               <div className="bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 rounded-xl p-6 border border-orange-200/50 dark:border-orange-800/50">
                 <h3 className="font-bold text-orange-900 dark:text-orange-100 mb-4 flex items-center">
                   <span className="text-2xl mr-3">📊</span>
-                  Analytics & Business Intelligence
+                                     Análisis e Inteligencia de Negocio
                 </h3>
                 <ul className="text-orange-800 dark:text-orange-200 space-y-2 text-sm">
                   <li>• Dashboard de métricas en tiempo real</li>
@@ -916,7 +916,7 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }) {
               <div className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-indigo-200/50 dark:border-indigo-800/50">
                 <h3 className="font-bold text-indigo-900 dark:text-indigo-100 mb-4 flex items-center">
                   <span className="text-2xl mr-3">💎</span>
-                  Features Avanzados
+                  Funcionalidades Avanzadas
                 </h3>
                 <ul className="text-indigo-800 dark:text-indigo-200 space-y-2 text-sm">
                   <li>• Sistema de categorías dinámico</li>

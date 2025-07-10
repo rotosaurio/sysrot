@@ -5,7 +5,7 @@ import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function EjemplosPage() {
   const { t } = useTranslation();
-  const [hovredCard, setHoveredCard] = useState<number | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const ejemplos = [
     // Ejemplos básicos

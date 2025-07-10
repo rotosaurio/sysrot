@@ -632,7 +632,7 @@ export default function TaskApp() {
   return (
     <>
       <Head>
-        <title>Task Management Pro - Full Integration Examples</title>
+        <title>Gestión de Tareas Pro - Ejemplos de Integración Completa</title>
         <meta name="description" content="Aplicación profesional de gestión de tareas con drag & drop y persistencia local" />
       </Head>
 
@@ -1037,7 +1037,7 @@ function TaskCard({ task, index }) {
                     ⚡
                   </div>
                   <h3 className="font-bold text-green-900 dark:text-green-100 ml-3">
-                    Features Avanzados
+                    Funcionalidades Avanzadas
                   </h3>
                 </div>
                 <ul className="text-green-800 dark:text-green-200 space-y-2 text-sm">
@@ -1054,7 +1054,7 @@ function TaskCard({ task, index }) {
               <div className="bg-gradient-to-br from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 rounded-xl p-6 border border-orange-200/50 dark:border-orange-800/50">
                 <h3 className="font-bold text-orange-900 dark:text-orange-100 mb-4 flex items-center">
                   <span className="text-2xl mr-3">📊</span>
-                  Analytics & Reporting
+                                     Análisis e Informes
                 </h3>
                 <ul className="text-orange-800 dark:text-orange-200 space-y-2 text-sm">
                   <li>• Estadísticas en tiempo real</li>
