@@ -1,5 +1,67 @@
 ﻿# CHANGELOG - sysrot-hub
 
+## [1.0.4] - 2025-01-28
+
+### 🚀 COMANDO CLI ACTUALIZADO Y VERIFICADO
+
+**Comandos Actualizados:**
+- **✅ CLI CORRECTO**: Confirmado que todos los comandos usan `npx sysrot-hub`
+- **🔄 REBRANDING**: Transición completa de "sysrotcore" a "sysrot-hub" 
+- **📋 AYUDA CLI**: Pantalla de ayuda muestra comandos correctos
+- **🎯 CONSISTENCIA**: Marca unificada en todo el ecosistema
+
+### 🔧 MEJORAS TÉCNICAS
+
+**Optimizaciones CLI:**
+- ✅ Comando principal: `npx sysrot-hub [nombre-proyecto]`
+- ✅ Ejemplos actualizados en ayuda del CLI
+- ✅ Enlaces y referencias actualizadas
+- ✅ Consistencia en toda la documentación
+
+### 📚 DOCUMENTACIÓN
+
+**Referencias Actualizadas:**
+- 🔗 GitHub: https://github.com/rotosaurio/sysrot-hub
+- 📦 NPM: https://www.npmjs.com/package/sysrot-hub
+- 💻 Comando: `npx sysrot-hub nombre-proyecto`
+
+### ✅ Verificación Completa
+
+- 🎯 **Comando Correcto**: `npx sysrot-hub` verificado en CLI
+- 🔧 **Logger Actualizado**: Pantalla de ayuda muestra comandos actuales
+- 📚 **Documentación**: Referencias consistentes en todo el proyecto
+
+## [1.0.3] - 2025-01-28
+
+### 🔧 CORRECCIONES Y MEJORAS TÉCNICAS
+
+**Optimizaciones de Código:**
+- **🔧 COMPONENTES**: Refinamiento continuo en ejemplos de integración completa
+- **📝 TEMPLATE**: Mejoras en la estructura del template base para nuevos proyectos
+- **🎨 INTERFACES**: Optimización de componentes UI para mejor rendimiento
+- **🌐 TRADUCCIONES**: Preparación para expansión de sistema de internacionalización
+
+### 🚀 MEJORAS DE DESARROLLO
+
+**Template Mejorado:**
+- ✅ Estructura optimizada de ejemplos básicos y de integración completa
+- ✅ Mejor organización de componentes UI
+- ✅ Preparación para futuras expansiones de funcionalidades
+- ✅ Optimización de imports y dependencias
+
+### 📊 PREPARACIÓN FUTURA
+
+**Próximas Versiones:**
+- **v1.0.4**: Implementación completa de traducciones masivas
+- **v1.0.5**: Nuevos componentes UI avanzados
+- **v1.0.6**: Interfaces premium completamente rediseñadas
+
+### ✅ Estabilidad
+
+- 🎯 **Código Estable**: Base sólida para futuras expansiones
+- 🔧 **Optimizaciones**: Mejor estructura de archivos y componentes
+- 📚 **Documentación**: Preparación para guías técnicas extendidas
+
 ## [1.0.2] - 2025-01-28
 
 ### 🎨 MEJORAS MASIVAS DE INTERFACES Y UX
