@@ -121,6 +121,25 @@ model User {
   doctorProfile      Doctor?            @relation("DoctorProfile")
   patientProfile     Patient?           @relation("PatientProfile")
   verifiedDoctors    Doctor[]           @relation("DoctorVerifier")
+  
+  // Banking and Fintech relations  
+  bankAccounts    BankAccount[] @relation("BankAccountHolder")
+  jointAccounts   BankAccountHolder[] @relation("AccountJointHolder")
+  loans           Loan[]        @relation("LoanBorrower")
+  creditCards     CreditCard[]  @relation("CreditCardHolder")
+  debitCards      DebitCard[]   @relation("DebitCardHolder")
+  investments     Investment[]  @relation("InvestmentOwner")
+  portfolios      Portfolio[]   @relation("PortfolioOwner")
+  cryptoWallets   CryptoWallet[] @relation("CryptoWalletOwner")
+  digitalWallets  DigitalWallet[] @relation("DigitalWalletOwner")
+  paymentMethods  PaymentMethod[] @relation("PaymentMethodOwner")
+  bills           Bill[]        @relation("BillOwner")
+  kycVerifications KYCVerification[] @relation("KYCVerification")
+  amlChecks       AMLCheck[]    @relation("AMLCheck")
+  transactionLimits TransactionLimit[] @relation("TransactionLimit")
+  budgetGoals     BudgetGoal[]  @relation("BudgetGoal")
+  financialReports FinancialReport[] @relation("FinancialReport")
+  bankAppointments BankAppointment[] @relation("BankAppointment")
 }
 
 model VerificationToken {
@@ -3854,4 +3873,1214 @@ enum BillingStatus {
   OVERDUE
   DISPUTED
   CANCELLED
+}
+
+// ==============================
+// PHASE 10: FINTECH/BANKING SYSTEM
+// ==============================
+
+// Core Banking Models
+model Bank {
+  id            String      @id @default(cuid())
+  name          String      @unique
+  code          String      @unique // SWIFT/BIC code
+  country       String
+  address       String
+  phone         String?
+  email         String?
+  website       String?
+  logo          String?
+  
+  // Regulatory
+  license       String?
+  regulator     String?
+  establishedYear Int?
+  
+  // Relations
+  branches      BankBranch[]
+  accounts      BankAccount[]
+  loans         Loan[]
+  creditCards   CreditCard[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model BankBranch {
+  id            String      @id @default(cuid())
+  bankId        String
+  bank          Bank        @relation(fields: [bankId], references: [id])
+  name          String
+  code          String      @unique
+  address       String
+  city          String
+  state         String
+  postalCode    String
+  country       String
+  phone         String?
+  email         String?
+  manager       String?
+  
+  // Operating hours
+  openingHours  Json?       // { monday: "9:00-17:00", ... }
+  
+  // Services
+  services      BranchService[]
+  
+  // Relations
+  accounts      BankAccount[]
+  appointments  BankAppointment[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model BankAccount {
+  id            String      @id @default(cuid())
+  accountNumber String      @unique
+  userId        String
+  user          User        @relation("BankAccountHolder", fields: [userId], references: [id])
+  bankId        String
+  bank          Bank        @relation(fields: [bankId], references: [id])
+  branchId      String?
+  branch        BankBranch? @relation(fields: [branchId], references: [id])
+  
+  // Account details
+  type          AccountType
+  status        AccountStatus @default(ACTIVE)
+  currency      String      @default("USD")
+  balance       Decimal     @default(0.00) @db.Decimal(15, 2)
+  availableBalance Decimal  @default(0.00) @db.Decimal(15, 2)
+  
+  // Limits and features
+  overdraftLimit Decimal?   @db.Decimal(15, 2)
+  dailyLimit    Decimal?    @db.Decimal(15, 2)
+  monthlyLimit  Decimal?    @db.Decimal(15, 2)
+  interestRate  Decimal?    @db.Decimal(5, 4) // Annual percentage
+  minimumBalance Decimal?   @db.Decimal(15, 2)
+  
+  // Account holders (joint accounts)
+  jointHolders  BankAccountHolder[]
+  
+  // Relations
+  transactions  Transaction[]
+  transfersFrom Transfer[]  @relation("TransferFromAccount")
+  transfersTo   Transfer[]  @relation("TransferToAccount")
+  loans         Loan[]
+  creditCards   CreditCard[]
+  debitCards    DebitCard[]
+  bills         Bill[]
+  analytics     AccountAnalytics[]
+  kycVerifications KYCVerification[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model BankAccountHolder {
+  id            String      @id @default(cuid())
+  accountId     String
+  account       BankAccount @relation(fields: [accountId], references: [id])
+  userId        String
+  user          User        @relation("AccountJointHolder", fields: [userId], references: [id])
+  relationship  AccountRelationship
+  permissions   AccountPermission[]
+  
+  addedAt       DateTime    @default(now())
+  
+  @@unique([accountId, userId])
+}
+
+model Transaction {
+  id              String        @id @default(cuid())
+  transactionId   String        @unique // External reference
+  accountId       String
+  account         BankAccount   @relation(fields: [accountId], references: [id])
+  
+  // Transaction details
+  type            TransactionType
+  category        TransactionCategory
+  amount          Decimal       @db.Decimal(15, 2)
+  currency        String        @default("USD")
+  description     String
+  reference       String?
+  
+  // Parties
+  fromAccount     String?
+  toAccount       String?
+  merchantName    String?
+  merchantCategory String?
+  
+  // Status and processing
+  status          TransactionStatus @default(PENDING)
+  processingDate  DateTime?
+  settledDate     DateTime?
+  
+  // Location and metadata
+  location        Json?         // GPS coordinates, address
+  metadata        Json?         // Additional transaction data
+  
+  // Relations
+  transfer        Transfer?     @relation("TransactionTransfer")
+  creditCardTransaction CreditCardTransaction?
+  fraudAlerts     FraudAlert[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Transfer {
+  id              String        @id @default(cuid())
+  transferId      String        @unique
+  
+  // Accounts
+  fromAccountId   String
+  fromAccount     BankAccount   @relation("TransferFromAccount", fields: [fromAccountId], references: [id])
+  toAccountId     String
+  toAccount       BankAccount   @relation("TransferToAccount", fields: [toAccountId], references: [id])
+  
+  // Transfer details
+  amount          Decimal       @db.Decimal(15, 2)
+  currency        String        @default("USD")
+  exchangeRate    Decimal?      @db.Decimal(10, 6)
+  fee             Decimal?      @db.Decimal(15, 2)
+  description     String
+  reference       String?
+  
+  // Status and timing
+  status          TransferStatus @default(PENDING)
+  requestedDate   DateTime      @default(now())
+  scheduledDate   DateTime?
+  processedDate   DateTime?
+  completedDate   DateTime?
+  
+  // Relations
+  transaction     Transaction?  @relation("TransactionTransfer")
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Loan {
+  id              String        @id @default(cuid())
+  loanNumber      String        @unique
+  userId          String
+  user            User          @relation("LoanBorrower", fields: [userId], references: [id])
+  bankId          String
+  bank            Bank          @relation(fields: [bankId], references: [id])
+  accountId       String?
+  account         BankAccount?  @relation(fields: [accountId], references: [id])
+  
+  // Loan details
+  type            LoanType
+  purpose         LoanPurpose
+  amount          Decimal       @db.Decimal(15, 2)
+  approvedAmount  Decimal?      @db.Decimal(15, 2)
+  currency        String        @default("USD")
+  interestRate    Decimal       @db.Decimal(5, 4) // Annual percentage
+  termMonths      Int
+  
+  // Status and dates
+  status          LoanStatus    @default(PENDING)
+  applicationDate DateTime      @default(now())
+  approvalDate    DateTime?
+  disbursementDate DateTime?
+  maturityDate    DateTime?
+  
+  // Payments
+  monthlyPayment  Decimal?      @db.Decimal(15, 2)
+  totalPaid       Decimal       @default(0.00) @db.Decimal(15, 2)
+  outstandingBalance Decimal?   @db.Decimal(15, 2)
+  nextPaymentDate DateTime?
+  
+  // Collateral
+  collateral      Json?         // Property, vehicle details
+  
+  // Relations
+  application     LoanApplication?
+  payments        LoanPayment[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model LoanApplication {
+  id              String        @id @default(cuid())
+  loanId          String        @unique
+  loan            Loan          @relation(fields: [loanId], references: [id])
+  
+  // Personal information
+  employmentStatus EmploymentStatus
+  employer        String?
+  monthlyIncome   Decimal?      @db.Decimal(15, 2)
+  annualIncome    Decimal?      @db.Decimal(15, 2)
+  employmentYears Int?
+  
+  // Financial information
+  assets          Json?         // Property, investments, etc.
+  liabilities     Json?         // Existing debts
+  creditScore     Int?
+  
+  // Application data
+  documents       Json?         // Document URLs and types
+  notes           String?
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model LoanPayment {
+  id              String        @id @default(cuid())
+  loanId          String
+  loan            Loan          @relation(fields: [loanId], references: [id])
+  
+  // Payment details
+  amount          Decimal       @db.Decimal(15, 2)
+  principalAmount Decimal       @db.Decimal(15, 2)
+  interestAmount  Decimal       @db.Decimal(15, 2)
+  
+  // Dates
+  dueDate         DateTime
+  paidDate        DateTime?
+  
+  // Status
+  status          PaymentStatus @default(PENDING)
+  paymentMethod   String?
+  
+  // Late fees
+  lateFee         Decimal?      @db.Decimal(15, 2)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model CreditCard {
+  id              String        @id @default(cuid())
+  cardNumber      String        @unique // Encrypted/hashed
+  userId          String
+  user            User          @relation("CreditCardHolder", fields: [userId], references: [id])
+  bankId          String
+  bank            Bank          @relation(fields: [bankId], references: [id])
+  accountId       String?
+  account         BankAccount?  @relation(fields: [accountId], references: [id])
+  
+  // Card details
+  cardType        CreditCardType
+  network         CardNetwork   // Visa, Mastercard, etc.
+  lastFourDigits  String
+  holderName      String
+  
+  // Limits and features
+  creditLimit     Decimal       @db.Decimal(15, 2)
+  availableCredit Decimal       @db.Decimal(15, 2)
+  currentBalance  Decimal       @default(0.00) @db.Decimal(15, 2)
+  interestRate    Decimal       @db.Decimal(5, 4)
+  minimumPayment  Decimal?      @db.Decimal(15, 2)
+  
+  // Dates
+  issueDate       DateTime      @default(now())
+  expiryDate      DateTime
+  lastPaymentDate DateTime?
+  nextDueDate     DateTime?
+  
+  // Status
+  status          CardStatus    @default(ACTIVE)
+  activatedAt     DateTime?
+  
+  // Relations
+  transactions    CreditCardTransaction[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model CreditCardTransaction {
+  id              String        @id @default(cuid())
+  creditCardId    String
+  creditCard      CreditCard    @relation(fields: [creditCardId], references: [id])
+  transactionId   String        @unique
+  transaction     Transaction   @relation(fields: [transactionId], references: [id])
+  
+  // Credit card specific data
+  authorizationCode String?
+  merchantId      String?
+  
+  createdAt       DateTime      @default(now())
+}
+
+model DebitCard {
+  id              String        @id @default(cuid())
+  cardNumber      String        @unique // Encrypted/hashed
+  userId          String
+  user            User          @relation("DebitCardHolder", fields: [userId], references: [id])
+  accountId       String
+  account         BankAccount   @relation(fields: [accountId], references: [id])
+  
+  // Card details
+  network         CardNetwork
+  lastFourDigits  String
+  holderName      String
+  
+  // Limits
+  dailyLimit      Decimal?      @db.Decimal(15, 2)
+  atmLimit        Decimal?      @db.Decimal(15, 2)
+  
+  // Dates
+  issueDate       DateTime      @default(now())
+  expiryDate      DateTime
+  
+  // Status
+  status          CardStatus    @default(ACTIVE)
+  activatedAt     DateTime?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+// Investment and Trading Models
+model Investment {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("InvestmentOwner", fields: [userId], references: [id])
+  portfolioId     String?
+  portfolio       Portfolio?    @relation(fields: [portfolioId], references: [id])
+  
+  // Investment details
+  symbol          String        // Stock ticker, crypto symbol
+  assetType       AssetType
+  name            String
+  quantity        Decimal       @db.Decimal(20, 8)
+  purchasePrice   Decimal       @db.Decimal(15, 2)
+  currentPrice    Decimal?      @db.Decimal(15, 2)
+  
+  // Dates
+  purchaseDate    DateTime      @default(now())
+  
+  // Performance
+  unrealizedGain  Decimal?      @db.Decimal(15, 2)
+  realizedGain    Decimal?      @db.Decimal(15, 2)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Portfolio {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("PortfolioOwner", fields: [userId], references: [id])
+  name            String
+  description     String?
+  
+  // Performance
+  totalValue      Decimal       @default(0.00) @db.Decimal(15, 2)
+  totalGain       Decimal       @default(0.00) @db.Decimal(15, 2)
+  totalGainPercent Decimal      @default(0.00) @db.Decimal(5, 2)
+  
+  // Relations
+  investments     Investment[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Stock {
+  id              String        @id @default(cuid())
+  symbol          String        @unique
+  name            String
+  exchange        String        // NYSE, NASDAQ, etc.
+  sector          String?
+  industry        String?
+  marketCap       Decimal?      @db.Decimal(20, 2)
+  
+  // Current price data
+  currentPrice    Decimal?      @db.Decimal(15, 4)
+  openPrice       Decimal?      @db.Decimal(15, 4)
+  closePrice      Decimal?      @db.Decimal(15, 4)
+  highPrice       Decimal?      @db.Decimal(15, 4)
+  lowPrice        Decimal?      @db.Decimal(15, 4)
+  volume          BigInt?
+  
+  // Relations
+  priceHistory    StockPrice[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model StockPrice {
+  id              String        @id @default(cuid())
+  stockId         String
+  stock           Stock         @relation(fields: [stockId], references: [id])
+  
+  // Price data
+  date            DateTime
+  open            Decimal       @db.Decimal(15, 4)
+  close           Decimal       @db.Decimal(15, 4)
+  high            Decimal       @db.Decimal(15, 4)
+  low             Decimal       @db.Decimal(15, 4)
+  volume          BigInt
+  adjustedClose   Decimal?      @db.Decimal(15, 4)
+  
+  @@unique([stockId, date])
+}
+
+model CryptoCurrency {
+  id              String        @id @default(cuid())
+  symbol          String        @unique
+  name            String
+  currentPrice    Decimal?      @db.Decimal(15, 8)
+  marketCap       Decimal?      @db.Decimal(20, 2)
+  volume24h       Decimal?      @db.Decimal(20, 2)
+  change24h       Decimal?      @db.Decimal(5, 2)
+  
+  // Relations
+  wallets         CryptoWallet[]
+  transactions    CryptoTransaction[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model CryptoWallet {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("CryptoWalletOwner", fields: [userId], references: [id])
+  cryptoId        String
+  crypto          CryptoCurrency @relation(fields: [cryptoId], references: [id])
+  
+  // Wallet details
+  address         String        @unique
+  balance         Decimal       @default(0.00000000) @db.Decimal(20, 8)
+  
+  // Relations
+  transactions    CryptoTransaction[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model CryptoTransaction {
+  id              String        @id @default(cuid())
+  walletId        String
+  wallet          CryptoWallet  @relation(fields: [walletId], references: [id])
+  cryptoId        String
+  crypto          CryptoCurrency @relation(fields: [cryptoId], references: [id])
+  
+  // Transaction details
+  type            CryptoTransactionType
+  amount          Decimal       @db.Decimal(20, 8)
+  fee             Decimal?      @db.Decimal(20, 8)
+  fromAddress     String?
+  toAddress       String?
+  transactionHash String?       @unique
+  
+  // Status
+  status          CryptoTransactionStatus @default(PENDING)
+  confirmations   Int?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+// Digital Payments and Fintech
+model DigitalWallet {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("DigitalWalletOwner", fields: [userId], references: [id])
+  
+  // Wallet details
+  walletType      DigitalWalletType
+  balance         Decimal       @default(0.00) @db.Decimal(15, 2)
+  currency        String        @default("USD")
+  
+  // Status
+  status          WalletStatus  @default(ACTIVE)
+  isVerified      Boolean       @default(false)
+  
+  // Relations
+  paymentMethods  PaymentMethod[]
+  bills           Bill[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model PaymentMethod {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("PaymentMethodOwner", fields: [userId], references: [id])
+  walletId        String?
+  wallet          DigitalWallet? @relation(fields: [walletId], references: [id])
+  
+  // Payment method details
+  type            PaymentMethodType
+  name            String
+  lastFourDigits  String?
+  expiryDate      DateTime?
+  
+  // Status
+  isDefault       Boolean       @default(false)
+  isVerified      Boolean       @default(false)
+  status          PaymentMethodStatus @default(ACTIVE)
+  
+  // Relations
+  billPayments    BillPayment[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Bill {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("BillOwner", fields: [userId], references: [id])
+  accountId       String?
+  account         BankAccount?  @relation(fields: [accountId], references: [id])
+  walletId        String?
+  wallet          DigitalWallet? @relation(fields: [walletId], references: [id])
+  
+  // Bill details
+  billNumber      String        @unique
+  payee           String        // Utility company, service provider
+  category        BillCategory
+  amount          Decimal       @db.Decimal(15, 2)
+  currency        String        @default("USD")
+  
+  // Dates
+  dueDate         DateTime
+  issueDate       DateTime      @default(now())
+  
+  // Status
+  status          BillStatus    @default(PENDING)
+  isRecurring     Boolean       @default(false)
+  recurringFrequency RecurringFrequency?
+  
+  // Relations
+  payments        BillPayment[]
+  recurringPayments RecurringPayment[]
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model BillPayment {
+  id              String        @id @default(cuid())
+  billId          String
+  bill            Bill          @relation(fields: [billId], references: [id])
+  paymentMethodId String
+  paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
+  
+  // Payment details
+  amount          Decimal       @db.Decimal(15, 2)
+  paidDate        DateTime      @default(now())
+  
+  // Status
+  status          PaymentStatus @default(COMPLETED)
+  confirmationNumber String?
+  
+  createdAt       DateTime      @default(now())
+}
+
+model RecurringPayment {
+  id              String        @id @default(cuid())
+  billId          String
+  bill            Bill          @relation(fields: [billId], references: [id])
+  
+  // Recurring details
+  frequency       RecurringFrequency
+  amount          Decimal       @db.Decimal(15, 2)
+  startDate       DateTime
+  endDate         DateTime?
+  nextPaymentDate DateTime
+  
+  // Status
+  status          RecurringPaymentStatus @default(ACTIVE)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+// Compliance and Security Models
+model KYCVerification {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("KYCVerification", fields: [userId], references: [id])
+  accountId       String?
+  account         BankAccount?  @relation(fields: [accountId], references: [id])
+  
+  // Verification details
+  documentType    KYCDocumentType
+  documentNumber  String
+  documentImage   String?       // URL to uploaded document
+  
+  // Personal information
+  firstName       String
+  lastName        String
+  dateOfBirth     DateTime
+  nationality     String
+  address         Json          // Full address details
+  
+  // Verification status
+  status          KYCStatus     @default(PENDING)
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  notes           String?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model AMLCheck {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("AMLCheck", fields: [userId], references: [id])
+  
+  // Check details
+  checkType       AMLCheckType
+  riskLevel       RiskLevel
+  score           Int           // Risk score 0-100
+  
+  // Results
+  findings        Json?         // Detailed findings
+  watchlistMatch  Boolean       @default(false)
+  sanctionsMatch  Boolean       @default(false)
+  pepMatch        Boolean       @default(false) // Politically Exposed Person
+  
+  // Status
+  status          AMLStatus     @default(PENDING)
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model FraudAlert {
+  id              String        @id @default(cuid())
+  transactionId   String
+  transaction     Transaction   @relation(fields: [transactionId], references: [id])
+  
+  // Alert details
+  alertType       FraudAlertType
+  riskLevel       RiskLevel
+  riskScore       Int           // Risk score 0-100
+  description     String
+  
+  // Detection rules triggered
+  rulesTriggered  String[]      // Array of rule IDs
+  
+  // Status
+  status          FraudAlertStatus @default(ACTIVE)
+  reviewedBy      String?
+  reviewedAt      DateTime?
+  resolution      String?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model TransactionLimit {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("TransactionLimit", fields: [userId], references: [id])
+  
+  // Limit details
+  limitType       LimitType
+  frequency       LimitFrequency
+  amount          Decimal       @db.Decimal(15, 2)
+  currency        String        @default("USD")
+  
+  // Usage tracking
+  usedAmount      Decimal       @default(0.00) @db.Decimal(15, 2)
+  remainingAmount Decimal       @db.Decimal(15, 2)
+  resetDate       DateTime
+  
+  // Status
+  status          LimitStatus   @default(ACTIVE)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+// Analytics and Insights Models
+model AccountAnalytics {
+  id              String        @id @default(cuid())
+  accountId       String
+  account         BankAccount   @relation(fields: [accountId], references: [id])
+  
+  // Analytics period
+  period          AnalyticsPeriod
+  date            DateTime
+  
+  // Financial metrics
+  openingBalance  Decimal       @db.Decimal(15, 2)
+  closingBalance  Decimal       @db.Decimal(15, 2)
+  totalDeposits   Decimal       @default(0.00) @db.Decimal(15, 2)
+  totalWithdrawals Decimal      @default(0.00) @db.Decimal(15, 2)
+  transactionCount Int          @default(0)
+  averageTransaction Decimal    @default(0.00) @db.Decimal(15, 2)
+  
+  // Categories breakdown
+  spendingByCategory Json?      // { "food": 500, "transport": 200, ... }
+  
+  createdAt       DateTime      @default(now())
+  
+  @@unique([accountId, period, date])
+}
+
+model SpendingCategory {
+  id              String        @id @default(cuid())
+  name            String        @unique
+  icon            String?
+  color           String?
+  parentId        String?
+  parent          SpendingCategory? @relation("CategoryParent", fields: [parentId], references: [id])
+  children        SpendingCategory[] @relation("CategoryParent")
+  
+  // Relations
+  budgetGoals     BudgetGoal[]
+  
+  createdAt       DateTime      @default(now())
+}
+
+model BudgetGoal {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("BudgetGoal", fields: [userId], references: [id])
+  categoryId      String
+  category        SpendingCategory @relation(fields: [categoryId], references: [id])
+  
+  // Goal details
+  name            String
+  targetAmount    Decimal       @db.Decimal(15, 2)
+  period          BudgetPeriod
+  currency        String        @default("USD")
+  
+  // Progress tracking
+  spentAmount     Decimal       @default(0.00) @db.Decimal(15, 2)
+  remainingAmount Decimal       @db.Decimal(15, 2)
+  
+  // Dates
+  startDate       DateTime
+  endDate         DateTime
+  
+  // Status
+  status          BudgetStatus  @default(ACTIVE)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model FinancialReport {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("FinancialReport", fields: [userId], references: [id])
+  
+  // Report details
+  title           String
+  type            FinancialReportType
+  period          ReportPeriod
+  startDate       DateTime
+  endDate         DateTime
+  
+  // Report data
+  data            Json          // Comprehensive financial data
+  summary         Json          // Key metrics summary
+  
+  // File details
+  fileUrl         String?       // Generated PDF/Excel file
+  generatedAt     DateTime      @default(now())
+  
+  createdAt       DateTime      @default(now())
+}
+
+model BankAppointment {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation("BankAppointment", fields: [userId], references: [id])
+  branchId        String
+  branch          BankBranch    @relation(fields: [branchId], references: [id])
+  
+  // Appointment details
+  purpose         AppointmentPurpose
+  dateTime        DateTime
+  duration        Int           @default(30) // minutes
+  notes           String?
+  
+  // Status
+  status          AppointmentStatus @default(SCHEDULED)
+  confirmedAt     DateTime?
+  cancelledAt     DateTime?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+
+
+// Banking Enums
+enum AccountType {
+  CHECKING
+  SAVINGS
+  CREDIT
+  INVESTMENT
+  BUSINESS
+  STUDENT
+  RETIREMENT
+}
+
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+  FROZEN
+  CLOSED
+  PENDING_VERIFICATION
+}
+
+enum AccountRelationship {
+  PRIMARY_HOLDER
+  JOINT_HOLDER
+  AUTHORIZED_USER
+  BENEFICIARY
+}
+
+enum AccountPermission {
+  VIEW_BALANCE
+  MAKE_TRANSACTIONS
+  MANAGE_ACCOUNT
+  ADD_USERS
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  PAYMENT
+  FEE
+  INTEREST
+  DIVIDEND
+  REFUND
+  CHARGE
+  ADJUSTMENT
+}
+
+enum TransactionCategory {
+  INCOME
+  FOOD_DINING
+  TRANSPORTATION
+  SHOPPING
+  ENTERTAINMENT
+  BILLS_UTILITIES
+  HEALTHCARE
+  EDUCATION
+  TRAVEL
+  BUSINESS
+  INVESTMENT
+  TRANSFER
+  OTHER
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REVERSED
+}
+
+enum TransferStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  SCHEDULED
+}
+
+enum LoanType {
+  PERSONAL
+  HOME_MORTGAGE
+  AUTO
+  BUSINESS
+  STUDENT
+  CREDIT_LINE
+}
+
+enum LoanPurpose {
+  HOME_PURCHASE
+  HOME_REFINANCE
+  VEHICLE_PURCHASE
+  DEBT_CONSOLIDATION
+  HOME_IMPROVEMENT
+  BUSINESS_EXPANSION
+  EDUCATION
+  MEDICAL
+  OTHER
+}
+
+enum LoanStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  DISBURSED
+  ACTIVE
+  COMPLETED
+  DEFAULTED
+}
+
+enum EmploymentStatus {
+  EMPLOYED_FULL_TIME
+  EMPLOYED_PART_TIME
+  SELF_EMPLOYED
+  UNEMPLOYED
+  RETIRED
+  STUDENT
+}
+
+enum CreditCardType {
+  STANDARD
+  PREMIUM
+  BUSINESS
+  SECURED
+  STUDENT
+  PREPAID
+}
+
+enum CardNetwork {
+  VISA
+  MASTERCARD
+  AMERICAN_EXPRESS
+  DISCOVER
+  DINERS_CLUB
+  UNIONPAY
+}
+
+enum CardStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+  EXPIRED
+  CANCELLED
+  PENDING_ACTIVATION
+}
+
+enum AssetType {
+  STOCK
+  BOND
+  MUTUAL_FUND
+  ETF
+  CRYPTOCURRENCY
+  COMMODITY
+  REAL_ESTATE
+  CASH
+}
+
+enum CryptoTransactionType {
+  BUY
+  SELL
+  TRANSFER_IN
+  TRANSFER_OUT
+  STAKE
+  UNSTAKE
+  MINING_REWARD
+}
+
+enum CryptoTransactionStatus {
+  PENDING
+  CONFIRMING
+  CONFIRMED
+  FAILED
+  CANCELLED
+}
+
+enum DigitalWalletType {
+  STANDARD
+  PREMIUM
+  BUSINESS
+  MERCHANT
+}
+
+enum WalletStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  CLOSED
+}
+
+enum PaymentMethodType {
+  BANK_ACCOUNT
+  DEBIT_CARD
+  CREDIT_CARD
+  DIGITAL_WALLET
+  CRYPTOCURRENCY
+}
+
+enum PaymentMethodStatus {
+  ACTIVE
+  EXPIRED
+  BLOCKED
+  PENDING_VERIFICATION
+}
+
+enum BillCategory {
+  UTILITIES
+  TELECOM
+  INSURANCE
+  LOAN_PAYMENT
+  SUBSCRIPTION
+  TAX
+  HEALTHCARE
+  EDUCATION
+  OTHER
+}
+
+enum BillStatus {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum RecurringFrequency {
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum RecurringPaymentStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  EXPIRED
+}
+
+enum KYCDocumentType {
+  PASSPORT
+  DRIVER_LICENSE
+  NATIONAL_ID
+  UTILITY_BILL
+  BANK_STATEMENT
+  TAX_DOCUMENT
+}
+
+enum KYCStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum AMLCheckType {
+  CUSTOMER_ONBOARDING
+  TRANSACTION_MONITORING
+  PERIODIC_REVIEW
+  SUSPICIOUS_ACTIVITY
+}
+
+enum AMLStatus {
+  PENDING
+  CLEARED
+  FLAGGED
+  UNDER_INVESTIGATION
+}
+
+enum FraudAlertType {
+  UNUSUAL_SPENDING
+  LOCATION_ANOMALY
+  VELOCITY_CHECK
+  MERCHANT_RISK
+  DEVICE_RISK
+  ACCOUNT_TAKEOVER
+}
+
+enum FraudAlertStatus {
+  ACTIVE
+  INVESTIGATING
+  RESOLVED
+  FALSE_POSITIVE
+}
+
+enum LimitType {
+  DAILY_SPENDING
+  MONTHLY_SPENDING
+  ATM_WITHDRAWAL
+  ONLINE_TRANSACTION
+  INTERNATIONAL_TRANSACTION
+}
+
+enum LimitFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum LimitStatus {
+  ACTIVE
+  EXCEEDED
+  SUSPENDED
+  EXPIRED
+}
+
+enum BudgetPeriod {
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum BudgetStatus {
+  ACTIVE
+  EXCEEDED
+  COMPLETED
+  CANCELLED
+}
+
+enum FinancialReportType {
+  ACCOUNT_STATEMENT
+  SPENDING_ANALYSIS
+  INVESTMENT_SUMMARY
+  TAX_REPORT
+  CREDIT_REPORT
+  COMPREHENSIVE
+}
+
+enum ReportPeriod {
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  YEARLY
+  CUSTOM
+}
+
+enum AppointmentPurpose {
+  ACCOUNT_OPENING
+  LOAN_APPLICATION
+  INVESTMENT_CONSULTATION
+  GENERAL_INQUIRY
+  COMPLAINT_RESOLUTION
+  CARD_SERVICES
+}
+
+enum BranchService {
+  ACCOUNT_SERVICES
+  LOAN_SERVICES
+  INVESTMENT_SERVICES
+  CURRENCY_EXCHANGE
+  SAFE_DEPOSIT_BOX
+  NOTARY_SERVICES
+  FINANCIAL_CONSULTATION
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
 }
