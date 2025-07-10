@@ -116,6 +116,11 @@ model User {
   certificates       Certificate[]      @relation("CertificateRecipient")
   learningPaths      LearningPath[]     @relation("LearningPathCreator")
   pathEnrollments    LearningPathEnrollment[] @relation("PathStudent")
+  
+  // Healthcare system relations
+  doctorProfile      Doctor?            @relation("DoctorProfile")
+  patientProfile     Patient?           @relation("PatientProfile")
+  verifiedDoctors    Doctor[]           @relation("DoctorVerifier")
 }
 
 model VerificationToken {
@@ -3116,4 +3121,737 @@ enum SubmissionStatus {
   RETURNED
   LATE
   MISSING
+}
+
+// Healthcare and Telemedicine Models
+model Doctor {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation("DoctorProfile", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Professional information
+  licenseNumber     String   @unique
+  specialization    MedicalSpecialty @default(GENERAL_PRACTICE)
+  subSpecialties    MedicalSpecialty[]
+  yearsExperience   Int      @default(0)
+  
+  // Practice details
+  clinicName        String?
+  clinicAddress     String?
+  phoneNumber       String?
+  emergencyContact  String?
+  
+  // Verification and credentials
+  isVerified        Boolean  @default(false)
+  verifiedAt        DateTime?
+  verifiedById      String?
+  verifiedBy        User?    @relation("DoctorVerifier", fields: [verifiedById], references: [id])
+  
+  // Schedule and availability
+  schedule          DoctorSchedule[]
+  availability      DoctorAvailability[]
+  
+  // Medical practice
+  appointments      Appointment[]
+  consultations     Consultation[]
+  prescriptions     Prescription[]
+  medicalRecords    MedicalRecord[]
+  
+  // Professional stats
+  totalPatients     Int      @default(0)
+  totalConsultations Int     @default(0)
+  averageRating     Float    @default(0)
+  reviewCount       Int      @default(0)
+  
+  // Practice settings
+  consultationFee   Float    @default(0)
+  currency          String   @default("USD")
+  acceptsInsurance  Boolean  @default(true)
+  telemedicineEnabled Boolean @default(true)
+  
+  // Status and activity
+  isActive          Boolean  @default(true)
+  lastActiveAt      DateTime @default(now())
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([specialization, isVerified, isActive])
+  @@index([userId])
+}
+
+model Patient {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation("PatientProfile", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Personal information
+  dateOfBirth       DateTime
+  gender            Gender   @default(OTHER)
+  bloodType         BloodType?
+  height            Float?   // in cm
+  weight            Float?   // in kg
+  
+  // Contact information
+  phoneNumber       String?
+  emergencyContact  String?
+  emergencyPhone    String?
+  address           String?
+  city              String?
+  zipCode           String?
+  country           String   @default("US")
+  
+  // Insurance information
+  insuranceProvider String?
+  insuranceNumber   String?
+  insuranceGroup    String?
+  
+  // Medical information
+  allergies         String[] // List of known allergies
+  chronicConditions String[] // List of chronic conditions
+  currentMedications String[] // Current medications
+  
+  // Healthcare relationships
+  primaryDoctorId   String?
+  primaryDoctor     Doctor?  @relation("PrimaryPatients", fields: [primaryDoctorId], references: [id])
+  
+  // Medical records and activities
+  appointments      Appointment[]
+  consultations     Consultation[]
+  medicalRecords    MedicalRecord[]
+  prescriptions     Prescription[]
+  vitals            VitalSigns[]
+  labResults        LabResult[]
+  
+  // Billing and payments
+  billingRecords    BillingRecord[]
+  
+  // Consent and preferences
+  consentToTreatment Boolean  @default(false)
+  consentToTelemedicine Boolean @default(false)
+  dataProcessingConsent Boolean @default(false)
+  marketingOptIn    Boolean  @default(false)
+  
+  // Patient status
+  isActive          Boolean  @default(true)
+  lastVisitAt       DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([primaryDoctorId])
+  @@index([dateOfBirth])
+}
+
+model DoctorSchedule {
+  id                String   @id @default(cuid())
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Schedule details
+  dayOfWeek         Int      // 0 = Sunday, 1 = Monday, etc.
+  startTime         String   // Format: "09:00"
+  endTime           String   // Format: "17:00"
+  timeZone          String   @default("UTC")
+  
+  // Schedule settings
+  slotDuration      Int      @default(30) // Duration in minutes
+  breakStartTime    String?  // Optional break time
+  breakEndTime      String?
+  
+  // Schedule status
+  isActive          Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([doctorId, dayOfWeek])
+  @@index([doctorId])
+}
+
+model DoctorAvailability {
+  id                String   @id @default(cuid())
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Availability period
+  date              DateTime
+  startTime         String
+  endTime           String
+  timeZone          String   @default("UTC")
+  
+  // Availability type
+  type              AvailabilityType @default(REGULAR)
+  isBooked          Boolean  @default(false)
+  
+  // Override settings
+  isOverride        Boolean  @default(false) // Override regular schedule
+  reason            String?  // Reason for availability change
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([doctorId, date])
+  @@index([date, isBooked])
+}
+
+model Appointment {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Appointment details
+  scheduledAt       DateTime
+  duration          Int      @default(30) // Duration in minutes
+  timeZone          String   @default("UTC")
+  
+  // Appointment type and method
+  type              AppointmentType @default(CONSULTATION)
+  method            AppointmentMethod @default(IN_PERSON)
+  
+  // Status and workflow
+  status            AppointmentStatus @default(SCHEDULED)
+  
+  // Reason and notes
+  reason            String?
+  symptoms          String?
+  notes             String?
+  
+  // Follow-up information
+  isFollowUp        Boolean  @default(false)
+  followUpFor       String?  // Reference to previous appointment
+  
+  // Consultation record
+  consultation      Consultation?
+  
+  // Billing
+  billingRecord     BillingRecord?
+  
+  // Reminders and notifications
+  reminderSent      Boolean  @default(false)
+  reminderSentAt    DateTime?
+  
+  // Cancellation
+  cancelledAt       DateTime?
+  cancelledBy       String?  // Patient or Doctor
+  cancellationReason String?
+  
+  // Rescheduling
+  rescheduledFrom   String?  // Previous appointment ID
+  rescheduledTo     String?  // New appointment ID
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, scheduledAt])
+  @@index([doctorId, scheduledAt])
+  @@index([status, scheduledAt])
+}
+
+model Consultation {
+  id                String   @id @default(cuid())
+  appointmentId     String   @unique
+  appointment       Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Consultation timing
+  startedAt         DateTime @default(now())
+  endedAt           DateTime?
+  duration          Int?     // Actual duration in minutes
+  
+  // Chief complaint and history
+  chiefComplaint    String?
+  historyOfPresentIllness String?
+  pastMedicalHistory String?
+  familyHistory     String?
+  socialHistory     String?
+  
+  // Physical examination
+  physicalExam      String?
+  vitalSigns        Json?    // Store vital signs as JSON
+  
+  // Assessment and plan
+  assessment        String?
+  diagnosis         String?
+  treatmentPlan     String?
+  followUpInstructions String?
+  
+  // Prescriptions and orders
+  prescriptions     Prescription[]
+  labOrders         LabOrder[]
+  
+  // Consultation type
+  isTelemedicine    Boolean  @default(false)
+  meetingLink       String?  // Video call link
+  meetingId         String?  // Meeting room ID
+  
+  // Documentation
+  consultationNotes String?
+  privateNotes      String?  // Doctor's private notes
+  
+  // Medical record
+  medicalRecord     MedicalRecord?
+  
+  // Follow-up
+  followUpRequired  Boolean  @default(false)
+  followUpDate      DateTime?
+  followUpType      AppointmentType?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, startedAt])
+  @@index([doctorId, startedAt])
+}
+
+model MedicalRecord {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  consultationId    String?  @unique
+  consultation      Consultation? @relation(fields: [consultationId], references: [id])
+  
+  // Record type and category
+  type              MedicalRecordType @default(CONSULTATION_NOTE)
+  category          String?
+  
+  // Medical content
+  title             String
+  content           String
+  summary           String?
+  
+  // Clinical data
+  diagnosis         String[]
+  symptoms          String[]
+  treatments        String[]
+  medications       String[]
+  
+  // Attachments and files
+  attachments       MedicalAttachment[]
+  
+  // Record metadata
+  recordDate        DateTime @default(now())
+  isConfidential    Boolean  @default(false)
+  
+  // Version control
+  version           Int      @default(1)
+  previousVersionId String?
+  isLatestVersion   Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, recordDate])
+  @@index([doctorId, recordDate])
+  @@index([type, recordDate])
+}
+
+model MedicalAttachment {
+  id                String   @id @default(cuid())
+  medicalRecordId   String
+  medicalRecord     MedicalRecord @relation(fields: [medicalRecordId], references: [id], onDelete: Cascade)
+  
+  // File information
+  fileName          String
+  fileUrl           String
+  fileType          String
+  fileSize          Int
+  
+  // Attachment metadata
+  title             String?
+  description       String?
+  attachmentType    AttachmentType @default(DOCUMENT)
+  
+  // Security and access
+  isEncrypted       Boolean  @default(true)
+  accessLevel       AccessLevel @default(DOCTOR_PATIENT)
+  
+  uploadedAt        DateTime @default(now())
+  
+  @@index([medicalRecordId])
+}
+
+model Prescription {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  consultationId    String?
+  consultation      Consultation? @relation(fields: [consultationId], references: [id])
+  
+  // Medication details
+  medicationName    String
+  dosage            String
+  frequency         String
+  duration          String
+  instructions      String?
+  
+  // Prescription information
+  quantity          Int?
+  refills           Int      @default(0)
+  
+  // Pharmacy information
+  pharmacyName      String?
+  pharmacyAddress   String?
+  pharmacyPhone     String?
+  
+  // Status and workflow
+  status            PrescriptionStatus @default(PENDING)
+  sentToPharmacy    Boolean  @default(false)
+  sentAt            DateTime?
+  
+  // Electronic prescription
+  prescriptionNumber String?  @unique
+  ndc               String?   // National Drug Code
+  
+  // Validity and control
+  isControlledSubstance Boolean @default(false)
+  dea               String?   // DEA number if controlled
+  expiresAt         DateTime?
+  
+  // Patient compliance
+  startDate         DateTime?
+  endDate           DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, createdAt])
+  @@index([doctorId, createdAt])
+  @@index([status])
+}
+
+model VitalSigns {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  
+  // Measurement date and context
+  measuredAt        DateTime @default(now())
+  measuredBy        String?  // Who took the measurements
+  location          String?  // Where measurements were taken
+  
+  // Vital signs
+  systolicBP        Int?     // Systolic blood pressure (mmHg)
+  diastolicBP       Int?     // Diastolic blood pressure (mmHg)
+  heartRate         Int?     // Heart rate (bpm)
+  temperature       Float?   // Temperature (Celsius)
+  respiratoryRate   Int?     // Respiratory rate (breaths/min)
+  oxygenSaturation  Int?     // Oxygen saturation (%)
+  
+  // Additional measurements
+  height            Float?   // Height (cm)
+  weight            Float?   // Weight (kg)
+  bmi               Float?   // Body Mass Index
+  
+  // Pain and subjective measures
+  painLevel         Int?     // Pain scale 0-10
+  
+  // Notes and context
+  notes             String?
+  abnormalFindings  String?
+  
+  // Data source
+  deviceUsed        String?  // Device or method used
+  isVerified        Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([patientId, measuredAt])
+}
+
+model LabOrder {
+  id                String   @id @default(cuid())
+  consultationId    String
+  consultation      Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+  patientId         String
+  doctorId          String
+  
+  // Order details
+  testType          String
+  testName          String
+  testCode          String?
+  urgency           LabUrgency @default(ROUTINE)
+  
+  // Instructions
+  instructions      String?
+  specialRequirements String?
+  
+  // Scheduling
+  scheduledDate     DateTime?
+  location          String?
+  
+  // Status
+  status            LabOrderStatus @default(ORDERED)
+  
+  // Results
+  result            LabResult?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([consultationId])
+  @@index([patientId, scheduledDate])
+}
+
+model LabResult {
+  id                String   @id @default(cuid())
+  labOrderId        String   @unique
+  labOrder          LabOrder @relation(fields: [labOrderId], references: [id], onDelete: Cascade)
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  
+  // Result details
+  testDate          DateTime
+  results           Json     // Store test results as JSON
+  normalRanges      Json?    // Normal ranges for the tests
+  
+  // Interpretation
+  interpretation    String?
+  abnormalFindings  String[]
+  criticalValues    String[]
+  
+  // Lab information
+  labName           String?
+  labTechnician     String?
+  reportUrl         String?
+  
+  // Status and review
+  status            LabResultStatus @default(PENDING_REVIEW)
+  reviewedBy        String?  // Doctor who reviewed
+  reviewedAt        DateTime?
+  reviewNotes       String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, testDate])
+}
+
+model BillingRecord {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  appointmentId     String?  @unique
+  appointment       Appointment? @relation(fields: [appointmentId], references: [id])
+  
+  // Billing details
+  serviceDate       DateTime
+  serviceDescription String
+  serviceCode       String?  // CPT code
+  
+  // Financial information
+  amount            Float
+  currency          String   @default("USD")
+  insuranceCoverage Float    @default(0)
+  patientResponsibility Float
+  
+  // Insurance information
+  insuranceProvider String?
+  insuranceClaimNumber String?
+  preAuthNumber     String?
+  
+  // Payment information
+  paymentStatus     PaymentStatus @default(PENDING)
+  paymentMethod     String?
+  paymentDate       DateTime?
+  transactionId     String?
+  
+  // Billing status
+  billingStatus     BillingStatus @default(DRAFT)
+  invoiceNumber     String?
+  sentToInsurance   Boolean  @default(false)
+  sentToPatient     Boolean  @default(false)
+  
+  // Due dates
+  dueDate           DateTime?
+  overdue           Boolean  @default(false)
+  
+  // Notes
+  billingNotes      String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, serviceDate])
+  @@index([paymentStatus, dueDate])
+  @@index([billingStatus])
+}
+
+// Enums for Healthcare System
+enum MedicalSpecialty {
+  GENERAL_PRACTICE
+  INTERNAL_MEDICINE
+  PEDIATRICS
+  CARDIOLOGY
+  DERMATOLOGY
+  ENDOCRINOLOGY
+  GASTROENTEROLOGY
+  HEMATOLOGY
+  INFECTIOUS_DISEASE
+  NEPHROLOGY
+  NEUROLOGY
+  ONCOLOGY
+  OPHTHALMOLOGY
+  ORTHOPEDICS
+  OTOLARYNGOLOGY
+  PSYCHIATRY
+  PULMONOLOGY
+  RADIOLOGY
+  RHEUMATOLOGY
+  UROLOGY
+  OBSTETRICS_GYNECOLOGY
+  ANESTHESIOLOGY
+  EMERGENCY_MEDICINE
+  FAMILY_MEDICINE
+  PATHOLOGY
+  PHYSICAL_MEDICINE
+  PLASTIC_SURGERY
+  PREVENTIVE_MEDICINE
+  SURGERY
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum BloodType {
+  A_POSITIVE
+  A_NEGATIVE
+  B_POSITIVE
+  B_NEGATIVE
+  AB_POSITIVE
+  AB_NEGATIVE
+  O_POSITIVE
+  O_NEGATIVE
+}
+
+enum AvailabilityType {
+  REGULAR
+  EXTENDED
+  EMERGENCY
+  BLOCKED
+}
+
+enum AppointmentType {
+  CONSULTATION
+  FOLLOW_UP
+  PHYSICAL_EXAM
+  VACCINATION
+  MENTAL_HEALTH
+  SPECIALIST_REFERRAL
+  EMERGENCY
+  TELEMEDICINE
+}
+
+enum AppointmentMethod {
+  IN_PERSON
+  TELEMEDICINE
+  PHONE_CALL
+  HOME_VISIT
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+  RESCHEDULED
+}
+
+enum MedicalRecordType {
+  CONSULTATION_NOTE
+  DISCHARGE_SUMMARY
+  LAB_REPORT
+  IMAGING_REPORT
+  PRESCRIPTION
+  VACCINATION_RECORD
+  SURGERY_REPORT
+  PROGRESS_NOTE
+  REFERRAL
+  INSURANCE_CLAIM
+}
+
+enum AttachmentType {
+  DOCUMENT
+  IMAGE
+  X_RAY
+  MRI
+  CT_SCAN
+  ULTRASOUND
+  ECG
+  LAB_REPORT
+  PRESCRIPTION
+  INSURANCE_CARD
+}
+
+enum AccessLevel {
+  PUBLIC
+  PATIENT_ONLY
+  DOCTOR_PATIENT
+  DOCTOR_ONLY
+  EMERGENCY_ONLY
+}
+
+enum PrescriptionStatus {
+  PENDING
+  SENT_TO_PHARMACY
+  FILLED
+  CANCELLED
+  EXPIRED
+}
+
+enum LabUrgency {
+  ROUTINE
+  URGENT
+  STAT
+  CRITICAL
+}
+
+enum LabOrderStatus {
+  ORDERED
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum LabResultStatus {
+  PENDING_REVIEW
+  REVIEWED
+  ABNORMAL
+  CRITICAL
+  FINAL
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIAL
+  OVERDUE
+  CANCELLED
+  REFUNDED
+}
+
+enum BillingStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  DISPUTED
+  CANCELLED
 }
