@@ -115,6 +115,35 @@ function FadeInSection({ children, delay = 0 }) {
 
 export default function ModernLandingPage() {
   const [scrollY, setScrollY] = useState(0);
+  const [showCode, setShowCode] = useState<string | null>(null);
+  const [notifications, setNotifications] = useState<string[]>([]);
+
+  const addNotification = (message: string) => {
+    setNotifications((prev: string[]) => [...prev, message]);
+    setTimeout(() => {
+      setNotifications((prev: string[]) => prev.slice(1));
+    }, 3000);
+  };
+
+  const CodeBlock = ({ title, code }: { title: string; code: string }) => (
+    <div className="bg-gray-900 rounded-xl p-6 mt-6">
+      <div className="flex justify-between items-center mb-4">
+        <h4 className="text-green-400 font-mono text-sm">{title}</h4>
+        <button
+          onClick={() => {
+            navigator.clipboard.writeText(code);
+            addNotification('Código copiado al portapapeles! 🚀');
+          }}
+          className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
+        >
+          Copiar
+        </button>
+      </div>
+      <pre className="text-gray-300 text-sm overflow-x-auto">
+        <code>{code}</code>
+      </pre>
+    </div>
+  );
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -125,40 +154,203 @@ export default function ModernLandingPage() {
   return (
     <>
       <Head>
-        <title>Modern Landing Page - Full Integration Examples</title>
-        <meta name="description" content="Página de aterrizaje moderna con múltiples secciones y animaciones" />
+        <title>Modern Landing Page Pro - Full Integration Examples</title>
+        <meta name="description" content="Página de aterrizaje profesional con animaciones avanzadas, scroll parallax y componentes interactivos" />
       </Head>
 
-      <div className="min-h-screen bg-white dark:bg-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30">
+        {/* Notificaciones */}
+        <div className="fixed top-4 right-4 z-50 space-y-2">
+          {notifications.map((notification, index) => (
+            <div
+              key={index}
+              className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl shadow-xl backdrop-blur-sm border border-white/20 animate-in slide-in-from-right duration-300"
+            >
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                </svg>
+                {notification}
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Navigation */}
-        <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-800">
+        <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-40 border-b border-gray-200/50 dark:border-gray-800/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center">
-                <Link href="/ejemplos/premium" className="text-blue-600 hover:text-blue-800 mr-4">
+                <Link href="/ejemplos/premium" className="text-blue-600 hover:text-blue-800 mr-4 transition-colors">
                   <ArrowLeftIcon className="w-5 h-5" />
                 </Link>
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  🚀 ModernApp
+                <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  🚀 ModernApp Pro
                 </div>
               </div>
               <div className="hidden md:flex space-x-8">
-                <a href="#features" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                <a href="#features" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
                   Características
                 </a>
-                <a href="#testimonials" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                <a href="#testimonials" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
                   Testimonios
                 </a>
-                <a href="#pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                <a href="#pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors">
                   Precios
                 </a>
+                <button
+                  onClick={() => setShowCode(showCode === 'landing' ? null : 'landing')}
+                  className="flex items-center space-x-2 px-3 py-1 border border-purple-300 dark:border-purple-600 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300 text-sm"
+                >
+                  <span>📝</span>
+                  <span>{showCode === 'landing' ? 'Ocultar' : 'Ver'} Código</span>
+                </button>
               </div>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              <button 
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                onClick={() => addNotification('🎉 ¡Registro iniciado! Bienvenido a ModernApp Pro')}
+              >
                 Comenzar Gratis
               </button>
             </div>
           </div>
         </nav>
+
+        {showCode === 'landing' && (
+          <div className="pt-24 pb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <CodeBlock
+                title="Landing Page con Animaciones y Scroll Parallax"
+                code={`// Modern Landing Page Implementation
+import { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+
+function ModernLandingPage() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      {/* Navigation with Backdrop Blur */}
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-200/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              🚀 ModernApp Pro
+            </div>
+            
+            <div className="hidden md:flex space-x-8">
+              <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">
+                Características
+              </a>
+              <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">
+                Testimonios
+              </a>
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">
+                Precios
+              </a>
+            </div>
+            
+            <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+              Comenzar Gratis
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section with Parallax */}
+      <section className="pt-24 pb-20 bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <FadeInSection>
+              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+                El Futuro es
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                  {' '}Ahora
+                </span>
+              </h1>
+            </FadeInSection>
+            
+            <FadeInSection delay={200}>
+              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                Revoluciona tu forma de trabajar con nuestra plataforma de última generación.
+              </p>
+            </FadeInSection>
+
+            <FadeInSection delay={400}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transform hover:scale-105 transition-all duration-200">
+                  Comenzar Ahora
+                </button>
+                <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:border-gray-400 transition-colors">
+                  Ver Demo
+                </button>
+              </div>
+            </FadeInSection>
+
+            {/* Parallax Demo Interface */}
+            <FadeInSection delay={600}>
+              <div className="mt-16 relative">
+                <div 
+                  className="relative mx-auto max-w-4xl"
+                  style={{
+                    transform: \`translateY(\${scrollY * 0.1}px)\`,
+                  }}
+                >
+                  <div className="bg-white rounded-2xl shadow-2xl p-8 transform perspective-1000 rotate-x-12">
+                    <div className="space-y-4">
+                      <div className="flex space-x-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="h-4 bg-gray-200 rounded w-full"></div>
+                        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                        <div className="h-4 bg-blue-200 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </FadeInSection>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// Fade In Animation Component
+function FadeInSection({ children, delay = 0 }) {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <div
+      ref={ref}
+      className={\`transition-all duration-1000 \${
+        inView 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-10'
+      }\`}
+      style={{ transitionDelay: \`\${delay}ms\` }}
+    >
+      {children}
+    </div>
+  );
+}`}
+              />
+            </div>
+          </div>
+        )}
 
         {/* Hero Section */}
         <section className="pt-24 pb-20 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
@@ -182,11 +374,17 @@ export default function ModernLandingPage() {
 
               <FadeInSection delay={400}>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <button className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 flex items-center">
+                  <button 
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 flex items-center shadow-lg hover:shadow-xl"
+                    onClick={() => addNotification('🚀 ¡Excelente elección! Prepárate para el futuro')}
+                  >
                     Comenzar Ahora
                     <ChevronRightIcon className="w-5 h-5 ml-2" />
                   </button>
-                  <button className="border-2 border-gray-300 text-gray-700 dark:text-gray-300 dark:border-gray-600 px-8 py-4 rounded-lg text-lg font-semibold hover:border-gray-400 transition-colors">
+                  <button 
+                    className="border-2 border-gray-300 text-gray-700 dark:text-gray-300 dark:border-gray-600 px-8 py-4 rounded-xl text-lg font-semibold hover:border-blue-400 hover:text-blue-600 dark:hover:border-blue-500 dark:hover:text-blue-400 transition-all duration-300"
+                    onClick={() => addNotification('🎬 Demo próximamente disponible!')}
+                  >
                     Ver Demo
                   </button>
                 </div>

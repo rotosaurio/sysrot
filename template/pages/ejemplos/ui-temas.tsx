@@ -9,7 +9,36 @@ export default function UITemasExample(): React.ReactElement {
   const [activeTab, setActiveTab] = useState('componentes');
   const [showModal, setShowModal] = useState(false);
   const [progress, setProgress] = useState(65);
+  const [showCode, setShowCode] = useState<string | null>(null);
+  const [notifications, setNotifications] = useState<string[]>([]);
   const { t } = useTranslation();
+
+  const addNotification = (message: string) => {
+    setNotifications((prev: string[]) => [...prev, message]);
+    setTimeout(() => {
+      setNotifications((prev: string[]) => prev.slice(1));
+    }, 3000);
+  };
+
+  const CodeBlock = ({ title, code }: { title: string; code: string }) => (
+    <div className="bg-gray-900 rounded-xl p-6 mt-4">
+      <div className="flex justify-between items-center mb-4">
+        <h4 className="text-green-400 font-mono text-sm">{title}</h4>
+        <button
+          onClick={() => {
+            navigator.clipboard.writeText(code);
+            addNotification('Código copiado al portapapeles!');
+          }}
+          className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
+        >
+          Copiar
+        </button>
+      </div>
+      <pre className="text-gray-300 text-sm overflow-x-auto">
+        <code>{code}</code>
+      </pre>
+    </div>
+  );
 
   // Evitar hidration mismatch
   React.useEffect(() => {
@@ -25,16 +54,38 @@ export default function UITemasExample(): React.ReactElement {
   }
 
   return (
-    <div className="container mx-auto py-12 space-y-12">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-          {t('pages.themes.title')}
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          {t('pages.themes.description')}
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30">
+      {/* Notificaciones */}
+      <div className="fixed top-4 right-4 z-50 space-y-2">
+        {notifications.map((notification, index) => (
+          <div
+            key={index}
+            className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl shadow-xl backdrop-blur-sm border border-white/20 animate-in slide-in-from-right duration-300"
+          >
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+              </svg>
+              {notification}
+            </div>
+          </div>
+        ))}
       </div>
+
+      <div className="container mx-auto py-12 space-y-12">
+        {/* Header */}
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <span>🎨</span>
+            Temas y Componentes UI
+          </div>
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            {t('pages.themes.title')}
+          </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            {t('pages.themes.description')}
+          </p>
+        </div>
 
       {/* Control de Tema Avanzado */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 p-8 rounded-2xl">
@@ -391,6 +442,7 @@ setTheme('dark');   // force dark`}</pre>
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 } 
