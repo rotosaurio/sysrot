@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, BookOpen, Code, Rocket, Terminal } from '@/components/ui/icons';
+import { ArrowRight, BookOpen, Code, Rocket, Terminal, Star, Zap, Shield, Palette } from '@/components/ui/icons';
 import { useTranslation } from '@/components/providers/intl-provider';
 
 export default function EjemplosPage() {
   const { t } = useTranslation();
+  const [hovredCard, setHoveredCard] = useState<number | null>(null);
 
   const ejemplos = [
     // Ejemplos básicos
@@ -212,16 +214,30 @@ export default function EjemplosPage() {
         </div>
       </div>
 
-      <div className="mt-12 p-6 border rounded-lg shadow-md bg-blue-50 dark:bg-blue-900/20">
-        <h2 className="text-2xl font-semibold mb-4">{t('examples.about.title')}</h2>
-        <p className="text-muted-foreground mb-4">
-          {t('examples.about.description')}
-        </p>
-        <p className="text-muted-foreground">
-          {t('examples.about.docs')}
-          <code className="mx-1 px-1 py-0.5 bg-muted rounded">DOCUMENTACION.md</code>
-          {t('examples.about.docsPath')}
-        </p>
+      {/* About Section */}
+      <div className="container mx-auto px-6 pb-16">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8">
+          <div className="flex items-start gap-6">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <BookOpen className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {t('examples.about.title')}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                {t('examples.about.description')}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                {t('examples.about.docs')}
+                <code className="mx-2 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 rounded-lg font-mono text-sm">
+                  DOCUMENTACION.md
+                </code>
+                {t('examples.about.docsPath')}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
