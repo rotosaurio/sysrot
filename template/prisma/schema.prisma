@@ -57,6 +57,16 @@ model User {
   invitations   OrganizationInvitation[]
   activities    Activity[]
   extended      UserExtended?
+  
+  // Real-time Chat relations
+  createdRooms  ChatRoom[]       @relation("ChatRoomCreator")
+  participations ChatParticipant[] @relation("ChatParticipant")
+  messages      ChatMessage[]    @relation("ChatMessage")
+  attachments   ChatAttachment[] @relation("ChatAttachmentUploader")
+  reactions     ChatReaction[]   @relation("ChatReaction")
+  readReceipts  ChatReadReceipt[] @relation("ChatReadReceipt")
+  notifications ChatNotification[] @relation("ChatNotification")
+  typingIndicators ChatTypingIndicator[] @relation("ChatTypingIndicator")
 }
 
 model VerificationToken {
@@ -528,4 +538,222 @@ enum SubscriptionStatus {
   CANCELLED
   UNPAID
   TRIALING
+}
+
+// Real-time Chat Models
+model ChatRoom {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  type          ChatRoomType @default(GROUP)
+  isPrivate     Boolean  @default(false)
+  avatar        String?
+  createdBy     String
+  creator       User     @relation("ChatRoomCreator", fields: [createdBy], references: [id])
+  
+  // Settings
+  settings      Json?    // Room-specific settings
+  maxMembers    Int?     @default(100)
+  
+  // Relations
+  participants  ChatParticipant[]
+  messages      ChatMessage[]
+  notifications ChatNotification[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([type, isPrivate])
+}
+
+model ChatParticipant {
+  id            String   @id @default(cuid())
+  roomId        String
+  room          ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User     @relation("ChatParticipant", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Role and permissions
+  role          ChatRole @default(MEMBER)
+  permissions   String[] // Array of permissions
+  
+  // Status
+  joinedAt      DateTime @default(now())
+  lastSeenAt    DateTime?
+  isTyping      Boolean  @default(false)
+  isMuted       Boolean  @default(false)
+  isBlocked     Boolean  @default(false)
+  
+  // Notifications
+  notificationSettings Json? // Personal notification preferences
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([roomId, userId])
+  @@index([userId, lastSeenAt])
+}
+
+model ChatMessage {
+  id            String   @id @default(cuid())
+  roomId        String
+  room          ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  userId        String?  // Null for system messages
+  user          User?    @relation("ChatMessage", fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Message content
+  content       String?
+  type          MessageType @default(TEXT)
+  
+  // File attachments
+  attachments   ChatAttachment[]
+  
+  // Message metadata
+  metadata      Json?    // Additional data (mentions, formatting, etc.)
+  editedAt      DateTime?
+  deletedAt     DateTime?
+  
+  // Threading
+  parentId      String?
+  parent        ChatMessage? @relation("MessageThread", fields: [parentId], references: [id])
+  replies       ChatMessage[] @relation("MessageThread")
+  
+  // Reactions and interactions
+  reactions     ChatReaction[]
+  readReceipts  ChatReadReceipt[]
+  notifications ChatNotification[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([roomId, createdAt])
+  @@index([userId, createdAt])
+  @@index([parentId])
+}
+
+model ChatAttachment {
+  id            String   @id @default(cuid())
+  messageId     String
+  message       ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  
+  // File details
+  fileName      String
+  fileSize      Int
+  fileType      String   // MIME type
+  fileUrl       String
+  thumbnailUrl  String?  // For images/videos
+  
+  // Upload metadata
+  uploadedBy    String
+  uploader      User     @relation("ChatAttachmentUploader", fields: [uploadedBy], references: [id])
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([messageId])
+}
+
+model ChatReaction {
+  id            String   @id @default(cuid())
+  messageId     String
+  message       ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User     @relation("ChatReaction", fields: [userId], references: [id], onDelete: Cascade)
+  
+  emoji         String   // Unicode emoji or custom emoji ID
+  
+  createdAt     DateTime @default(now())
+  
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+}
+
+model ChatReadReceipt {
+  id            String   @id @default(cuid())
+  messageId     String
+  message       ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User     @relation("ChatReadReceipt", fields: [userId], references: [id], onDelete: Cascade)
+  
+  readAt        DateTime @default(now())
+  
+  @@unique([messageId, userId])
+  @@index([userId, readAt])
+}
+
+model ChatNotification {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation("ChatNotification", fields: [userId], references: [id], onDelete: Cascade)
+  roomId        String?
+  room          ChatRoom? @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  messageId     String?
+  message       ChatMessage? @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  
+  // Notification details
+  type          NotificationType
+  title         String
+  content       String
+  isRead        Boolean  @default(false)
+  
+  // Delivery
+  sentAt        DateTime?
+  readAt        DateTime?
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([userId, isRead, createdAt])
+}
+
+model ChatTypingIndicator {
+  id            String   @id @default(cuid())
+  roomId        String
+  userId        String
+  user          User     @relation("ChatTypingIndicator", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isTyping      Boolean  @default(true)
+  lastTypedAt   DateTime @default(now())
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([roomId, userId])
+  @@index([roomId, isTyping])
+}
+
+// Enums for chat system
+enum ChatRoomType {
+  DIRECT      // 1:1 chat
+  GROUP       // Group chat
+  CHANNEL     // Public channel
+  SUPPORT     // Support ticket
+}
+
+enum ChatRole {
+  OWNER
+  ADMIN
+  MODERATOR
+  MEMBER
+  GUEST
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  SYSTEM
+  STICKER
+  GIF
+  LOCATION
+  POLL
+}
+
+enum NotificationType {
+  MESSAGE
+  MENTION
+  REACTION
+  ROOM_INVITE
+  ROOM_UPDATE
+  SYSTEM
 }
