@@ -1,6 +1,6 @@
 {
   "name": "sysrot-hub-ecommerce",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -83,6 +83,14 @@
     "recharts": "^2.8.0",
     "crypto-js": "^4.2.0",
     "webpack-bundle-analyzer": "^4.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rotosaurio/sysrot.git"
+  },
+  "homepage": "https://github.com/rotosaurio/sysrot#readme",
+  "bugs": {
+    "url": "https://github.com/rotosaurio/sysrot/issues"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

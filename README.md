@@ -31,12 +31,12 @@ npx sysrot-hub my-project
 - **Documentation (English):** [DOCUMENTACION.md](DOCUMENTACION.md)
 - **Read this README in Spanish:** [README.es.md](README.es.md)
 - **Other documentation:**
-  - [README-ECOMMERCE.md](README-ECOMMERCE.md) — E-commerce system
-  - [README-SAAS.md](README-SAAS.md) — SaaS multi-tenant
-  - [README-CHAT.md](README-CHAT.md) — Real-time chat
-  - [README-CHATBOT.md](README-CHATBOT.md) — AI chatbots
-  - [README-VIDEOS.md](README-VIDEOS.md) — Video streaming
-  - [CHANGELOG-PHASES.md](CHANGELOG-PHASES.md) — Roadmap & phases
+  - [README-ECOMMERCE.md](https://github.com/rotosaurio/sysrot/blob/main/README-ECOMMERCE.md) — E-commerce system
+  - [README-SAAS.md](https://github.com/rotosaurio/sysrot/blob/main/README-SAAS.md) — SaaS multi-tenant
+  - [README-CHAT.md](https://github.com/rotosaurio/sysrot/blob/main/README-CHAT.md) — Real-time chat
+  - [README-CHATBOT.md](https://github.com/rotosaurio/sysrot/blob/main/README-CHATBOT.md) — AI chatbots
+  - [README-VIDEOS.md](https://github.com/rotosaurio/sysrot/blob/main/README-VIDEOS.md) — Video streaming
+  - [CHANGELOG-PHASES.md](https://github.com/rotosaurio/sysrot/blob/main/CHANGELOG-PHASES.md) — Roadmap & phases
 
 ---
 
@@ -198,7 +198,7 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 ---
 
-## 🚦 Roadmap (2024-2025)
+## 🚦 Roadmap (2025-2026)
 
 ### Planned Expansions
 - CRM (customer management, pipeline, notes)

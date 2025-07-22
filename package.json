@@ -1,6 +1,6 @@
 {
   "name": "sysrot-hub",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "private": false,
   "description": "CLI de nueva generación para proyectos Next.js 14+ con IA multi-modelo, Web3 integration, internacionalización completa y roadmap realista 2025-2026",
   "main": "cli.js",
@@ -62,11 +62,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rotosaurio/sysrotcore.git"
+    "url": "https://github.com/rotosaurio/sysrot.git"
   },
-  "homepage": "https://github.com/rotosaurio/sysrotcore#readme",
+  "homepage": "https://github.com/rotosaurio/sysrot#readme",
   "bugs": {
-    "url": "https://github.com/rotosaurio/sysrotcore/issues"
+    "url": "https://github.com/rotosaurio/sysrot/issues"
   },
   "engines": {
     "node": ">=18.0.0"
