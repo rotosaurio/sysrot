@@ -1,311 +1,230 @@
-# 🚀 sysrot-hub v1.0.11
+# 🚀 sysrot-hub
 
-**Next-generation CLI for creating Next.js 15+ projects with Pages Router, multiple AI models, full integration examples and complete development ecosystem**
+**Next-generation CLI for creating advanced Next.js 14+ projects with multi-AI, SaaS, e-commerce, chat, analytics, and more.**
 
 [![npm version](https://badge.fury.io/js/sysrot-hub.svg)](https://badge.fury.io/js/sysrot-hub)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 
-[Installation](#-installation) • [Features](#-features) • [Examples](#-examples) • [Full Integration Examples](#-full-integration-examples) • [Documentation](#-documentation)
-
 ---
 
 ## 🎯 What is sysrot-hub?
 
-**sysrot-hub** is a powerful CLI tool that scaffolds production-ready Next.js 15+ projects with a complete development ecosystem. It goes beyond basic project generation by providing:
+**sysrot-hub** is a CLI tool that scaffolds production-ready Next.js 14+ projects with a complete, enterprise-grade ecosystem. It provides not just a project starter, but a full suite of real-world, integrated business systems, modern UI/UX, multi-language support, and advanced developer tooling.
 
-- 🤖 **Multi-AI Integration**: GPT-4o, Claude 3.5, Gemini Flash Pro, DeepSeek V3, and more
-- 🎨 **Modern UI Stack**: TailwindCSS, Framer Motion, and reusable components
-- 🔐 **Authentication System**: NextAuth.js with multiple providers
-- 📊 **Database Integration**: MongoDB and PostgreSQL support
-- 🌐 **Internationalization**: Complete i18n setup
-- ☁️ **Cloud Services**: Cloudinary, AWS integration
-- 📝 **Content Management**: MDX blog with syntax highlighting
-- 🎯 **Full Integration Examples**: 8+ production-ready examples
+---
 
 ## 📦 Installation
 
-### Global Installation
-
 ```bash
 npm install -g sysrot-hub
+# or use npx
+yarn create sysrot-hub my-project
+npx sysrot-hub my-project
 ```
 
-### Usage
+---
 
-```bash
-sysrot-hub create my-project
-# or
-sysrot create my-project
+## 🌐 Repository & Documentation
+
+- **GitHub repository:** [https://github.com/rotosaurio/sysrot](https://github.com/rotosaurio/sysrot)
+- **Documentation (English):** [DOCUMENTACION.md](DOCUMENTACION.md)
+- **Read this README in Spanish:** [README.es.md](README.es.md)
+- **Other documentation:**
+  - [README-ECOMMERCE.md](README-ECOMMERCE.md) — E-commerce system
+  - [README-SAAS.md](README-SAAS.md) — SaaS multi-tenant
+  - [README-CHAT.md](README-CHAT.md) — Real-time chat
+  - [README-CHATBOT.md](README-CHATBOT.md) — AI chatbots
+  - [README-VIDEOS.md](README-VIDEOS.md) — Video streaming
+  - [CHANGELOG-PHASES.md](CHANGELOG-PHASES.md) — Roadmap & phases
+
+---
+
+## ✨ Key Features
+
+- **Next.js 14+** with Pages Router, SSR/SSG, API routes
+- **TypeScript** throughout the codebase
+- **TailwindCSS** with dark/light mode and custom themes
+- **Component library**: layouts, tables, forms, cards, toggles, loaders, badges, etc.
+- **Form validation**: React Hook Form + Zod
+- **Notifications**: react-hot-toast
+- **Internationalization (i18n)**: React Intl, ES/EN, language switcher
+- **Authentication**: NextAuth.js (Google, GitHub, email, Discord, Twitter, credentials)
+- **Role-based access**: admin/user, route protection middleware
+- **REST APIs**: for all business systems
+- **Stripe integration**: payments, webhooks, billing
+- **Cloudinary integration**: image/video uploads
+- **AI integration**: OpenAI, Anthropic, Google, DeepSeek (multi-model, selectable)
+- **Prisma**: for e-commerce, SaaS, chat, projects, video, courses, healthcare, etc.
+- **MongoDB**: ready-to-use utilities
+- **Zustand**: global state management (e.g. shopping cart)
+- **Framer Motion**: animations and micro-interactions
+- **Mobile optimization**: breakpoints, touch gestures, PWA
+- **Complete documentation**: in English and Spanish
+- **Ready for Vercel and Docker deployment**
+
+---
+
+## 🏢 Included Business Systems (Full Integration Examples)
+
+| System         | Status   | Models | APIs | Users | Docs |
+|----------------|----------|--------|------|-------|------|
+| 🛍️ E-commerce  | ✅ Ready | 15+    | 8+   | 25+   | [README-ECOMMERCE.md](README-ECOMMERCE.md) |
+| 🏢 SaaS        | ✅ Ready | 8      | 6+   | 12+   | [README-SAAS.md](README-SAAS.md) |
+| 💬 Chat        | ✅ Ready | 8      | 5+   | 15+   | [README-CHAT.md](README-CHAT.md) |
+| 🤖 Chatbots    | ✅ Ready | 8      | 4+   | 8+    | [README-CHATBOT.md](README-CHATBOT.md) |
+| 📋 Projects    | ✅ Ready | 16     | 2+   | 6+    | [README-PROJECTS.md](README-PROJECTS.md) |
+| 📺 Video       | ✅ Ready | 15     | 2+   | 8+    | [README-VIDEOS.md](README-VIDEOS.md) |
+| 🏪 Marketplace | ✅ Ready | 10+    | 3+   | 10+   | (see docs) |
+| 👨‍💼 Portfolio  | ✅ Ready | 5+     | 1+   | 1+    | (see docs) |
+| 🚀 Landing Page| ✅ Ready | -      | -    | -     | (see docs) |
+| 📊 Analytics   | ✅ Ready | -      | -    | -     | (see docs) |
+| 📝 Task App    | ✅ Ready | 5+     | 1+   | 1+    | (see docs) |
+
+**Total: 70+ database models, 35+ REST APIs, 74+ test users**
+
+---
+
+## 🧩 Example Pages & Features
+
+- `/ejemplos/auth` - Authentication flows
+- `/ejemplos/ai` - Multi-model AI chat
+- `/ejemplos/upload` - Image upload (Cloudinary)
+- `/ejemplos/ecommerce` - E-commerce demo
+- `/ejemplos/marketplace` - Marketplace platform
+- `/ejemplos/portfolio` - Personal portfolio
+- `/ejemplos/saas` - SaaS multi-tenant
+- `/ejemplos/chat` - Real-time chat (Socket.io)
+- `/ejemplos/landing-page` - Modern landing page
+- `/ejemplos/task-app` - Task management with drag & drop
+- `/ejemplos/analytics-dashboard` - Analytics dashboard
+- `/ejemplos/ui-temas` - Theme switching
+- `/ejemplos/formularios` - Advanced forms
+- `/ejemplos/notificaciones` - Toast notifications
+- `/ejemplos/animaciones` - Animations (Framer Motion)
+- `/ejemplos/database` - Database integration
+- `/blog` - MDX blog system
+
+---
+
+## 🗂️ Project Structure
+
+```
+my-project/
+├── components/       # Reusable UI components
+│   ├── ai/           # AI components
+│   ├── auth/         # Authentication
+│   ├── ui/           # UI library
+│   ├── upload/       # File/image upload
+│   ├── performance/  # Performance tools
+│   ├── providers/    # Context providers
+│   └── theme-provider.tsx
+├── lib/              # Utilities, i18n, db, roles, mobile
+├── pages/            # Next.js pages
+│   ├── api/          # API routes
+│   ├── blog/         # Blog pages
+│   └── ejemplos/     # Example pages
+├── prisma/           # Database schema & seeders
+├── public/           # Static assets
+├── styles/           # CSS (globals, mobile)
+├── locales/          # i18n translations
+├── posts/            # MDX blog posts
+├── README.md         # Main documentation
+└── ...
 ```
 
-### Using npx (without installation)
+---
 
-```bash
-npx sysrot-hub create my-project
-```
+## ⚙️ Environment Variables
 
-## ✨ Features
-
-### 🏗️ Core Technologies
-
-- **Next.js 15+** with Pages Router
-- **TypeScript** for type safety
-- **TailwindCSS** for styling
-- **ESLint** for code quality
-- **React 18+** with latest features
-
-### 🤖 AI Integration
-
-Choose from multiple AI models:
-- **GPT-4o** (OpenAI)
-- **Claude 3.5** (Anthropic)
-- **Gemini Flash Pro** (Google)
-- **DeepSeek V3 Chat**
-- **DeepSeek R1 Reasoner**
-
-### 🔐 Authentication
-
-- **NextAuth.js** integration
-- Multiple providers: Google, GitHub, Email, Discord, Twitter
-- Role-based access control (admin/user)
-- Route protection middleware
-
-### 🗄️ Database Support
-
-- **MongoDB** with Mongoose
-- **PostgreSQL** with Prisma
-- Ready-to-use schemas and models
-
-### 🎨 UI & UX
-
-- **Dark/Light mode** toggle
-- **Framer Motion** animations
-- **React Hot Toast** notifications
-- **Responsive design** patterns
-- **Reusable components** library
-
-### 📝 Content & Forms
-
-- **MDX blog** with syntax highlighting
-- **React Hook Form** + Zod validation
-- **Cloudinary** image uploads
-- **Automatic slug generation**
-
-### 🌐 Internationalization
-
-- Complete i18n setup
-- Multiple language support
-- Translation management
-
-## 📚 Examples
-
-### Basic Examples
-
-The CLI includes 10 basic examples to get you started:
-
-1. **🔐 Authentication** - Login/register flows
-2. **🤖 AI Integration** - Multi-model AI chat
-3. **📦 Component Library** - Reusable UI components
-4. **📤 Image Upload** - Cloudinary integration
-5. **📋 Forms** - Form validation with Zod
-6. **🎬 Animations** - Framer Motion examples
-7. **🔔 Notifications** - Toast notifications
-8. **🗄️ Database** - CRUD operations
-9. **🎨 UI & Themes** - Theme switching
-10. **📝 TypeScript** - Advanced TS patterns
-
-### 🚀 Full Integration Examples
-
-These advanced examples showcase complete, production-ready implementations:
-
-#### 📊 Analytics Dashboard
-- **Technologies**: Chart.js, D3.js, React, TypeScript
-- **Features**: Interactive charts, real-time data, KPI metrics
-- **Difficulty**: Intermediate
-
-#### 🏢 Multi-tenant SaaS
-- **Technologies**: Multi-tenancy, Subscription Management, Admin Dashboard
-- **Features**: Tenant isolation, billing, user management
-- **Difficulty**: Advanced
-
-#### 🏪 Marketplace Platform
-- **Technologies**: Rating System, Search & Filters, Vendor Management
-- **Features**: Product listings, reviews, vendor profiles
-- **Difficulty**: Advanced
-
-#### 👨‍💼 Personal Portfolio
-- **Technologies**: Framer Motion, Contact Forms, Responsive Design
-- **Features**: Project showcase, skills display, contact system
-- **Difficulty**: Intermediate
-
-#### 🛍️ E-commerce Demo
-- **Technologies**: Zustand, Local Storage, State Management
-- **Features**: Shopping cart, product catalog, checkout flow
-- **Difficulty**: Intermediate
-
-#### 📋 Task Management App
-- **Technologies**: React DnD, Local Storage, Context API
-- **Features**: Drag & drop, task organization, persistence
-- **Difficulty**: Intermediate
-
-#### 💬 Real-time Chat
-- **Technologies**: WebSockets, Socket.io, Node.js
-- **Features**: Multiple rooms, real-time messaging, user presence
-- **Difficulty**: Advanced
-
-#### 🚀 Modern Landing Page
-- **Technologies**: Framer Motion, GSAP, TailwindCSS
-- **Features**: Scroll animations, parallax effects, hero sections
-- **Difficulty**: Intermediate
-
-## 🛠️ Configuration Options
-
-The CLI provides an interactive setup with these options:
-
-- **TypeScript**: Optional TypeScript configuration
-- **TailwindCSS**: Utility-first CSS framework
-- **ESLint**: Code linting and formatting
-- **Database**: Choose between MongoDB or PostgreSQL
-- **Authentication**: NextAuth.js with provider selection
-- **AI Models**: Select from 5+ AI providers
-- **Examples**: Choose which examples to include
-- **Full Integration**: Add advanced examples
-
-## 📖 Documentation
-
-### Environment Variables
-
-The CLI generates a comprehensive `.env.example` file with all necessary variables:
+Copy `.env.example` to `.env.local` and fill in your values:
 
 ```env
 # Database
-MONGODB_URI=your_mongodb_connection_string
 DATABASE_URL=your_postgresql_connection_string
+MONGODB_URI=your_mongodb_connection_string
 
 # Authentication
 NEXTAUTH_SECRET=your_secret_key
 NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_ID=your_github_id
+GITHUB_SECRET=your_github_secret
 
 # AI Providers
 OPENAI_API_KEY=your_openai_key
 ANTHROPIC_API_KEY=your_anthropic_key
 GOOGLE_API_KEY=your_google_key
 
-# Cloud Services
+# Cloudinary
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+
+# Stripe
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
 ```
 
-### Project Structure
+---
 
-```
-my-project/
-├── components/          # Reusable UI components
-├── pages/              # Next.js pages
-│   ├── api/           # API routes
-│   ├── ejemplos/      # Example pages
-│   └── blog/          # MDX blog
-├── lib/               # Utility functions
-├── styles/            # Global styles
-├── locales/           # i18n translations
-├── prisma/            # Database schema (if PostgreSQL)
-└── posts/             # MDX blog posts
-```
+## 🛠️ Developer Tooling
 
-### Getting Started
+- **TypeScript**: type safety everywhere
+- **ESLint**: code quality
+- **Prettier**: code formatting
+- **Prisma Studio**: DB admin UI
+- **React Hot Toast**: notifications
+- **Framer Motion**: animations
+- **Zustand**: state management
+- **Socket.io**: real-time chat
+- **Chart.js, D3.js, recharts**: analytics
+- **Testing ready**: structure for unit/integration/e2e tests
 
-1. **Create a project**:
-   ```bash
-   npx sysrot-hub create my-project
-   ```
+---
 
-2. **Follow the interactive setup**
-3. **Navigate to your project**:
-   ```bash
-   cd my-project
-   ```
+## 📚 Documentation & Resources
 
-4. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+- [DOCUMENTACION.md](DOCUMENTACION.md) — Full documentation (Spanish)
+- [README.es.md](README.es.md) — Este README en español
+- [README-ECOMMERCE.md](README-ECOMMERCE.md) — E-commerce system
+- [README-SAAS.md](README-SAAS.md) — SaaS multi-tenant
+- [README-CHAT.md](README-CHAT.md) — Real-time chat
+- [README-CHATBOT.md](README-CHATBOT.md) — AI chatbots
+- [README-VIDEOS.md](README-VIDEOS.md) — Video streaming
+- [CHANGELOG-PHASES.md](CHANGELOG-PHASES.md) — Roadmap & phases
 
-5. **Configure environment variables**:
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your values
-   ```
+---
 
-6. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
+## 🚦 Roadmap (2024-2025)
 
-7. **Visit your application**:
-   ```
-   http://localhost:3000
-   ```
+### Planned Expansions
+- CRM (customer management, pipeline, notes)
+- LMS (courses, lessons, quizzes, progress)
+- Ticket/support system (incidents, comments, assignment)
+- Push notifications (web push, service worker)
+- External integrations (webhooks, Slack, Zapier)
+- Accessibility improvements (keyboard nav, ARIA roles, contrast)
+- Expanded testing (unit, integration, e2e)
+- Interactive onboarding (guided tours)
+- Favorites/ratings (products, courses, projects)
+- Visual documentation (diagrams, videos, tutorials)
+- Performance improvements (caching, CDN, advanced lazy loading)
 
-## 🎯 Use Cases
+### What is NOT included (yet)
+- Blockchain/NFTs/Web3 (not implemented)
+- Mobile app (web only, mobile optimized)
+- Microservices (monolithic Next.js)
+- ERP/IoT (suggested, not implemented)
 
-### For Developers
-- **Rapid Prototyping**: Get a production-ready app in minutes
-- **Learning Platform**: Explore modern React/Next.js patterns
-- **Portfolio Projects**: Use advanced examples as portfolio pieces
+---
 
-### For Teams
-- **Project Kickstarters**: Start new projects with best practices
-- **Code Standards**: Consistent project structure across teams
-- **Integration Examples**: Learn how to implement complex features
+## 📝 License
 
-### For Students
-- **Learning Resource**: Study real-world implementations
-- **Practice Projects**: Use examples to build your skills
-- **Portfolio Building**: Create impressive projects for your portfolio
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### Development Setup
-
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Make your changes
-4. Test with: `npm test`
-5. Submit a pull request
-
-## 📋 Requirements
-
-- **Node.js**: >= 18.0.0
-- **npm**: >= 8.0.0 or **yarn**: >= 1.22.0
-
-## 🔄 Updates & Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for detailed release notes and migration guides.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Next.js Team** for the amazing framework
-- **Vercel** for deployment platform
-- **TailwindCSS** for the utility-first CSS framework
-- **OpenAI, Anthropic, Google** for AI API access
-- All the open-source libraries that make this possible
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/rotosaurio/sysrotcore/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/rotosaurio/sysrotcore/discussions)
-- **Email**: support@sysrot.com
+MIT
 
 ---
 
 **Made with ❤️ by the sysrot team**
-
-[⭐ Star this repository](https://github.com/rotosaurio/sysrotcore) if you found it helpful!
