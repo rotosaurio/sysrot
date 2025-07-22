@@ -1,126 +1,214 @@
-# Next.js App Template
+# 🚀 sysrot-hub
 
-Este proyecto fue generado con [create-rotosaurio-app](https://github.com/yourusername/create-rotosaurio-app).
+**Next-generation CLI for creating advanced Next.js 14+ projects with multi-AI, SaaS, e-commerce, chat, analytics, and more.**
 
-## 🚀 Características
+[![npm version](https://badge.fury.io/js/sysrot-hub.svg)](https://badge.fury.io/js/sysrot-hub)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 
-- ✅ **Next.js 14+ con Pages Router** - Sistema de rutas basado en archivos
-- ✅ **TypeScript** - Seguridad de tipos y mejor experiencia de desarrollo
-- ✅ **TailwindCSS** - Utilidades CSS para estilizado rápido
-- ✅ **Tema Claro/Oscuro** - Sistema completo de temas con next-themes
-- ✅ **Componentes UI** - Biblioteca de componentes personalizables
-- ✅ **Validación de Formularios** - React Hook Form con Zod
-- ✅ **Notificaciones** - Sistema de toasts con react-hot-toast
-- ✅ **Ejemplos** - Ejemplos completos y funcionales de todas las características
+---
 
-## 🛠️ Primeros pasos
+## 🎯 What is sysrot-hub?
 
-### Instalación
+**sysrot-hub** is a CLI tool that scaffolds production-ready Next.js 14+ projects with a complete, enterprise-grade ecosystem. It provides not just a project starter, but a full suite of real-world, integrated business systems, modern UI/UX, multi-language support, and advanced developer tooling.
 
-Primero, instala las dependencias:
+---
+
+## 📦 Installation
 
 ```bash
-npm install
-# o
-yarn install
-# o 
-pnpm install
+npm install -g sysrot-hub
+# or use npx
+yarn create sysrot-hub my-project
+npx sysrot-hub my-project
 ```
 
-### Desarrollo
+---
 
-Ejecuta el servidor de desarrollo:
+## ✨ Key Features
 
-```bash
-npm run dev
-# o
-yarn dev
-# o
-pnpm dev
+- **Next.js 14+** with Pages Router, SSR/SSG, API routes
+- **TypeScript** throughout the codebase
+- **TailwindCSS** with dark/light mode and custom themes
+- **Component library**: layouts, tables, forms, cards, toggles, loaders, badges, etc.
+- **Form validation**: React Hook Form + Zod
+- **Notifications**: react-hot-toast
+- **Internationalization (i18n)**: React Intl, ES/EN, language switcher
+- **Authentication**: NextAuth.js (Google, GitHub, email, Discord, Twitter, credentials)
+- **Role-based access**: admin/user, route protection middleware
+- **REST APIs**: for all business systems
+- **Stripe integration**: payments, webhooks, billing
+- **Cloudinary integration**: image/video uploads
+- **AI integration**: OpenAI, Anthropic, Google, DeepSeek (multi-model, selectable)
+- **Prisma**: for e-commerce, SaaS, chat, projects, video, courses, healthcare, etc.
+- **MongoDB**: ready-to-use utilities
+- **Zustand**: global state management (e.g. shopping cart)
+- **Framer Motion**: animations and micro-interactions
+- **Mobile optimization**: breakpoints, touch gestures, PWA
+- **Complete documentation**: in English and Spanish
+- **Ready for Vercel and Docker deployment**
+
+---
+
+## 🏢 Included Business Systems (Full Integration Examples)
+
+| System         | Status   | Models | APIs | Users | Docs |
+|----------------|----------|--------|------|-------|------|
+| 🛍️ E-commerce  | ✅ Ready | 15+    | 8+   | 25+   | [README-ECOMMERCE.md](README-ECOMMERCE.md) |
+| 🏢 SaaS        | ✅ Ready | 8      | 6+   | 12+   | [README-SAAS.md](README-SAAS.md) |
+| 💬 Chat        | ✅ Ready | 8      | 5+   | 15+   | [README-CHAT.md](README-CHAT.md) |
+| 🤖 Chatbots    | ✅ Ready | 8      | 4+   | 8+    | [README-CHATBOT.md](README-CHATBOT.md) |
+| 📋 Projects    | ✅ Ready | 16     | 2+   | 6+    | [README-PROJECTS.md](README-PROJECTS.md) |
+| 📺 Video       | ✅ Ready | 15     | 2+   | 8+    | [README-VIDEOS.md](README-VIDEOS.md) |
+| 🏪 Marketplace | ✅ Ready | 10+    | 3+   | 10+   | (see docs) |
+| 👨‍💼 Portfolio  | ✅ Ready | 5+     | 1+   | 1+    | (see docs) |
+| 🚀 Landing Page| ✅ Ready | -      | -    | -     | (see docs) |
+| 📊 Analytics   | ✅ Ready | -      | -    | -     | (see docs) |
+| 📝 Task App    | ✅ Ready | 5+     | 1+   | 1+    | (see docs) |
+
+**Total: 70+ database models, 35+ REST APIs, 74+ test users**
+
+---
+
+## 🧩 Example Pages & Features
+
+- `/ejemplos/auth` - Authentication flows
+- `/ejemplos/ai` - Multi-model AI chat
+- `/ejemplos/upload` - Image upload (Cloudinary)
+- `/ejemplos/ecommerce` - E-commerce demo
+- `/ejemplos/marketplace` - Marketplace platform
+- `/ejemplos/portfolio` - Personal portfolio
+- `/ejemplos/saas` - SaaS multi-tenant
+- `/ejemplos/chat` - Real-time chat (Socket.io)
+- `/ejemplos/landing-page` - Modern landing page
+- `/ejemplos/task-app` - Task management with drag & drop
+- `/ejemplos/analytics-dashboard` - Analytics dashboard
+- `/ejemplos/ui-temas` - Theme switching
+- `/ejemplos/formularios` - Advanced forms
+- `/ejemplos/notificaciones` - Toast notifications
+- `/ejemplos/animaciones` - Animations (Framer Motion)
+- `/ejemplos/database` - Database integration
+- `/blog` - MDX blog system
+
+---
+
+## 🗂️ Project Structure
+
+```
+my-project/
+├── components/       # Reusable UI components
+│   ├── ai/           # AI components
+│   ├── auth/         # Authentication
+│   ├── ui/           # UI library
+│   ├── upload/       # File/image upload
+│   ├── performance/  # Performance tools
+│   ├── providers/    # Context providers
+│   └── theme-provider.tsx
+├── lib/              # Utilities, i18n, db, roles, mobile
+├── pages/            # Next.js pages
+│   ├── api/          # API routes
+│   ├── blog/         # Blog pages
+│   └── ejemplos/     # Example pages
+├── prisma/           # Database schema & seeders
+├── public/           # Static assets
+├── styles/           # CSS (globals, mobile)
+├── locales/          # i18n translations
+├── posts/            # MDX blog posts
+├── README.md         # Main documentation
+└── ...
 ```
 
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver el resultado.
+---
 
-## 📚 Estructura del Proyecto
+## ⚙️ Environment Variables
 
-```
-├── components/       # Componentes reutilizables
-│   ├── ai/           # Componentes relacionados con IA
-│   ├── auth/         # Componentes de autenticación
-│   ├── ui/           # Componentes de interfaz de usuario
-│   └── upload/       # Componentes de carga de archivos
-├── lib/              # Funciones y utilidades
-├── pages/            # Rutas y páginas de la aplicación
-│   ├── api/          # Endpoints de API
-│   ├── blog/         # Páginas del blog
-│   └── ejemplos/     # Ejemplos de uso
-├── public/           # Activos públicos
-└── styles/           # Hojas de estilo CSS
-```
+Copy `.env.example` to `.env.local` and fill in your values:
 
-## 📘 Documentación
+```env
+# Database
+DATABASE_URL=your_postgresql_connection_string
+MONGODB_URI=your_mongodb_connection_string
 
-Revisa el archivo `DOCUMENTACION.md` incluido en este proyecto para información detallada sobre cada característica y cómo utilizarla.
+# Authentication
+NEXTAUTH_SECRET=your_secret_key
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_ID=your_github_id
+GITHUB_SECRET=your_github_secret
 
-### Páginas de Ejemplo
+# AI Providers
+OPENAI_API_KEY=your_openai_key
+ANTHROPIC_API_KEY=your_anthropic_key
+GOOGLE_API_KEY=your_google_key
 
-- `/ejemplos/auth` - Ejemplo de autenticación
-- `/ejemplos/ai` - Integración con OpenAI
-- `/ejemplos/upload` - Carga de imágenes
-- `/blog` - Sistema de blog con MDX
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 
-## 🔑 Variables de Entorno
-
-1. Copia el archivo `.env.example` a `.env.local`:
-   ```bash
-   cp .env.example .env.local
-   ```
-
-2. Completa las variables necesarias según las características que hayas elegido:
-   - Autenticación: NEXTAUTH_SECRET, GOOGLE_CLIENT_ID, etc.
-   - OpenAI: OPENAI_API_KEY
-   - Cloudinary: CLOUDINARY_CLOUD_NAME, etc.
-   - Base de Datos: DATABASE_URL
-
-## 🧩 Personalización
-
-### Estilos
-
-- Modifica `tailwind.config.js` para personalizar colores, fuentes, etc.
-- Edita `styles/globals.css` para cambiar estilos globales y variables CSS
-
-### Componentes
-
-- Todos los componentes se encuentran en la carpeta `/components`
-- Puedes editar, extender o reemplazar según tus necesidades
-
-## 🔗 Enlaces Útiles
-
-- [Documentación de Next.js](https://nextjs.org/docs) - aprende sobre las características y API de Next.js.
-- [Documentación de TailwindCSS](https://tailwindcss.com/docs) - aprende sobre clases y personalización de Tailwind.
-- [Documentación de NextAuth.js](https://next-auth.js.org/getting-started/introduction) - guía de autenticación.
-- [React Hook Form](https://react-hook-form.com/get-started) - validación de formularios.
-
-## 🚀 Despliegue
-
-La forma más sencilla de desplegar tu aplicación Next.js es utilizando la [Plataforma Vercel](https://vercel.com/new):
-
-```bash
-npm i -g vercel
-vercel
+# Stripe
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
 ```
 
-Consulta la [documentación de despliegue de Next.js](https://nextjs.org/docs/deployment) para más detalles.
+---
 
-## 🐛 Solución de Problemas
+## 🛠️ Developer Tooling
 
-Si encuentras algún problema durante el desarrollo:
+- **TypeScript**: type safety everywhere
+- **ESLint**: code quality
+- **Prettier**: code formatting
+- **Prisma Studio**: DB admin UI
+- **React Hot Toast**: notifications
+- **Framer Motion**: animations
+- **Zustand**: state management
+- **Socket.io**: real-time chat
+- **Chart.js, D3.js, recharts**: analytics
+- **Testing ready**: structure for unit/integration/e2e tests
 
-1. Verifica que todas las dependencias estén instaladas
-2. Asegúrate que las variables de entorno estén correctamente configuradas
-3. Revisa la documentación para obtener ayuda
-4. Verifica los logs en la consola del navegador y del servidor
+---
 
-## 📝 Licencia
+## 📚 Documentation
 
-MIT 
+- [DOCUMENTACION.md](DOCUMENTACION.md) (Spanish)
+- [README-ECOMMERCE.md](README-ECOMMERCE.md)
+- [README-SAAS.md](README-SAAS.md)
+- [README-CHAT.md](README-CHAT.md)
+- [README-CHATBOT.md](README-CHATBOT.md)
+- [README-VIDEOS.md](README-VIDEOS.md)
+- [CHANGELOG-PHASES.md](CHANGELOG-PHASES.md) (Roadmap)
+
+---
+
+## 🚦 Roadmap (2024-2025)
+
+### Planned Expansions
+- CRM (customer management, pipeline, notes)
+- LMS (courses, lessons, quizzes, progress)
+- Ticket/support system (incidents, comments, assignment)
+- Push notifications (web push, service worker)
+- External integrations (webhooks, Slack, Zapier)
+- Accessibility improvements (keyboard nav, ARIA roles, contrast)
+- Expanded testing (unit, integration, e2e)
+- Interactive onboarding (guided tours)
+- Favorites/ratings (products, courses, projects)
+- Visual documentation (diagrams, videos, tutorials)
+- Performance improvements (caching, CDN, advanced lazy loading)
+
+### What is NOT included (yet)
+- Blockchain/NFTs/Web3 (not implemented)
+- Mobile app (web only, mobile optimized)
+- Microservices (monolithic Next.js)
+- ERP/IoT (suggested, not implemented)
+
+---
+
+## 📝 License
+
+MIT
+
+---
+
+**Made with ❤️ by the sysrot team** 

@@ -375,7 +375,7 @@ function FadeInSection({ children, delay = 0 }) {
               <FadeInSection delay={400}>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <button 
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 flex items-center shadow-lg hover:shadow-xl"
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 flex items-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     onClick={() => addNotification('🚀 ¡Excelente elección! Prepárate para el futuro')}
                   >
                     Comenzar Ahora

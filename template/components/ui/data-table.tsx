@@ -127,7 +127,7 @@ export function DataTable<T extends Record<string, any>>({
 
   if (loading) {
     return (
-      <div className={`bg-white dark:bg-gray-800 rounded-lg border ${className}`}>
+      <div className={`bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 rounded-2xl border border-blue-200/60 dark:border-blue-800/60 shadow-lg ${className}`}>
         <div className="p-8 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-2 text-gray-500 dark:text-gray-400">Loading...</p>
@@ -137,10 +137,10 @@ export function DataTable<T extends Record<string, any>>({
   }
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg border ${className}`}>
+    <div className={`bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 rounded-2xl border border-blue-200/60 dark:border-blue-800/60 shadow-lg ${className}`}>
       {/* Search and Filters */}
       {(searchable || columns.some(col => col.filterable)) && (
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 border-b border-blue-200 dark:border-blue-800 bg-gradient-to-r from-slate-100 via-white to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-blue-900/30 rounded-t-2xl">
           <div className="flex flex-col sm:flex-row gap-4">
             {searchable && (
               <div className="relative flex-1">
@@ -181,15 +181,17 @@ export function DataTable<T extends Record<string, any>>({
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+          <thead className="bg-gradient-to-r from-blue-100 via-white to-purple-100 dark:from-blue-900 dark:via-gray-900 dark:to-purple-900/30">
             <tr>
               {columns.map((column) => (
                 <th
                   key={String(column.key)}
-                  className={`px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider ${
-                    column.sortable ? 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600' : ''
+                  className={`px-4 py-3 text-left text-xs font-bold text-blue-700 dark:text-blue-200 uppercase tracking-wider ${
+                    column.sortable ? 'cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20' : ''
                   } ${column.className || ''}`}
                   onClick={() => column.sortable && handleSort(column.key)}
+                  tabIndex={column.sortable ? 0 : undefined}
+                  aria-sort={sortConfig.key === column.key ? sortConfig.direction : undefined}
                 >
                   <div className="flex items-center space-x-1">
                     <span>{column.label}</span>
@@ -199,38 +201,24 @@ export function DataTable<T extends Record<string, any>>({
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-            {paginatedData.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={columns.length}
-                  className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
-                >
-                  {emptyMessage}
-                </td>
+          <tbody>
+            {paginatedData.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className="hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors cursor-pointer"
+                onClick={() => onRowClick && onRowClick(row)}
+                tabIndex={onRowClick ? 0 : undefined}
+              >
+                {columns.map((column) => (
+                  <td
+                    key={String(column.key)}
+                    className={`px-4 py-3 text-sm text-gray-700 dark:text-gray-200 border-b border-blue-100 dark:border-blue-900/20 ${column.className || ''}`}
+                  >
+                    {column.render ? column.render(row[column.key], row) : row[column.key]}
+                  </td>
+                ))}
               </tr>
-            ) : (
-              paginatedData.map((row, index) => (
-                <tr
-                  key={index}
-                  className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${
-                    onRowClick ? 'cursor-pointer' : ''
-                  }`}
-                  onClick={() => onRowClick?.(row)}
-                >
-                  {columns.map((column) => (
-                    <td
-                      key={String(column.key)}
-                      className={`px-4 py-3 text-sm text-gray-900 dark:text-gray-100 ${column.className || ''}`}
-                    >
-                      {column.render
-                        ? column.render(row[column.key], row)
-                        : String(row[column.key] || '')}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
       </div>

@@ -206,8 +206,8 @@ export default function TaskApp() {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className={`bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 p-6 mb-4 transition-all duration-300 group ${
-              snapshot.isDragging ? 'shadow-2xl rotate-2 scale-105' : 'hover:shadow-lg hover:scale-[1.02]'
+            className={`bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 backdrop-blur-md rounded-2xl shadow-lg border border-blue-200/60 dark:border-blue-800/60 p-6 mb-4 transition-all duration-300 group ${
+              snapshot.isDragging ? 'shadow-2xl scale-105 ring-2 ring-blue-400 dark:ring-blue-700' : 'hover:shadow-2xl hover:scale-[1.03]'
             } ${isOverdue(task.dueDate) ? 'ring-2 ring-red-200 dark:ring-red-800' : ''}`}
           >
             <div className="flex justify-between items-start mb-3">
@@ -215,50 +215,45 @@ export default function TaskApp() {
                 <div className="flex items-center space-x-3 mb-2">
                   <button
                     onClick={() => toggleTaskStatus(task.id, task.status)}
-                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                    className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all duration-300 shadow-sm ${
                       task.status === 'done'
-                        ? 'bg-green-500 border-green-500 text-white'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500'
+                        ? 'bg-gradient-to-r from-green-400 to-emerald-500 border-green-500 text-white shadow-md'
+                        : 'border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-500 bg-white dark:bg-gray-900'
                     }`}
                   >
                     {task.status === 'done' && <CheckIcon className="w-3 h-3" />}
                   </button>
-                  
-                  <h3 className={`font-semibold text-gray-900 dark:text-white text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${
+                  <h3 className={`font-semibold text-gray-900 dark:text-white text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${
                     task.status === 'done' ? 'line-through opacity-60' : ''
                   }`}>
                     {task.title}
                   </h3>
                 </div>
-                
                 <p className={`text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed ${
                   task.status === 'done' ? 'line-through opacity-60' : ''
                 }`}>
                   {task.description}
                 </p>
               </div>
-              
               <button
                 onClick={() => deleteTask(task.id)}
-                className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20"
+                className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/30 shadow-sm"
+                title="Eliminar tarea"
               >
                 <TrashIcon className="w-4 h-4" />
               </button>
             </div>
-            
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-4">
               {task.tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800"
-                >
+                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-100/60 to-purple-100/60 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-800 shadow-sm">
                   <TagIcon className="w-3 h-3 mr-1" />
                   {tag}
                 </span>
               ))}
             </div>
-            
             {/* Assignee & Hours */}
             {(task.assignee || task.estimatedHours) && (
               <div className="flex items-center space-x-4 mb-4 text-xs text-gray-500 dark:text-gray-400">
@@ -282,28 +277,27 @@ export default function TaskApp() {
                 )}
               </div>
             )}
-            
             {/* Footer */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-2">
               <span
-                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${
+                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border shadow-sm ${
                   priorityColors[task.priority]
-                }`}
+                } bg-gradient-to-r from-white/80 to-blue-50 dark:from-gray-900/80 dark:to-blue-900/30`}
               >
                 <span className="mr-1">{priorityIcons[task.priority]}</span>
                 {task.priority === 'low' ? 'Baja' : task.priority === 'medium' ? 'Media' : 'Alta'}
               </span>
-              
               <div className="flex items-center space-x-2">
                 {daysUntilDue <= 3 && daysUntilDue >= 0 && task.status !== 'done' && (
-                  <span className="text-xs bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 px-2 py-1 rounded-full">
+                  <span className="text-xs bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 px-2 py-1 rounded-full font-semibold shadow-sm">
                     ⚠️ {daysUntilDue === 0 ? 'Hoy' : `${daysUntilDue}d`}
                   </span>
                 )}
-                
                 <span
-                  className={`text-xs font-medium ${
-                    isOverdue(task.dueDate) ? 'text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-full' : 'text-gray-500 dark:text-gray-400'
+                  className={`text-xs font-semibold px-2 py-1 rounded-full shadow-sm ${
+                    isOverdue(task.dueDate)
+                      ? 'text-red-500 bg-red-50 dark:bg-red-900/20'
+                      : 'text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-900/40'
                   }`}
                 >
                   {isOverdue(task.dueDate) ? '🚨 Vencida' : formatDate(task.dueDate)}

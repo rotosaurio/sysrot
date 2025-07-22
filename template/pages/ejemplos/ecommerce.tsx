@@ -165,26 +165,28 @@ function ProductCard({ product }: { product: any }) {
   const isInWishlist = wishlist.includes(product.id);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 rounded-2xl shadow-lg border border-blue-200/60 dark:border-blue-800/60 overflow-hidden hover:shadow-2xl transition-shadow duration-300 group">
       <div className="relative">
-        <div className="aspect-square bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-6xl">
+        <div className="aspect-square bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-blue-900/30 flex items-center justify-center text-6xl">
           {product.image}
         </div>
         <button
           onClick={() => toggleWishlist(product.id)}
-          className="absolute top-2 right-2 p-2 bg-white/80 rounded-full hover:bg-white transition-colors"
+          className="absolute top-2 right-2 p-2 bg-white/90 dark:bg-gray-900/80 rounded-full shadow-md hover:bg-gradient-to-r hover:from-pink-100 hover:to-red-100 dark:hover:from-pink-900/30 dark:hover:to-red-900/30 transition-colors border border-gray-200 dark:border-gray-700"
+          title={isInWishlist ? 'Quitar de favoritos' : 'Agregar a favoritos'}
         >
           {isInWishlist ? (
             <HeartSolidIcon className="w-5 h-5 text-red-500" />
           ) : (
-            <HeartIcon className="w-5 h-5 text-gray-600" />
+            <HeartIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
           )}
         </button>
       </div>
-      
       <div className="p-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-blue-600 font-medium">{product.category}</span>
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-gradient-to-r from-blue-100/60 to-purple-100/60 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-800 shadow-sm">
+            {product.category}
+          </span>
           <div className="flex items-center">
             <span className="text-yellow-400">★</span>
             <span className="text-sm text-gray-600 dark:text-gray-300 ml-1">
@@ -192,22 +194,19 @@ function ProductCard({ product }: { product: any }) {
             </span>
           </div>
         </div>
-        
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
           {product.name}
         </h3>
-        
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
           {product.description}
         </p>
-        
         <div className="flex items-center justify-between">
           <span className="text-2xl font-bold text-gray-900 dark:text-white">
             ${product.price.toLocaleString()}
           </span>
           <button
             onClick={() => addToCart(product)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 transition-colors flex items-center space-x-2 font-semibold"
           >
             <ShoppingCartIcon className="w-4 h-4" />
             <span>Agregar</span>

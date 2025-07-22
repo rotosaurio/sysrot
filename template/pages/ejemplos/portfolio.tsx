@@ -290,38 +290,37 @@ export default function PortfolioDemo() {
   function ProjectCard({ project, index }: { project: any; index: number }) {
     return (
       <div
-        className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 ${
+        className={`bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 rounded-2xl shadow-lg border border-blue-200/60 dark:border-blue-800/60 overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105 ${
           project.featured ? 'ring-2 ring-blue-500' : ''
         }`}
         style={{ animationDelay: `${index * 100}ms` }}
       >
         {project.featured && (
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 text-sm font-medium flex items-center gap-2">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 text-sm font-bold flex items-center gap-2 shadow-md">
             <span>⭐</span>
             Proyecto Destacado
           </div>
         )}
-        
         <div className="p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-4">
-              <div className="text-4xl p-3 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-600 rounded-xl">
+              <div className="text-4xl p-3 bg-gradient-to-br from-blue-100 via-white to-purple-100 dark:from-gray-700 dark:via-gray-900 dark:to-blue-900/30 rounded-xl shadow-sm">
                 {project.image}
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {project.title}
                 </h3>
-                <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
-                  <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
+                <div className="flex items-center space-x-2 text-sm">
+                  <span className="px-2 py-1 bg-gradient-to-r from-blue-100/60 to-purple-100/60 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-200 rounded-full font-semibold border border-blue-200 dark:border-blue-800 shadow-sm">
                     {project.category}
                   </span>
                   <span>•</span>
-                  <span>{project.year}</span>
+                  <span className="text-gray-600 dark:text-gray-300">{project.year}</span>
                 </div>
               </div>
             </div>
-            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+            <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-sm ${
               project.status === 'Completado' 
                 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
@@ -329,11 +328,8 @@ export default function PortfolioDemo() {
               {project.status}
             </span>
           </div>
-          
           <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">{project.description}</p>
-          
-          {/* Project Metrics */}
-          <div className="grid grid-cols-3 gap-4 mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+          <div className="grid grid-cols-3 gap-4 mb-4 p-3 bg-gradient-to-r from-slate-100 via-white to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-blue-900/30 rounded-lg shadow-sm">
             {Object.entries(project.metrics).map(([key, value]) => (
               <div key={key} className="text-center">
                 <div className="font-bold text-gray-900 dark:text-white">{value as string}</div>
@@ -341,22 +337,20 @@ export default function PortfolioDemo() {
               </div>
             ))}
           </div>
-          
           <div className="flex flex-wrap gap-2 mb-6">
             {project.tech.map((tech: string, i: number) => (
-              <span key={i} className="px-3 py-1 bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium border border-blue-200 dark:border-blue-800">
+              <span key={i} className="px-3 py-1 bg-gradient-to-r from-blue-100/60 to-purple-100/60 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-200 rounded-full text-xs font-semibold border border-blue-200 dark:border-blue-800 shadow-sm">
                 {tech}
               </span>
             ))}
           </div>
-          
           <div className="flex space-x-3">
             {project.demoUrl && (
               <a
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-sm font-medium"
+                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-sm font-semibold"
               >
                 <span>👁️</span>
                 <span>Demo</span>
@@ -368,7 +362,7 @@ export default function PortfolioDemo() {
                 href={project.codeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 px-4 py-2 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 text-sm font-medium"
+                className="flex items-center space-x-2 px-4 py-2 border-2 border-purple-300 dark:border-purple-600 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300 text-sm font-semibold"
               >
                 <span>💻</span>
                 <span>Código</span>
@@ -377,7 +371,7 @@ export default function PortfolioDemo() {
             )}
             <button
               onClick={() => setShowCode(showCode === `project-${project.id}` ? null : `project-${project.id}`)}
-              className="flex items-center space-x-2 px-4 py-2 border-2 border-purple-300 dark:border-purple-600 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all duration-300 text-sm font-medium"
+              className="flex items-center space-x-2 px-4 py-2 border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-200 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 text-sm font-semibold"
             >
               <span>📝</span>
               <span>{showCode === `project-${project.id}` ? 'Ocultar' : 'Ver'} Código</span>

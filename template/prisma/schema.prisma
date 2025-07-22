@@ -44,6 +44,83 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+  
+  // E-commerce relations
+  orders        Order[]
+  reviews       Review[]
+  wishlist      WishlistItem[]
+  cart          CartItem[]
+  addresses     Address[]
+  
+  // Multi-tenant SaaS relations
+  memberships   OrganizationMember[]
+  invitations   OrganizationInvitation[]
+  activities    Activity[]
+  extended      UserExtended?
+  
+  // Real-time Chat relations
+  createdRooms  ChatRoom[]       @relation("ChatRoomCreator")
+  participations ChatParticipant[] @relation("ChatParticipant")
+  messages      ChatMessage[]    @relation("ChatMessage")
+  attachments   ChatAttachment[] @relation("ChatAttachmentUploader")
+  reactions     ChatReaction[]   @relation("ChatReaction")
+  readReceipts  ChatReadReceipt[] @relation("ChatReadReceipt")
+  notifications ChatNotification[] @relation("ChatNotification")
+  typingIndicators ChatTypingIndicator[] @relation("ChatTypingIndicator")
+  
+  // AI Chatbot relations
+  createdChatbots    Chatbot[]          @relation("ChatbotCreator")
+  botConversations   BotConversation[]  @relation("BotConversationUser")
+  knowledgeItems     KnowledgeItem[]    @relation("KnowledgeCreator")
+  botHandoffs        BotHandoff[]       @relation("BotHandoffUser")
+  
+  // Project Management relations
+  ownedProjects      Project[]          @relation("ProjectOwner")
+  projectMemberships ProjectMember[]    @relation("ProjectMember")
+  assignedTasks      Task[]             @relation("TaskAssignee")
+  reportedTasks      Task[]             @relation("TaskReporter")
+  taskComments       TaskComment[]      @relation("TaskCommentAuthor")
+  taskAttachments    TaskAttachment[]   @relation("TaskAttachmentUploader")
+  watchedTasks       TaskWatcher[]      @relation("TaskWatcher")
+  taskHistory        TaskHistory[]      @relation("TaskHistoryChanger")
+  timeEntries        TimeEntry[]        @relation("TimeEntryUser")
+  approvedTimeEntries TimeEntry[]       @relation("TimeEntryApprover")
+  projectActivities  ProjectActivity[]  @relation("ProjectActivity")
+  createdReports     ProjectReport[]    @relation("ProjectReportCreator")
+  
+  // Video Streaming relations
+  ownedChannels      VideoChannel[]     @relation("ChannelOwner")
+  channelSubscriptions ChannelSubscription[] @relation("ChannelSubscriber")
+  channelCollaborations ChannelCollaborator[] @relation("ChannelCollaborator")
+  uploadedVideos     Video[]            @relation("VideoUploader")
+  videoComments      VideoComment[]     @relation("VideoCommentAuthor")
+  videoLikes         VideoLike[]        @relation("VideoLiker")
+  commentLikes       CommentLike[]      @relation("CommentLiker")
+  createdPlaylists   Playlist[]         @relation("PlaylistCreator")
+  playlistItems      PlaylistItem[]     @relation("PlaylistItemAdder")
+  playlistCollaborations PlaylistCollaborator[] @relation("PlaylistCollaborator")
+  watchHistory       WatchHistory[]     @relation("VideoWatcher")
+  livestreamChats    LivestreamChat[]   @relation("LivestreamChatter")
+  reportedVideos     VideoReport[]      @relation("VideoReporter")
+  reviewedReports    VideoReport[]      @relation("ReportReviewer")
+  
+  // Learning Management System relations
+  taughtCourses      Course[]           @relation("CourseInstructor")
+  enrollments        Enrollment[]       @relation("StudentEnrollment")
+  lessonProgress     LessonProgress[]   @relation("StudentProgress")
+  quizAttempts       QuizAttempt[]      @relation("QuizAttemptStudent")
+  assignments        AssignmentSubmission[] @relation("AssignmentSubmissionStudent")
+  gradedAssignments  AssignmentSubmission[] @relation("AssignmentGrader")
+  courseReviews      CourseReview[]     @relation("CourseReviewer")
+  discussions        CourseDiscussion[] @relation("DiscussionAuthor")
+  certificates       Certificate[]      @relation("CertificateRecipient")
+  learningPaths      LearningPath[]     @relation("LearningPathCreator")
+  pathEnrollments    LearningPathEnrollment[] @relation("PathStudent")
+  
+  // Healthcare system relations
+  doctorProfile      Doctor?            @relation("DoctorProfile")
+  patientProfile     Patient?           @relation("PatientProfile")
+  verifiedDoctors    Doctor[]           @relation("DoctorVerifier")
 }
 
 model VerificationToken {
@@ -51,4 +128,3730 @@ model VerificationToken {
   token      String   @unique
   expires    DateTime
   @@unique([identifier, token])
+}
+
+// E-commerce Models
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  image       String?
+  parentId    String?
+  parent      Category? @relation("CategoryParent", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryParent")
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id           String    @id @default(cuid())
+  name         String
+  slug         String    @unique
+  description  String?
+  shortDescription String?
+  price        Float
+  comparePrice Float?
+  sku          String?   @unique
+  weight       Float?
+  dimensions   String?
+  images       ProductImage[]
+  categoryId   String
+  category     Category  @relation(fields: [categoryId], references: [id])
+  tags         ProductTag[]
+  variants     ProductVariant[]
+  stock        Int       @default(0)
+  lowStockAlert Int      @default(5)
+  status       ProductStatus @default(ACTIVE)
+  featured     Boolean   @default(false)
+  seoTitle     String?
+  seoDescription String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  // Relations
+  orderItems   OrderItem[]
+  reviews      Review[]
+  wishlistItems WishlistItem[]
+  cartItems    CartItem[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  url       String
+  alt       String?
+  position  Int     @default(0)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductTag {
+  id      String    @id @default(cuid())
+  name    String    @unique
+  slug    String    @unique
+  products Product[]
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  name      String  // e.g., "Color", "Size"
+  value     String  // e.g., "Red", "Large"
+  price     Float?  // Additional price
+  sku       String?
+  stock     Int     @default(0)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+  status      OrderStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  paymentMethod String?
+  paymentId   String?     // Stripe payment intent ID
+  subtotal    Float
+  tax         Float       @default(0)
+  shipping    Float       @default(0)
+  discount    Float       @default(0)
+  total       Float
+  currency    String      @default("usd")
+  
+  // Addresses
+  shippingAddress Json?
+  billingAddress  Json?
+  
+  // Tracking
+  trackingNumber String?
+  shippedAt     DateTime?
+  deliveredAt   DateTime?
+  
+  // Metadata
+  notes       String?
+  couponCode  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float   // Price at time of purchase
+  total     Float
+  variantId String?
+}
+
+model Address {
+  id          String @id @default(cuid())
+  userId      String
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        AddressType
+  firstName   String
+  lastName    String
+  company     String?
+  address1    String
+  address2    String?
+  city        String
+  state       String
+  postalCode  String
+  country     String
+  phone       String?
+  isDefault   Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating    Int      // 1-5 stars
+  title     String?
+  comment   String
+  verified  Boolean  @default(false) // Verified purchase
+  helpful   Int      @default(0)    // Helpful votes
+  status    ReviewStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, productId]) // One review per user per product
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, productId])
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
+  variantId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, productId, variantId])
+}
+
+model Coupon {
+  id          String     @id @default(cuid())
+  code        String     @unique
+  type        CouponType
+  value       Float      // Percentage or fixed amount
+  minAmount   Float?     // Minimum order amount
+  maxAmount   Float?     // Maximum discount amount
+  usageLimit  Int?       // Total usage limit
+  usageCount  Int        @default(0)
+  userLimit   Int?       // Per user limit
+  startDate   DateTime
+  endDate     DateTime
+  status      CouponStatus @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+// Enums
+enum ProductStatus {
+  ACTIVE
+  DRAFT
+  ARCHIVED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum AddressType {
+  BILLING
+  SHIPPING
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CouponType {
+  PERCENTAGE
+  FIXED_AMOUNT
+}
+
+enum CouponStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+// Multi-tenant SaaS Models
+model Organization {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  domain        String?  @unique // Custom domain
+  logo          String?
+  description   String?
+  settings      Json?    // Organization-specific settings
+  
+  // Subscription
+  planId        String?
+  plan          Plan?    @relation(fields: [planId], references: [id])
+  subscription  Subscription?
+  
+  // Limits and usage
+  userLimit     Int      @default(5)
+  storageLimit  Int      @default(1000) // MB
+  apiLimit      Int      @default(1000) // Requests per month
+  
+  // Status
+  status        OrganizationStatus @default(ACTIVE)
+  trialEndsAt   DateTime?
+  
+  // Relations
+  members       OrganizationMember[]
+  invitations   OrganizationInvitation[]
+  activities    Activity[]
+  usage         Usage[]
+  chatbots      Chatbot[]
+  projects      Project[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model OrganizationMember {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role          OrganizationRole @default(MEMBER)
+  permissions   String[] // Array of permissions
+  joinedAt      DateTime @default(now())
+  lastActiveAt  DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([organizationId, userId])
+}
+
+model OrganizationInvitation {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role          OrganizationRole @default(MEMBER)
+  token         String   @unique
+  invitedBy     String?
+  inviter       User?    @relation(fields: [invitedBy], references: [id])
+  status        InvitationStatus @default(PENDING)
+  expiresAt     DateTime
+  acceptedAt    DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([organizationId, email])
+}
+
+model Plan {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  slug          String   @unique
+  description   String?
+  price         Float    // Monthly price
+  yearlyPrice   Float?   // Yearly price (if different)
+  currency      String   @default("usd")
+  
+  // Features and limits
+  features      Json     // Plan features
+  userLimit     Int      @default(5)
+  storageLimit  Int      @default(1000) // MB
+  apiLimit      Int      @default(1000) // Requests per month
+  
+  // Stripe
+  stripePriceId String?  @unique
+  stripeProductId String? @unique
+  
+  // Status
+  status        PlanStatus @default(ACTIVE)
+  popular       Boolean  @default(false)
+  
+  // Relations
+  organizations Organization[]
+  subscriptions Subscription[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Subscription {
+  id                String   @id @default(cuid())
+  organizationId    String   @unique
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  planId            String
+  plan              Plan     @relation(fields: [planId], references: [id])
+  
+  // Stripe
+  stripeCustomerId       String?
+  stripeSubscriptionId   String?  @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+  
+  // Status
+  status            SubscriptionStatus @default(ACTIVE)
+  cancelAtPeriodEnd Boolean @default(false)
+  canceledAt        DateTime?
+  
+  // Billing
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  trialStart        DateTime?
+  trialEnd          DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Usage {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  // Usage metrics
+  month          Int      // 1-12
+  year           Int
+  users          Int      @default(0)
+  storage        Int      @default(0) // MB used
+  apiRequests    Int      @default(0)
+  bandwidth      Int      @default(0) // MB
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  @@unique([organizationId, month, year])
+}
+
+model Activity {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id])
+  
+  // Activity details
+  action         String   // e.g., "user_invited", "plan_upgraded"
+  target         String?  // Target entity
+  targetId       String?  // Target entity ID
+  metadata       Json?    // Additional data
+  ipAddress      String?
+  userAgent      String?
+  
+  createdAt      DateTime @default(now())
+  
+  @@index([organizationId, createdAt])
+}
+
+// Update User model for multi-tenant relations
+model UserExtended {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // SaaS specific fields
+  onboardingCompleted Boolean @default(false)
+  lastLoginAt         DateTime?
+  preferences         Json?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// Enums for multi-tenant
+enum OrganizationStatus {
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+}
+
+enum PlanStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  UNPAID
+  TRIALING
+}
+
+// Real-time Chat Models
+model ChatRoom {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  type          ChatRoomType @default(GROUP)
+  isPrivate     Boolean  @default(false)
+  avatar        String?
+  createdBy     String
+  creator       User     @relation("ChatRoomCreator", fields: [createdBy], references: [id])
+  
+  // Settings
+  settings      Json?    // Room-specific settings
+  maxMembers    Int?     @default(100)
+  
+  // Relations
+  participants  ChatParticipant[]
+  messages      ChatMessage[]
+  notifications ChatNotification[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([type, isPrivate])
+}
+
+model ChatParticipant {
+  id            String   @id @default(cuid())
+  roomId        String
+  room          ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User     @relation("ChatParticipant", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Role and permissions
+  role          ChatRole @default(MEMBER)
+  permissions   String[] // Array of permissions
+  
+  // Status
+  joinedAt      DateTime @default(now())
+  lastSeenAt    DateTime?
+  isTyping      Boolean  @default(false)
+  isMuted       Boolean  @default(false)
+  isBlocked     Boolean  @default(false)
+  
+  // Notifications
+  notificationSettings Json? // Personal notification preferences
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([roomId, userId])
+  @@index([userId, lastSeenAt])
+}
+
+model ChatMessage {
+  id            String   @id @default(cuid())
+  roomId        String
+  room          ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  userId        String?  // Null for system messages
+  user          User?    @relation("ChatMessage", fields: [userId], references: [id], onDelete: SetNull)
+  
+  // Message content
+  content       String?
+  type          MessageType @default(TEXT)
+  
+  // File attachments
+  attachments   ChatAttachment[]
+  
+  // Message metadata
+  metadata      Json?    // Additional data (mentions, formatting, etc.)
+  editedAt      DateTime?
+  deletedAt     DateTime?
+  
+  // Threading
+  parentId      String?
+  parent        ChatMessage? @relation("MessageThread", fields: [parentId], references: [id])
+  replies       ChatMessage[] @relation("MessageThread")
+  
+  // Reactions and interactions
+  reactions     ChatReaction[]
+  readReceipts  ChatReadReceipt[]
+  notifications ChatNotification[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@index([roomId, createdAt])
+  @@index([userId, createdAt])
+  @@index([parentId])
+}
+
+model ChatAttachment {
+  id            String   @id @default(cuid())
+  messageId     String
+  message       ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  
+  // File details
+  fileName      String
+  fileSize      Int
+  fileType      String   // MIME type
+  fileUrl       String
+  thumbnailUrl  String?  // For images/videos
+  
+  // Upload metadata
+  uploadedBy    String
+  uploader      User     @relation("ChatAttachmentUploader", fields: [uploadedBy], references: [id])
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([messageId])
+}
+
+model ChatReaction {
+  id            String   @id @default(cuid())
+  messageId     String
+  message       ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User     @relation("ChatReaction", fields: [userId], references: [id], onDelete: Cascade)
+  
+  emoji         String   // Unicode emoji or custom emoji ID
+  
+  createdAt     DateTime @default(now())
+  
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+}
+
+model ChatReadReceipt {
+  id            String   @id @default(cuid())
+  messageId     String
+  message       ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User     @relation("ChatReadReceipt", fields: [userId], references: [id], onDelete: Cascade)
+  
+  readAt        DateTime @default(now())
+  
+  @@unique([messageId, userId])
+  @@index([userId, readAt])
+}
+
+model ChatNotification {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation("ChatNotification", fields: [userId], references: [id], onDelete: Cascade)
+  roomId        String?
+  room          ChatRoom? @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  messageId     String?
+  message       ChatMessage? @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  
+  // Notification details
+  type          NotificationType
+  title         String
+  content       String
+  isRead        Boolean  @default(false)
+  
+  // Delivery
+  sentAt        DateTime?
+  readAt        DateTime?
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([userId, isRead, createdAt])
+}
+
+model ChatTypingIndicator {
+  id            String   @id @default(cuid())
+  roomId        String
+  userId        String
+  user          User     @relation("ChatTypingIndicator", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isTyping      Boolean  @default(true)
+  lastTypedAt   DateTime @default(now())
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  @@unique([roomId, userId])
+  @@index([roomId, isTyping])
+}
+
+// Enums for chat system
+enum ChatRoomType {
+  DIRECT      // 1:1 chat
+  GROUP       // Group chat
+  CHANNEL     // Public channel
+  SUPPORT     // Support ticket
+}
+
+enum ChatRole {
+  OWNER
+  ADMIN
+  MODERATOR
+  MEMBER
+  GUEST
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  SYSTEM
+  STICKER
+  GIF
+  LOCATION
+  POLL
+}
+
+enum NotificationType {
+  MESSAGE
+  MENTION
+  REACTION
+  ROOM_INVITE
+  ROOM_UPDATE
+  SYSTEM
+}
+
+// AI Chatbot System Models
+model Chatbot {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  avatar            String?
+  
+  // Configuration
+  model             String   @default("gpt-4o") // AI model to use
+  temperature       Float    @default(0.7)
+  maxTokens         Int      @default(1000)
+  systemPrompt      String   @default("You are a helpful AI assistant.")
+  
+  // Behavior settings
+  personality       Json?    // Personality traits, tone, style
+  capabilities      String[] // What the bot can do
+  restrictions      String[] // What the bot cannot do
+  languages         String[] @default(["en"])
+  
+  // Integration settings
+  isPublic          Boolean  @default(false)
+  isEmbeddable      Boolean  @default(true)
+  webhookUrl        String?
+  fallbackMessage   String?
+  
+  // Business settings
+  businessHours     Json?    // Working hours configuration
+  autoAssign        Boolean  @default(false)
+  maxConversations  Int?     @default(100)
+  
+  // Relations
+  organizationId    String?
+  organization      Organization? @relation(fields: [organizationId], references: [id])
+  createdBy         String
+  creator           User     @relation("ChatbotCreator", fields: [createdBy], references: [id])
+  
+  conversations     BotConversation[]
+  knowledgeItems    KnowledgeItem[]
+  intents           BotIntent[]
+  responses         BotResponse[]
+  analytics         BotAnalytics[]
+  integrations      BotIntegration[]
+  
+  // Status
+  isActive          Boolean  @default(true)
+  isTraining        Boolean  @default(false)
+  lastTrainedAt     DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organizationId, isActive])
+  @@index([createdBy, isActive])
+}
+
+model BotConversation {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Participant info
+  userId            String?  // If registered user
+  user              User?    @relation("BotConversationUser", fields: [userId], references: [id])
+  visitorId         String?  // If anonymous visitor
+  visitorInfo       Json?    // Browser, location, etc.
+  
+  // Conversation metadata
+  title             String?
+  summary           String?
+  category          String?
+  priority          ConversationPriority @default(MEDIUM)
+  status            ConversationStatus @default(ACTIVE)
+  
+  // Channel information
+  channel           ConversationChannel @default(WEB)
+  source            String?  // URL, app, integration source
+  referrer          String?
+  
+  // Session info
+  sessionId         String?
+  ipAddress         String?
+  userAgent         String?
+  location          Json?    // Geolocation data
+  
+  // Business context
+  tags              String[]
+  customFields      Json?
+  
+  // Relations
+  messages          BotMessage[]
+  handoffs          BotHandoff[]
+  ratings           BotRating[]
+  
+  // Timestamps
+  startedAt         DateTime @default(now())
+  lastMessageAt     DateTime @default(now())
+  endedAt           DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([chatbotId, status, lastMessageAt])
+  @@index([userId, startedAt])
+  @@index([visitorId, startedAt])
+}
+
+model BotMessage {
+  id                String   @id @default(cuid())
+  conversationId    String
+  conversation      BotConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  // Message content
+  content           String
+  contentType       BotMessageType @default(TEXT)
+  metadata          Json?    // Rich content, attachments, etc.
+  
+  // Message attribution
+  role              BotRole  @default(USER)
+  sender            String?  // AI model name or user identifier
+  
+  // AI processing
+  intent            String?  // Detected intent
+  entities          Json?    // Extracted entities
+  confidence        Float?   // AI confidence score
+  
+  // Response generation
+  prompt            String?  // Prompt used for AI
+  modelUsed         String?  // AI model used
+  tokensUsed        Int?     // Token consumption
+  responseTime      Int?     // Response time in ms
+  
+  // Interaction data
+  wasHelpful        Boolean?
+  userFeedback      String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([conversationId, createdAt])
+  @@index([role, createdAt])
+  @@index([intent, createdAt])
+}
+
+model KnowledgeItem {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Content
+  title             String
+  content           String
+  summary           String?
+  
+  // Categorization
+  category          String?
+  tags              String[]
+  keywords          String[]
+  
+  // Content metadata
+  contentType       KnowledgeType @default(TEXT)
+  source            String?  // URL, file path, etc.
+  language          String   @default("en")
+  
+  // AI processing
+  embedding         Json?    // Vector embedding for similarity search
+  priority          Int      @default(0)
+  isEnabled         Boolean  @default(true)
+  
+  // Usage analytics
+  accessCount       Int      @default(0)
+  lastAccessedAt    DateTime?
+  
+  // Management
+  createdBy         String
+  creator           User     @relation("KnowledgeCreator", fields: [createdBy], references: [id])
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([chatbotId, isEnabled, priority])
+  @@index([category, tags])
+  @@fulltext([title, content, keywords])
+}
+
+model BotIntent {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Intent definition
+  name              String
+  description       String?
+  category          String?
+  
+  // Training data
+  examples          String[] // Example phrases
+  patterns          String[] // Regex patterns
+  entities          Json?    // Expected entities
+  
+  // Response configuration
+  isEnabled         Boolean  @default(true)
+  confidence        Float    @default(0.8)
+  priority          Int      @default(0)
+  
+  // Relations
+  responses         BotResponse[]
+  
+  // Analytics
+  matchCount        Int      @default(0)
+  successRate       Float?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([chatbotId, name])
+  @@index([chatbotId, isEnabled])
+}
+
+model BotResponse {
+  id                String   @id @default(cuid())
+  intentId          String?
+  intent            BotIntent? @relation(fields: [intentId], references: [id], onDelete: Cascade)
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Response content
+  content           String
+  contentType       BotMessageType @default(TEXT)
+  metadata          Json?    // Rich content, quick replies, etc.
+  
+  // Conditions
+  conditions        Json?    // When to use this response
+  context           Json?    // Required context
+  
+  // Response behavior
+  isEnabled         Boolean  @default(true)
+  weight            Int      @default(100)
+  cooldown          Int?     // Seconds before reuse
+  
+  // Analytics
+  useCount          Int      @default(0)
+  rating            Float?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([chatbotId, isEnabled])
+  @@index([intentId, isEnabled])
+}
+
+model BotHandoff {
+  id                String   @id @default(cuid())
+  conversationId    String
+  conversation      BotConversation @relation(fields: [conversationId], references: [id])
+  
+  // Handoff details
+  reason            String
+  toUserId          String?
+  toUser            User?    @relation("BotHandoffUser", fields: [toUserId], references: [id])
+  toTeam            String?
+  
+  // Status
+  status            HandoffStatus @default(PENDING)
+  resolvedAt        DateTime?
+  notes             String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([conversationId, status])
+  @@index([toUserId, status])
+}
+
+model BotRating {
+  id                String   @id @default(cuid())
+  conversationId    String
+  conversation      BotConversation @relation(fields: [conversationId], references: [id])
+  
+  // Rating data
+  rating            Int      // 1-5 stars
+  feedback          String?
+  categories        Json?    // What was rated (helpfulness, accuracy, etc.)
+  
+  // Context
+  messageId         String?  // Specific message rated
+  reason            String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([conversationId, rating])
+  @@index([rating, createdAt])
+}
+
+model BotAnalytics {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Time period
+  date              DateTime
+  period            AnalyticsPeriod @default(DAY)
+  
+  // Conversation metrics
+  conversationsStarted    Int @default(0)
+  conversationsCompleted  Int @default(0)
+  averageSessionLength    Int @default(0) // seconds
+  
+  // Message metrics
+  messagesReceived        Int @default(0)
+  messagesSent           Int @default(0)
+  averageResponseTime     Int @default(0) // milliseconds
+  
+  // Intent metrics
+  intentMatches          Int @default(0)
+  intentMisses           Int @default(0)
+  averageConfidence      Float @default(0)
+  
+  // User satisfaction
+  ratingsReceived        Int @default(0)
+  averageRating          Float @default(0)
+  positiveRatings        Int @default(0)
+  negativeRatings        Int @default(0)
+  
+  // Handoff metrics
+  handoffsRequested      Int @default(0)
+  handoffsCompleted      Int @default(0)
+  
+  // Cost metrics
+  totalTokensUsed        Int @default(0)
+  estimatedCost          Float @default(0)
+  
+  // Additional metrics
+  customMetrics          Json?
+  
+  createdAt              DateTime @default(now())
+  
+  @@unique([chatbotId, date, period])
+  @@index([chatbotId, date])
+}
+
+model BotIntegration {
+  id                String   @id @default(cuid())
+  chatbotId         String
+  chatbot           Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  
+  // Integration details
+  type              IntegrationType
+  name              String
+  description       String?
+  
+  // Configuration
+  config            Json     // Integration-specific configuration
+  webhookUrl        String?
+  apiKey            String?  // Encrypted
+  
+  // Status
+  isActive          Boolean  @default(true)
+  lastSyncAt        DateTime?
+  syncStatus        String?
+  
+  // Analytics
+  requestCount      Int      @default(0)
+  successCount      Int      @default(0)
+  errorCount        Int      @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([chatbotId, type, name])
+  @@index([chatbotId, isActive])
+}
+
+// Enums for Chatbot System
+enum ConversationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ConversationStatus {
+  ACTIVE
+  WAITING
+  RESOLVED
+  CLOSED
+  ESCALATED
+}
+
+enum ConversationChannel {
+  WEB
+  MOBILE
+  EMAIL
+  SLACK
+  DISCORD
+  WHATSAPP
+  TELEGRAM
+  API
+}
+
+enum BotMessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  CARD
+  CAROUSEL
+  QUICK_REPLY
+  BUTTON
+  LIST
+}
+
+enum BotRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  AGENT
+}
+
+enum KnowledgeType {
+  TEXT
+  FAQ
+  DOCUMENT
+  URL
+  VIDEO
+  IMAGE
+}
+
+enum HandoffStatus {
+  PENDING
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CANCELLED
+}
+
+enum AnalyticsPeriod {
+  HOUR
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+enum IntegrationType {
+  SLACK
+  DISCORD
+  WHATSAPP
+  TELEGRAM
+  EMAIL
+  WEBHOOK
+  ZAPIER
+  API
+  WIDGET
+}
+
+// Project Management System Models
+model Project {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  key               String   @unique // Project key like PROJ-001
+  avatar            String?
+  color             String?  @default("#3B82F6")
+  
+  // Project settings
+  projectType       ProjectType @default(SOFTWARE)
+  methodology       ProjectMethodology @default(AGILE)
+  status            ProjectStatus @default(ACTIVE)
+  visibility        ProjectVisibility @default(PRIVATE)
+  
+  // Timeline & Planning
+  startDate         DateTime?
+  endDate           DateTime?
+  estimatedHours    Int?
+  actualHours       Int      @default(0)
+  
+  // Business context
+  budget            Float?
+  client            String?
+  priority          ProjectPriority @default(MEDIUM)
+  
+  // Configuration
+  settings          Json?    // Project-specific settings
+  template          Json?    // Project template configuration
+  
+  // Relations
+  organizationId    String?
+  organization      Organization? @relation(fields: [organizationId], references: [id])
+  ownerId           String
+  owner             User     @relation("ProjectOwner", fields: [ownerId], references: [id])
+  
+  members           ProjectMember[]
+  tasks             Task[]
+  sprints           Sprint[]
+  categories        TaskCategory[]
+  labels            TaskLabel[]
+  workflows         Workflow[]
+  milestones        Milestone[]
+  timeEntries       TimeEntry[]
+  activities        ProjectActivity[]
+  reports           ProjectReport[]
+  integrations      ProjectIntegration[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organizationId, status])
+  @@index([ownerId, status])
+  @@index([key])
+}
+
+model ProjectMember {
+  id                String   @id @default(cuid())
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ProjectMember", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Role and permissions
+  role              ProjectRole @default(MEMBER)
+  permissions       String[] // Array of specific permissions
+  hourlyRate        Float?   // For time tracking and billing
+  
+  // Participation
+  joinedAt          DateTime @default(now())
+  lastActiveAt      DateTime?
+  isActive          Boolean  @default(true)
+  
+  // Notifications
+  notificationSettings Json?
+  
+  @@unique([projectId, userId])
+  @@index([userId, isActive])
+}
+
+model Task {
+  id                String   @id @default(cuid())
+  key               String   @unique // Task key like PROJ-123
+  title             String
+  description       String?
+  
+  // Classification
+  type              TaskType @default(TASK)
+  status            TaskStatus @default(TODO)
+  priority          TaskPriority @default(MEDIUM)
+  
+  // Assignment
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assigneeId        String?
+  assignee          User?    @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  reporterId        String
+  reporter          User     @relation("TaskReporter", fields: [reporterId], references: [id])
+  
+  // Categorization
+  categoryId        String?
+  category          TaskCategory? @relation(fields: [categoryId], references: [id])
+  labels            TaskLabel[]
+  
+  // Planning
+  sprintId          String?
+  sprint            Sprint?  @relation(fields: [sprintId], references: [id])
+  epicId            String?
+  epic              Task?    @relation("EpicSubtasks", fields: [epicId], references: [id])
+  subtasks          Task[]   @relation("EpicSubtasks")
+  
+  // Time tracking
+  estimatedHours    Float?
+  originalEstimate  Float?
+  remainingEstimate Float?
+  timeSpent         Float    @default(0)
+  storyPoints       Int?
+  
+  // Dates
+  startDate         DateTime?
+  dueDate           DateTime?
+  resolvedAt        DateTime?
+  
+  // Business fields
+  businessValue     Int?     @default(0)
+  riskLevel         RiskLevel @default(LOW)
+  
+  // Technical fields
+  resolution        TaskResolution?
+  environment       String?
+  version           String?
+  fixVersion        String?
+  
+  // Relations
+  dependencies      TaskDependency[] @relation("TaskDependencies")
+  dependentOn       TaskDependency[] @relation("DependentTasks")
+  comments          TaskComment[]
+  attachments       TaskAttachment[]
+  worklog           TimeEntry[]
+  watchers          TaskWatcher[]
+  history           TaskHistory[]
+  
+  // Workflow
+  workflowId        String?
+  workflow          Workflow? @relation(fields: [workflowId], references: [id])
+  workflowStep      String?
+  
+  // Custom fields
+  customFields      Json?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, status])
+  @@index([assigneeId, status])
+  @@index([sprintId, status])
+  @@index([key])
+}
+
+model TaskCategory {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  color             String   @default("#3B82F6")
+  icon              String?
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  tasks             Task[]
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([projectId, name])
+}
+
+model TaskLabel {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  color             String   @default("#3B82F6")
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  tasks             Task[]
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([projectId, name])
+}
+
+model Sprint {
+  id                String   @id @default(cuid())
+  name              String
+  goal              String?
+  description       String?
+  
+  // Sprint timeline
+  startDate         DateTime
+  endDate           DateTime
+  status            SprintStatus @default(PLANNED)
+  
+  // Planning
+  capacity          Int?     // Team capacity in hours
+  velocity          Int?     // Expected story points
+  actualVelocity    Int?     // Actual story points completed
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  tasks             Task[]
+  burndown          SprintBurndown[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, status])
+}
+
+model SprintBurndown {
+  id                String   @id @default(cuid())
+  sprintId          String
+  sprint            Sprint   @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  remainingWork     Float    // Remaining work in hours/story points
+  idealBurndown     Float    // Ideal burndown for this date
+  scope             Int      // Number of tasks in scope
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([sprintId, date])
+}
+
+model TaskDependency {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation("TaskDependencies", fields: [taskId], references: [id], onDelete: Cascade)
+  dependsOnId       String
+  dependsOn         Task     @relation("DependentTasks", fields: [dependsOnId], references: [id], onDelete: Cascade)
+  
+  type              DependencyType @default(BLOCKS)
+  description       String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([taskId, dependsOnId])
+}
+
+model TaskComment {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  authorId          String
+  author            User     @relation("TaskCommentAuthor", fields: [authorId], references: [id])
+  
+  content           String
+  isInternal        Boolean  @default(false)
+  
+  // Thread support
+  parentId          String?
+  parent            TaskComment? @relation("CommentThread", fields: [parentId], references: [id])
+  replies           TaskComment[] @relation("CommentThread")
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([taskId, createdAt])
+}
+
+model TaskAttachment {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  uploadedById      String
+  uploadedBy        User     @relation("TaskAttachmentUploader", fields: [uploadedById], references: [id])
+  
+  fileName          String
+  originalName      String
+  fileSize          Int
+  mimeType          String
+  fileUrl           String
+  thumbnailUrl      String?
+  
+  description       String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([taskId])
+}
+
+model TaskWatcher {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("TaskWatcher", fields: [userId], references: [id], onDelete: Cascade)
+  
+  watchedAt         DateTime @default(now())
+  
+  @@unique([taskId, userId])
+}
+
+model TaskHistory {
+  id                String   @id @default(cuid())
+  taskId            String
+  task              Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  changedById       String
+  changedBy         User     @relation("TaskHistoryChanger", fields: [changedById], references: [id])
+  
+  field             String   // Field that changed
+  oldValue          String?
+  newValue          String?
+  description       String?
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([taskId, createdAt])
+}
+
+model TimeEntry {
+  id                String   @id @default(cuid())
+  
+  // Time tracking
+  hours             Float
+  description       String?
+  date              DateTime @default(now())
+  
+  // Relations
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId            String?
+  task              Task?    @relation(fields: [taskId], references: [id])
+  userId            String
+  user              User     @relation("TimeEntryUser", fields: [userId], references: [id])
+  
+  // Billing
+  billable          Boolean  @default(true)
+  hourlyRate        Float?
+  
+  // Approval
+  approved          Boolean  @default(false)
+  approvedById      String?
+  approvedBy        User?    @relation("TimeEntryApprover", fields: [approvedById], references: [id])
+  approvedAt        DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, date])
+  @@index([userId, date])
+  @@index([taskId, date])
+}
+
+model Workflow {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  // Workflow configuration
+  config            Json     // Workflow steps and transitions
+  isDefault         Boolean  @default(false)
+  isActive          Boolean  @default(true)
+  
+  tasks             Task[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([projectId, name])
+}
+
+model Milestone {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  dueDate           DateTime
+  status            MilestoneStatus @default(OPEN)
+  progress          Int      @default(0) // 0-100
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, dueDate])
+}
+
+model ProjectActivity {
+  id                String   @id @default(cuid())
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ProjectActivity", fields: [userId], references: [id])
+  
+  action            String   // Action performed
+  entityType        String   // Type of entity (task, project, etc.)
+  entityId          String?  // ID of the entity
+  description       String
+  metadata          Json?    // Additional data
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([projectId, createdAt])
+  @@index([userId, createdAt])
+}
+
+model ProjectReport {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  type              ReportType
+  
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdById       String
+  createdBy         User     @relation("ProjectReportCreator", fields: [createdById], references: [id])
+  
+  // Report configuration
+  config            Json     // Report parameters and filters
+  data              Json?    // Cached report data
+  
+  // Scheduling
+  isScheduled       Boolean  @default(false)
+  schedule          Json?    // Cron-like schedule configuration
+  lastGeneratedAt   DateTime?
+  nextGenerationAt  DateTime?
+  
+  // Sharing
+  isPublic          Boolean  @default(false)
+  sharedWith        String[] // User IDs with access
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([projectId, type])
+  @@index([createdById])
+}
+
+model ProjectIntegration {
+  id                String   @id @default(cuid())
+  projectId         String
+  project           Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  type              ProjectIntegrationType
+  name              String
+  description       String?
+  
+  // Configuration
+  config            Json     // Integration-specific configuration
+  credentials       Json?    // Encrypted credentials
+  
+  // Status
+  isActive          Boolean  @default(true)
+  lastSyncAt        DateTime?
+  syncStatus        String?
+  
+  // Analytics
+  requestCount      Int      @default(0)
+  successCount      Int      @default(0)
+  errorCount        Int      @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([projectId, type, name])
+  @@index([projectId, isActive])
+}
+
+// Enums for Project Management
+enum ProjectType {
+  SOFTWARE
+  MARKETING
+  DESIGN
+  RESEARCH
+  BUSINESS
+  PERSONAL
+  OTHER
+}
+
+enum ProjectMethodology {
+  AGILE
+  SCRUM
+  KANBAN
+  WATERFALL
+  HYBRID
+  CUSTOM
+}
+
+enum ProjectStatus {
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+  ARCHIVED
+}
+
+enum ProjectVisibility {
+  PRIVATE
+  TEAM
+  ORGANIZATION
+  PUBLIC
+}
+
+enum ProjectPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ProjectRole {
+  OWNER
+  ADMIN
+  MANAGER
+  DEVELOPER
+  DESIGNER
+  TESTER
+  MEMBER
+  VIEWER
+}
+
+enum TaskType {
+  EPIC
+  STORY
+  TASK
+  BUG
+  IMPROVEMENT
+  RESEARCH
+  SPIKE
+  SUB_TASK
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  TESTING
+  DONE
+  CANCELLED
+  BLOCKED
+}
+
+enum TaskPriority {
+  LOWEST
+  LOW
+  MEDIUM
+  HIGH
+  HIGHEST
+}
+
+enum TaskResolution {
+  FIXED
+  WONT_FIX
+  DUPLICATE
+  INCOMPLETE
+  CANNOT_REPRODUCE
+  DONE
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum SprintStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+  CLOSED
+}
+
+enum DependencyType {
+  BLOCKS
+  IS_BLOCKED_BY
+  RELATES_TO
+  DUPLICATES
+  IS_DUPLICATED_BY
+  CAUSES
+  IS_CAUSED_BY
+}
+
+enum MilestoneStatus {
+  OPEN
+  CLOSED
+  OVERDUE
+}
+
+enum ReportType {
+  BURNDOWN
+  VELOCITY
+  TIME_TRACKING
+  PERFORMANCE
+  WORKLOAD
+  CUSTOM
+}
+
+enum ProjectIntegrationType {
+  GITHUB
+  GITLAB
+  BITBUCKET
+  JIRA
+  CONFLUENCE
+  SLACK
+  DISCORD
+  TEAMS
+  EMAIL
+  WEBHOOK
+  ZAPIER
+  API
+}
+
+// Video Streaming and Media System Models
+model VideoChannel {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  handle            String   @unique // @channelname
+  avatar            String?
+  banner            String?
+  
+  // Channel settings
+  isVerified        Boolean  @default(false)
+  isMonetized       Boolean  @default(false)
+  category          ChannelCategory @default(GENERAL)
+  
+  // Stats
+  subscriberCount   Int      @default(0)
+  videoCount        Int      @default(0)
+  totalViews        Int      @default(0)
+  totalWatchTime    Int      @default(0) // in seconds
+  
+  // Business
+  monetization      Json?    // Monetization settings
+  socialLinks       Json?    // Social media links
+  
+  // Relations
+  ownerId           String
+  owner             User     @relation("ChannelOwner", fields: [ownerId], references: [id])
+  
+  videos            Video[]
+  playlists         Playlist[]
+  subscribers       ChannelSubscription[]
+  collaborators     ChannelCollaborator[]
+  analytics         ChannelAnalytics[]
+  livestreams       Livestream[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([ownerId])
+  @@index([handle])
+  @@index([category, subscriberCount])
+}
+
+model ChannelSubscription {
+  id                String   @id @default(cuid())
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ChannelSubscriber", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isNotificationsEnabled Boolean @default(true)
+  subscribedAt      DateTime @default(now())
+  
+  @@unique([channelId, userId])
+  @@index([userId])
+}
+
+model ChannelCollaborator {
+  id                String   @id @default(cuid())
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("ChannelCollaborator", fields: [userId], references: [id], onDelete: Cascade)
+  
+  role              CollaboratorRole @default(EDITOR)
+  permissions       String[] // Specific permissions
+  
+  invitedAt         DateTime @default(now())
+  acceptedAt        DateTime?
+  isActive          Boolean  @default(true)
+  
+  @@unique([channelId, userId])
+}
+
+model Video {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  thumbnail         String?
+  
+  // Video file details
+  videoUrl          String   // Original video URL
+  duration          Int      // Duration in seconds
+  fileSize          Int      // File size in bytes
+  resolution        String?  // e.g., "1920x1080"
+  fps               Int?     // Frames per second
+  bitrate           Int?     // Bitrate in kbps
+  
+  // Processing status
+  status            VideoStatus @default(PROCESSING)
+  processingProgress Int     @default(0) // 0-100
+  
+  // Video qualities (transcoded versions)
+  qualities         VideoQuality[]
+  
+  // Metadata
+  category          VideoCategory @default(GENERAL)
+  tags              String[]
+  language          String?      @default("en")
+  
+  // Privacy and monetization
+  visibility        VideoVisibility @default(PRIVATE)
+  isAgeRestricted   Boolean  @default(false)
+  isMonetized       Boolean  @default(false)
+  licensedContent   Boolean  @default(false)
+  
+  // Engagement
+  viewCount         Int      @default(0)
+  likeCount         Int      @default(0)
+  dislikeCount      Int      @default(0)
+  commentCount      Int      @default(0)
+  shareCount        Int      @default(0)
+  
+  // Upload info
+  uploadProgress    Int      @default(0) // 0-100
+  uploadedAt        DateTime?
+  publishedAt       DateTime?
+  
+  // Relations
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  uploadedById      String
+  uploadedBy        User     @relation("VideoUploader", fields: [uploadedById], references: [id])
+  
+  comments          VideoComment[]
+  likes             VideoLike[]
+  analytics         VideoAnalytics[]
+  playlistItems     PlaylistItem[]
+  watchHistory      WatchHistory[]
+  reports           VideoReport[]
+  
+  // SEO
+  slug              String?  @unique
+  customThumbnails  String[] // Additional thumbnail options
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([channelId, status])
+  @@index([category, publishedAt])
+  @@index([visibility, publishedAt])
+  @@index([slug])
+}
+
+model VideoQuality {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  quality           String   // "144p", "240p", "360p", "480p", "720p", "1080p", "1440p", "2160p"
+  resolution        String   // "1920x1080"
+  videoUrl          String   // URL to quality-specific video file
+  fileSize          Int      // File size in bytes
+  bitrate           Int      // Bitrate in kbps
+  
+  processingStatus  String   @default("pending") // pending, processing, completed, failed
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([videoId, quality])
+  @@index([videoId])
+}
+
+model VideoComment {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  authorId          String
+  author            User     @relation("VideoCommentAuthor", fields: [authorId], references: [id])
+  
+  content           String
+  
+  // Thread support
+  parentId          String?
+  parent            VideoComment? @relation("CommentThread", fields: [parentId], references: [id])
+  replies           VideoComment[] @relation("CommentThread")
+  
+  // Engagement
+  likeCount         Int      @default(0)
+  dislikeCount      Int      @default(0)
+  
+  // Moderation
+  isPinned          Boolean  @default(false)
+  isHearted         Boolean  @default(false) // Hearted by video owner
+  isSpam            Boolean  @default(false)
+  isDeleted         Boolean  @default(false)
+  
+  likes             CommentLike[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([videoId, createdAt])
+  @@index([authorId])
+}
+
+model VideoLike {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("VideoLiker", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isLike            Boolean  // true for like, false for dislike
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([videoId, userId])
+  @@index([userId])
+}
+
+model CommentLike {
+  id                String   @id @default(cuid())
+  commentId         String
+  comment           VideoComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("CommentLiker", fields: [userId], references: [id], onDelete: Cascade)
+  
+  isLike            Boolean  // true for like, false for dislike
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([commentId, userId])
+}
+
+model Playlist {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  thumbnail         String?
+  
+  // Settings
+  visibility        PlaylistVisibility @default(PRIVATE)
+  isCollaborative   Boolean  @default(false)
+  
+  // Stats
+  videoCount        Int      @default(0)
+  totalDuration     Int      @default(0) // Total duration in seconds
+  viewCount         Int      @default(0)
+  
+  // Relations
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  createdById       String
+  createdBy         User     @relation("PlaylistCreator", fields: [createdById], references: [id])
+  
+  items             PlaylistItem[]
+  collaborators     PlaylistCollaborator[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([channelId, visibility])
+  @@index([createdById])
+}
+
+model PlaylistItem {
+  id                String   @id @default(cuid())
+  playlistId        String
+  playlist          Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  position          Int      // Order in playlist
+  addedAt           DateTime @default(now())
+  addedById         String
+  addedBy           User     @relation("PlaylistItemAdder", fields: [addedById], references: [id])
+  
+  @@unique([playlistId, videoId])
+  @@index([playlistId, position])
+}
+
+model PlaylistCollaborator {
+  id                String   @id @default(cuid())
+  playlistId        String
+  playlist          Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("PlaylistCollaborator", fields: [userId], references: [id], onDelete: Cascade)
+  
+  canAdd            Boolean  @default(true)
+  canRemove         Boolean  @default(false)
+  canEdit           Boolean  @default(false)
+  
+  invitedAt         DateTime @default(now())
+  
+  @@unique([playlistId, userId])
+}
+
+model WatchHistory {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation("VideoWatcher", fields: [userId], references: [id], onDelete: Cascade)
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  // Watch details
+  watchedAt         DateTime @default(now())
+  watchDuration     Int      // Seconds watched
+  lastPosition      Int      @default(0) // Last position in seconds
+  isCompleted       Boolean  @default(false)
+  
+  // Session info
+  deviceType        String?  // mobile, desktop, tv, etc.
+  quality           String?  // Quality watched
+  
+  @@unique([userId, videoId])
+  @@index([userId, watchedAt])
+  @@index([videoId])
+}
+
+model VideoAnalytics {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  
+  // View metrics
+  views             Int      @default(0)
+  uniqueViews       Int      @default(0)
+  watchTime         Int      @default(0) // Total watch time in seconds
+  averageViewDuration Float  @default(0) // Average view duration
+  
+  // Engagement metrics
+  likes             Int      @default(0)
+  dislikes          Int      @default(0)
+  comments          Int      @default(0)
+  shares            Int      @default(0)
+  subscribersGained Int      @default(0)
+  
+  // Audience metrics
+  demographics      Json?    // Age, gender, location data
+  trafficSources    Json?    // Where views came from
+  deviceTypes       Json?    // Device breakdown
+  
+  @@unique([videoId, date])
+  @@index([videoId, date])
+}
+
+model ChannelAnalytics {
+  id                String   @id @default(cuid())
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  
+  // Channel metrics
+  subscriberCount   Int      @default(0)
+  totalViews        Int      @default(0)
+  totalWatchTime    Int      @default(0)
+  videoPublished    Int      @default(0)
+  
+  // Revenue metrics (if monetized)
+  revenue           Float?   @default(0)
+  rpm               Float?   // Revenue per mille
+  cpm               Float?   // Cost per mille
+  
+  // Audience metrics
+  demographics      Json?
+  topCountries      Json?
+  topVideos         Json?
+  
+  @@unique([channelId, date])
+  @@index([channelId, date])
+}
+
+model Livestream {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  thumbnail         String?
+  
+  // Stream settings
+  streamKey         String   @unique
+  rtmpUrl           String?
+  hlsUrl            String?
+  
+  // Stream status
+  status            LivestreamStatus @default(SCHEDULED)
+  scheduledAt       DateTime?
+  startedAt         DateTime?
+  endedAt           DateTime?
+  
+  // Stream quality
+  maxQuality        String   @default("1080p")
+  enableChat        Boolean  @default(true)
+  enableDonations   Boolean  @default(false)
+  
+  // Metrics
+  peakViewers       Int      @default(0)
+  totalViews        Int      @default(0)
+  chatMessages      Int      @default(0)
+  
+  // Relations
+  channelId         String
+  channel           VideoChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  
+  chatMessages      LivestreamChat[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([channelId, status])
+  @@index([scheduledAt])
+}
+
+model LivestreamChat {
+  id                String   @id @default(cuid())
+  livestreamId      String
+  livestream        Livestream @relation(fields: [livestreamId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation("LivestreamChatter", fields: [userId], references: [id])
+  
+  message           String
+  
+  // Message type
+  type              ChatMessageType @default(NORMAL)
+  
+  // Moderation
+  isDeleted         Boolean  @default(false)
+  isPinned          Boolean  @default(false)
+  
+  sentAt            DateTime @default(now())
+  
+  @@index([livestreamId, sentAt])
+  @@index([userId])
+}
+
+model VideoReport {
+  id                String   @id @default(cuid())
+  videoId           String
+  video             Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  reportedById      String
+  reportedBy        User     @relation("VideoReporter", fields: [reportedById], references: [id])
+  
+  reason            ReportReason
+  description       String?
+  
+  // Moderation
+  status            ReportStatus @default(PENDING)
+  reviewedAt        DateTime?
+  reviewedById      String?
+  reviewedBy        User?    @relation("ReportReviewer", fields: [reviewedById], references: [id])
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([videoId])
+  @@index([status])
+}
+
+// Enums for Video Streaming System
+enum ChannelCategory {
+  GENERAL
+  GAMING
+  MUSIC
+  SPORTS
+  ENTERTAINMENT
+  NEWS
+  EDUCATION
+  SCIENCE_TECH
+  TRAVEL
+  LIFESTYLE
+  COOKING
+  FITNESS
+  BUSINESS
+  COMEDY
+  DOCUMENTARY
+  KIDS
+  LIVE
+}
+
+enum CollaboratorRole {
+  VIEWER
+  EDITOR
+  MODERATOR
+  ADMIN
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+  DELETED
+}
+
+enum VideoCategory {
+  GENERAL
+  GAMING
+  MUSIC
+  SPORTS
+  ENTERTAINMENT
+  NEWS
+  EDUCATION
+  SCIENCE_TECH
+  TRAVEL
+  LIFESTYLE
+  COOKING
+  FITNESS
+  BUSINESS
+  COMEDY
+  DOCUMENTARY
+  KIDS
+  LIVE
+  ANIMATION
+  TUTORIAL
+  REVIEW
+  VLOG
+}
+
+enum VideoVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+  SCHEDULED
+}
+
+enum PlaylistVisibility {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+}
+
+enum LivestreamStatus {
+  SCHEDULED
+  LIVE
+  ENDED
+  CANCELLED
+}
+
+enum ChatMessageType {
+  NORMAL
+  SUPER_CHAT
+  MODERATOR
+  SYSTEM
+}
+
+enum ReportReason {
+  SPAM
+  VIOLENCE
+  HARASSMENT
+  HATE_SPEECH
+  NUDITY
+  COPYRIGHT
+  MISLEADING
+  CHILD_SAFETY
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWING
+  RESOLVED
+  DISMISSED
+}
+
+// Learning Management System Models
+model Course {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  slug              String   @unique
+  
+  // Course content
+  thumbnail         String?
+  trailer           String?  // Course preview video
+  language          String   @default("en")
+  level             CourseLevel @default(BEGINNER)
+  category          CourseCategory @default(TECHNOLOGY)
+  tags              String[]
+  
+  // Course structure
+  duration          Int      @default(0) // Total duration in minutes
+  lessonCount       Int      @default(0)
+  
+  // Pricing and access
+  price             Float    @default(0)
+  originalPrice     Float?   // For discounts
+  currency          String   @default("USD")
+  access            CourseAccess @default(PAID)
+  
+  // Course status
+  status            CourseStatus @default(DRAFT)
+  publishedAt       DateTime?
+  
+  // Requirements and outcomes
+  requirements      String[] // Prerequisites
+  outcomes          String[] // What students will learn
+  
+  // Instructor and organization
+  instructorId      String
+  instructor        User     @relation("CourseInstructor", fields: [instructorId], references: [id])
+  organizationId    String?  // For institutional courses
+  
+  // Course content
+  modules           CourseModule[]
+  lessons           Lesson[]
+  
+  // Student interaction
+  enrollments       Enrollment[]
+  reviews           CourseReview[]
+  discussions       CourseDiscussion[]
+  
+  // Analytics and tracking
+  analytics         CourseAnalytics[]
+  certificates      Certificate[]
+  
+  // Marketing
+  featured          Boolean  @default(false)
+  trending          Boolean  @default(false)
+  
+  // Stats (denormalized for performance)
+  enrollmentCount   Int      @default(0)
+  completionCount   Int      @default(0)
+  averageRating     Float    @default(0)
+  reviewCount       Int      @default(0)
+  revenue           Float    @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([instructorId, status])
+  @@index([category, level, status])
+  @@index([featured, trending])
+  @@index([slug])
+}
+
+model CourseModule {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String?
+  order             Int      // Module order in course
+  
+  // Module content
+  lessons           Lesson[]
+  
+  // Module settings
+  isLocked          Boolean  @default(false) // Requires previous modules
+  duration          Int      @default(0) // Total duration in minutes
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([courseId, order])
+  @@index([courseId, order])
+}
+
+model Lesson {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  moduleId          String?
+  module            CourseModule? @relation(fields: [moduleId], references: [id], onDelete: SetNull)
+  
+  title             String
+  description       String?
+  order             Int      // Lesson order in course/module
+  
+  // Lesson content
+  type              LessonType @default(VIDEO)
+  content           String?  // Text content for articles
+  videoUrl          String?  // Video URL
+  videoDuration     Int?     // Video duration in seconds
+  attachments       LessonAttachment[]
+  
+  // Interactive elements
+  quiz              Quiz?
+  assignment        Assignment?
+  
+  // Lesson settings
+  isPreview         Boolean  @default(false) // Free preview
+  isRequired        Boolean  @default(true)
+  
+  // Student interaction
+  progress          LessonProgress[]
+  notes             StudentNote[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([courseId, order])
+  @@index([courseId, order])
+  @@index([moduleId, order])
+}
+
+model LessonAttachment {
+  id                String   @id @default(cuid())
+  lessonId          String
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String?
+  fileUrl           String
+  fileType          String   // pdf, doc, zip, etc.
+  fileSize          Int      // Size in bytes
+  
+  isDownloadable    Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([lessonId])
+}
+
+model Enrollment {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("StudentEnrollment", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Enrollment details
+  enrolledAt        DateTime @default(now())
+  completedAt       DateTime?
+  expiresAt         DateTime? // For time-limited access
+  
+  // Payment information
+  amount            Float    @default(0)
+  currency          String   @default("USD")
+  paymentMethod     String?  // stripe, paypal, free, etc.
+  transactionId     String?  // External payment reference
+  
+  // Progress tracking
+  status            EnrollmentStatus @default(ACTIVE)
+  progress          Float    @default(0) // Percentage 0-100
+  lastAccessedAt    DateTime @default(now())
+  
+  // Time tracking
+  totalTimeSpent    Int      @default(0) // Total time in minutes
+  
+  // Student interaction
+  lessonProgress    LessonProgress[]
+  notes             StudentNote[]
+  certificates      Certificate[]
+  
+  // Completion tracking
+  completedLessons  Int      @default(0)
+  totalLessons      Int      @default(0)
+  
+  @@unique([courseId, studentId])
+  @@index([studentId, status])
+  @@index([courseId, status])
+}
+
+model LessonProgress {
+  id                String   @id @default(cuid())
+  enrollmentId      String
+  enrollment        Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId          String
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  // Progress details
+  status            ProgressStatus @default(NOT_STARTED)
+  progress          Float    @default(0) // Percentage 0-100
+  timeSpent         Int      @default(0) // Time in minutes
+  
+  // Video-specific progress
+  lastPosition      Int?     // Last video position in seconds
+  watchTime         Int      @default(0) // Total watch time in seconds
+  
+  // Completion tracking
+  startedAt         DateTime?
+  completedAt       DateTime?
+  lastAccessedAt    DateTime @default(now())
+  
+  @@unique([enrollmentId, lessonId])
+  @@index([enrollmentId])
+  @@index([lessonId])
+}
+
+model Quiz {
+  id                String   @id @default(cuid())
+  lessonId          String   @unique
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String?
+  instructions      String?
+  
+  // Quiz settings
+  timeLimit         Int?     // Time limit in minutes
+  maxAttempts       Int      @default(1)
+  passingScore      Float    @default(70) // Percentage
+  isRandomized      Boolean  @default(false)
+  showCorrectAnswers Boolean @default(true)
+  
+  // Quiz content
+  questions         QuizQuestion[]
+  attempts          QuizAttempt[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model QuizQuestion {
+  id                String   @id @default(cuid())
+  quizId            String
+  quiz              Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  
+  question          String
+  explanation       String?  // Explanation for correct answer
+  order             Int
+  
+  type              QuestionType @default(MULTIPLE_CHOICE)
+  points            Int      @default(1)
+  
+  // Question options
+  options           QuizOption[]
+  answers           QuizAnswer[]
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([quizId, order])
+  @@index([quizId, order])
+}
+
+model QuizOption {
+  id                String   @id @default(cuid())
+  questionId        String
+  question          QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  text              String
+  order             Int
+  isCorrect         Boolean  @default(false)
+  
+  @@unique([questionId, order])
+  @@index([questionId])
+}
+
+model QuizAttempt {
+  id                String   @id @default(cuid())
+  quizId            String
+  quiz              Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("QuizAttemptStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Attempt details
+  score             Float    @default(0) // Percentage score
+  totalPoints       Int      @default(0)
+  earnedPoints      Int      @default(0)
+  
+  // Timing
+  startedAt         DateTime @default(now())
+  completedAt       DateTime?
+  timeSpent         Int?     // Time spent in minutes
+  
+  // Status
+  status            AttemptStatus @default(IN_PROGRESS)
+  isPassed          Boolean  @default(false)
+  
+  // Attempt content
+  answers           QuizAnswer[]
+  
+  @@index([quizId, studentId])
+  @@index([studentId])
+}
+
+model QuizAnswer {
+  id                String   @id @default(cuid())
+  attemptId         String
+  attempt           QuizAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId        String
+  question          QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  answer            String   // Student's answer
+  isCorrect         Boolean  @default(false)
+  pointsEarned      Int      @default(0)
+  
+  @@unique([attemptId, questionId])
+  @@index([attemptId])
+}
+
+model Assignment {
+  id                String   @id @default(cuid())
+  lessonId          String   @unique
+  lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title             String
+  description       String
+  instructions      String?
+  
+  // Assignment settings
+  dueDate           DateTime?
+  maxPoints         Int      @default(100)
+  allowLateSubmission Boolean @default(true)
+  
+  // File requirements
+  allowedFileTypes  String[] // pdf, doc, zip, etc.
+  maxFileSize       Int      @default(10485760) // 10MB default
+  
+  // Assignment submissions
+  submissions       AssignmentSubmission[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model AssignmentSubmission {
+  id                String   @id @default(cuid())
+  assignmentId      String
+  assignment        Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("AssignmentSubmissionStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Submission content
+  content           String?  // Text submission
+  fileUrl           String?  // File submission
+  fileName          String?
+  fileSize          Int?
+  
+  // Grading
+  score             Float?   // Points earned
+  grade             String?  // Letter grade
+  feedback          String?  // Instructor feedback
+  
+  // Status and timing
+  status            SubmissionStatus @default(SUBMITTED)
+  submittedAt       DateTime @default(now())
+  gradedAt          DateTime?
+  gradedById        String?  // Instructor who graded
+  gradedBy          User?    @relation("AssignmentGrader", fields: [gradedById], references: [id])
+  
+  @@unique([assignmentId, studentId])
+  @@index([assignmentId])
+  @@index([studentId])
+}
+
+model StudentNote {
+  id                String   @id @default(cuid())
+  enrollmentId      String
+  enrollment        Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lessonId          String?
+  lesson            Lesson?  @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  
+  content           String
+  timestamp         Int?     // Video timestamp for video notes
+  
+  isPrivate         Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([enrollmentId])
+  @@index([lessonId])
+}
+
+model CourseReview {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("CourseReviewer", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  rating            Int      // 1-5 stars
+  title             String?
+  content           String?
+  
+  // Review moderation
+  isApproved        Boolean  @default(true)
+  isHelpful         Boolean  @default(false)
+  helpfulVotes      Int      @default(0)
+  
+  // Review verification
+  isVerifiedPurchase Boolean @default(false)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([courseId, studentId])
+  @@index([courseId, rating])
+  @@index([studentId])
+}
+
+model CourseDiscussion {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  authorId          String
+  author            User     @relation("DiscussionAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  
+  title             String
+  content           String
+  
+  // Discussion threading
+  parentId          String?
+  parent            CourseDiscussion? @relation("DiscussionThread", fields: [parentId], references: [id])
+  replies           CourseDiscussion[] @relation("DiscussionThread")
+  
+  // Interaction
+  isResolved        Boolean  @default(false)
+  isPinned          Boolean  @default(false)
+  upvotes           Int      @default(0)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([courseId, createdAt])
+  @@index([authorId])
+}
+
+model Certificate {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrollmentId      String
+  enrollment        Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("CertificateRecipient", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Certificate details
+  certificateNumber String   @unique
+  title             String
+  description       String?
+  
+  // Certificate design
+  templateId        String?  // Reference to certificate template
+  customization     Json?    // Custom colors, fonts, etc.
+  
+  // Verification
+  issuedAt          DateTime @default(now())
+  expiresAt         DateTime? // For time-limited certificates
+  verificationUrl   String?  // Public verification URL
+  
+  // Skills and achievements
+  skills            String[] // Skills demonstrated
+  grade             String?  // Final grade
+  score             Float?   // Final score percentage
+  
+  // Certificate file
+  certificateUrl    String?  // Generated certificate PDF
+  
+  @@index([studentId])
+  @@index([courseId])
+  @@index([certificateNumber])
+}
+
+model CourseAnalytics {
+  id                String   @id @default(cuid())
+  courseId          String
+  course            Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  
+  // Enrollment metrics
+  newEnrollments    Int      @default(0)
+  totalEnrollments  Int      @default(0)
+  completions       Int      @default(0)
+  dropouts          Int      @default(0)
+  
+  // Engagement metrics
+  totalTimeSpent    Int      @default(0) // Total time in minutes
+  averageProgress   Float    @default(0) // Average completion percentage
+  activeLearners    Int      @default(0) // Students who accessed course
+  
+  // Revenue metrics
+  revenue           Float    @default(0)
+  refunds           Float    @default(0)
+  
+  // Content metrics
+  mostWatchedLesson String?
+  leastWatchedLesson String?
+  averageQuizScore  Float?
+  
+  // Student feedback
+  averageRating     Float?
+  newReviews        Int      @default(0)
+  
+  @@unique([courseId, date])
+  @@index([courseId, date])
+}
+
+model LearningPath {
+  id                String   @id @default(cuid())
+  title             String
+  description       String?
+  slug              String   @unique
+  
+  // Path content
+  thumbnail         String?
+  estimatedDuration Int      @default(0) // Total duration in hours
+  level             CourseLevel @default(BEGINNER)
+  category          CourseCategory @default(TECHNOLOGY)
+  
+  // Path structure
+  courses           LearningPathCourse[]
+  
+  // Path ownership
+  creatorId         String
+  creator           User     @relation("LearningPathCreator", fields: [creatorId], references: [id])
+  
+  // Path enrollment
+  enrollments       LearningPathEnrollment[]
+  
+  // Path stats
+  enrollmentCount   Int      @default(0)
+  completionCount   Int      @default(0)
+  
+  // Path settings
+  isPublic          Boolean  @default(true)
+  isFeatured        Boolean  @default(false)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([creatorId])
+  @@index([category, level])
+  @@index([slug])
+}
+
+model LearningPathCourse {
+  id                String   @id @default(cuid())
+  pathId            String
+  path              LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  courseId          String
+  course            Course   @relation("PathCourses", fields: [courseId], references: [id], onDelete: Cascade)
+  
+  order             Int      // Course order in learning path
+  isRequired        Boolean  @default(true)
+  
+  @@unique([pathId, courseId])
+  @@unique([pathId, order])
+  @@index([pathId, order])
+}
+
+model LearningPathEnrollment {
+  id                String   @id @default(cuid())
+  pathId            String
+  path              LearningPath @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  studentId         String
+  student           User     @relation("PathStudent", fields: [studentId], references: [id], onDelete: Cascade)
+  
+  // Enrollment details
+  enrolledAt        DateTime @default(now())
+  completedAt       DateTime?
+  
+  // Progress tracking
+  progress          Float    @default(0) // Percentage 0-100
+  completedCourses  Int      @default(0)
+  totalCourses      Int      @default(0)
+  
+  @@unique([pathId, studentId])
+  @@index([studentId])
+  @@index([pathId])
+}
+
+// Enums for Learning Management System
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+  ALL_LEVELS
+}
+
+enum CourseCategory {
+  TECHNOLOGY
+  BUSINESS
+  DESIGN
+  MARKETING
+  PERSONAL_DEVELOPMENT
+  HEALTH_FITNESS
+  MUSIC
+  LANGUAGE
+  PHOTOGRAPHY
+  COOKING
+  ARTS_CRAFTS
+  LIFESTYLE
+  ACADEMIC
+  TEST_PREP
+}
+
+enum CourseAccess {
+  FREE
+  PAID
+  SUBSCRIPTION
+  INVITATION_ONLY
+}
+
+enum CourseStatus {
+  DRAFT
+  UNDER_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum LessonType {
+  VIDEO
+  ARTICLE
+  QUIZ
+  ASSIGNMENT
+  INTERACTIVE
+  LIVE_SESSION
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  DROPPED
+  EXPIRED
+  SUSPENDED
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  SKIPPED
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  FILL_IN_BLANK
+  SHORT_ANSWER
+  ESSAY
+  MATCHING
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  SUBMITTED
+  ABANDONED
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  GRADED
+  RETURNED
+  LATE
+  MISSING
+}
+
+// Healthcare and Telemedicine Models
+model Doctor {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation("DoctorProfile", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Professional information
+  licenseNumber     String   @unique
+  specialization    MedicalSpecialty @default(GENERAL_PRACTICE)
+  subSpecialties    MedicalSpecialty[]
+  yearsExperience   Int      @default(0)
+  
+  // Practice details
+  clinicName        String?
+  clinicAddress     String?
+  phoneNumber       String?
+  emergencyContact  String?
+  
+  // Verification and credentials
+  isVerified        Boolean  @default(false)
+  verifiedAt        DateTime?
+  verifiedById      String?
+  verifiedBy        User?    @relation("DoctorVerifier", fields: [verifiedById], references: [id])
+  
+  // Schedule and availability
+  schedule          DoctorSchedule[]
+  availability      DoctorAvailability[]
+  
+  // Medical practice
+  appointments      Appointment[]
+  consultations     Consultation[]
+  prescriptions     Prescription[]
+  medicalRecords    MedicalRecord[]
+  
+  // Professional stats
+  totalPatients     Int      @default(0)
+  totalConsultations Int     @default(0)
+  averageRating     Float    @default(0)
+  reviewCount       Int      @default(0)
+  
+  // Practice settings
+  consultationFee   Float    @default(0)
+  currency          String   @default("USD")
+  acceptsInsurance  Boolean  @default(true)
+  telemedicineEnabled Boolean @default(true)
+  
+  // Status and activity
+  isActive          Boolean  @default(true)
+  lastActiveAt      DateTime @default(now())
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([specialization, isVerified, isActive])
+  @@index([userId])
+}
+
+model Patient {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation("PatientProfile", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Personal information
+  dateOfBirth       DateTime
+  gender            Gender   @default(OTHER)
+  bloodType         BloodType?
+  height            Float?   // in cm
+  weight            Float?   // in kg
+  
+  // Contact information
+  phoneNumber       String?
+  emergencyContact  String?
+  emergencyPhone    String?
+  address           String?
+  city              String?
+  zipCode           String?
+  country           String   @default("US")
+  
+  // Insurance information
+  insuranceProvider String?
+  insuranceNumber   String?
+  insuranceGroup    String?
+  
+  // Medical information
+  allergies         String[] // List of known allergies
+  chronicConditions String[] // List of chronic conditions
+  currentMedications String[] // Current medications
+  
+  // Healthcare relationships
+  primaryDoctorId   String?
+  primaryDoctor     Doctor?  @relation("PrimaryPatients", fields: [primaryDoctorId], references: [id])
+  
+  // Medical records and activities
+  appointments      Appointment[]
+  consultations     Consultation[]
+  medicalRecords    MedicalRecord[]
+  prescriptions     Prescription[]
+  vitals            VitalSigns[]
+  labResults        LabResult[]
+  
+  // Billing and payments
+  billingRecords    BillingRecord[]
+  
+  // Consent and preferences
+  consentToTreatment Boolean  @default(false)
+  consentToTelemedicine Boolean @default(false)
+  dataProcessingConsent Boolean @default(false)
+  marketingOptIn    Boolean  @default(false)
+  
+  // Patient status
+  isActive          Boolean  @default(true)
+  lastVisitAt       DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([primaryDoctorId])
+  @@index([dateOfBirth])
+}
+
+model DoctorSchedule {
+  id                String   @id @default(cuid())
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Schedule details
+  dayOfWeek         Int      // 0 = Sunday, 1 = Monday, etc.
+  startTime         String   // Format: "09:00"
+  endTime           String   // Format: "17:00"
+  timeZone          String   @default("UTC")
+  
+  // Schedule settings
+  slotDuration      Int      @default(30) // Duration in minutes
+  breakStartTime    String?  // Optional break time
+  breakEndTime      String?
+  
+  // Schedule status
+  isActive          Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([doctorId, dayOfWeek])
+  @@index([doctorId])
+}
+
+model DoctorAvailability {
+  id                String   @id @default(cuid())
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Availability period
+  date              DateTime
+  startTime         String
+  endTime           String
+  timeZone          String   @default("UTC")
+  
+  // Availability type
+  type              AvailabilityType @default(REGULAR)
+  isBooked          Boolean  @default(false)
+  
+  // Override settings
+  isOverride        Boolean  @default(false) // Override regular schedule
+  reason            String?  // Reason for availability change
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([doctorId, date])
+  @@index([date, isBooked])
+}
+
+model Appointment {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Appointment details
+  scheduledAt       DateTime
+  duration          Int      @default(30) // Duration in minutes
+  timeZone          String   @default("UTC")
+  
+  // Appointment type and method
+  type              AppointmentType @default(CONSULTATION)
+  method            AppointmentMethod @default(IN_PERSON)
+  
+  // Status and workflow
+  status            AppointmentStatus @default(SCHEDULED)
+  
+  // Reason and notes
+  reason            String?
+  symptoms          String?
+  notes             String?
+  
+  // Follow-up information
+  isFollowUp        Boolean  @default(false)
+  followUpFor       String?  // Reference to previous appointment
+  
+  // Consultation record
+  consultation      Consultation?
+  
+  // Billing
+  billingRecord     BillingRecord?
+  
+  // Reminders and notifications
+  reminderSent      Boolean  @default(false)
+  reminderSentAt    DateTime?
+  
+  // Cancellation
+  cancelledAt       DateTime?
+  cancelledBy       String?  // Patient or Doctor
+  cancellationReason String?
+  
+  // Rescheduling
+  rescheduledFrom   String?  // Previous appointment ID
+  rescheduledTo     String?  // New appointment ID
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, scheduledAt])
+  @@index([doctorId, scheduledAt])
+  @@index([status, scheduledAt])
+}
+
+model Consultation {
+  id                String   @id @default(cuid())
+  appointmentId     String   @unique
+  appointment       Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+  // Consultation timing
+  startedAt         DateTime @default(now())
+  endedAt           DateTime?
+  duration          Int?     // Actual duration in minutes
+  
+  // Chief complaint and history
+  chiefComplaint    String?
+  historyOfPresentIllness String?
+  pastMedicalHistory String?
+  familyHistory     String?
+  socialHistory     String?
+  
+  // Physical examination
+  physicalExam      String?
+  vitalSigns        Json?    // Store vital signs as JSON
+  
+  // Assessment and plan
+  assessment        String?
+  diagnosis         String?
+  treatmentPlan     String?
+  followUpInstructions String?
+  
+  // Prescriptions and orders
+  prescriptions     Prescription[]
+  labOrders         LabOrder[]
+  
+  // Consultation type
+  isTelemedicine    Boolean  @default(false)
+  meetingLink       String?  // Video call link
+  meetingId         String?  // Meeting room ID
+  
+  // Documentation
+  consultationNotes String?
+  privateNotes      String?  // Doctor's private notes
+  
+  // Medical record
+  medicalRecord     MedicalRecord?
+  
+  // Follow-up
+  followUpRequired  Boolean  @default(false)
+  followUpDate      DateTime?
+  followUpType      AppointmentType?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, startedAt])
+  @@index([doctorId, startedAt])
+}
+
+model MedicalRecord {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  consultationId    String?  @unique
+  consultation      Consultation? @relation(fields: [consultationId], references: [id])
+  
+  // Record type and category
+  type              MedicalRecordType @default(CONSULTATION_NOTE)
+  category          String?
+  
+  // Medical content
+  title             String
+  content           String
+  summary           String?
+  
+  // Clinical data
+  diagnosis         String[]
+  symptoms          String[]
+  treatments        String[]
+  medications       String[]
+  
+  // Attachments and files
+  attachments       MedicalAttachment[]
+  
+  // Record metadata
+  recordDate        DateTime @default(now())
+  isConfidential    Boolean  @default(false)
+  
+  // Version control
+  version           Int      @default(1)
+  previousVersionId String?
+  isLatestVersion   Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, recordDate])
+  @@index([doctorId, recordDate])
+  @@index([type, recordDate])
+}
+
+model MedicalAttachment {
+  id                String   @id @default(cuid())
+  medicalRecordId   String
+  medicalRecord     MedicalRecord @relation(fields: [medicalRecordId], references: [id], onDelete: Cascade)
+  
+  // File information
+  fileName          String
+  fileUrl           String
+  fileType          String
+  fileSize          Int
+  
+  // Attachment metadata
+  title             String?
+  description       String?
+  attachmentType    AttachmentType @default(DOCUMENT)
+  
+  // Security and access
+  isEncrypted       Boolean  @default(true)
+  accessLevel       AccessLevel @default(DOCTOR_PATIENT)
+  
+  uploadedAt        DateTime @default(now())
+  
+  @@index([medicalRecordId])
+}
+
+model Prescription {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId          String
+  doctor            Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  consultationId    String?
+  consultation      Consultation? @relation(fields: [consultationId], references: [id])
+  
+  // Medication details
+  medicationName    String
+  dosage            String
+  frequency         String
+  duration          String
+  instructions      String?
+  
+  // Prescription information
+  quantity          Int?
+  refills           Int      @default(0)
+  
+  // Pharmacy information
+  pharmacyName      String?
+  pharmacyAddress   String?
+  pharmacyPhone     String?
+  
+  // Status and workflow
+  status            PrescriptionStatus @default(PENDING)
+  sentToPharmacy    Boolean  @default(false)
+  sentAt            DateTime?
+  
+  // Electronic prescription
+  prescriptionNumber String?  @unique
+  ndc               String?   // National Drug Code
+  
+  // Validity and control
+  isControlledSubstance Boolean @default(false)
+  dea               String?   // DEA number if controlled
+  expiresAt         DateTime?
+  
+  // Patient compliance
+  startDate         DateTime?
+  endDate           DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, createdAt])
+  @@index([doctorId, createdAt])
+  @@index([status])
+}
+
+model VitalSigns {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  
+  // Measurement date and context
+  measuredAt        DateTime @default(now())
+  measuredBy        String?  // Who took the measurements
+  location          String?  // Where measurements were taken
+  
+  // Vital signs
+  systolicBP        Int?     // Systolic blood pressure (mmHg)
+  diastolicBP       Int?     // Diastolic blood pressure (mmHg)
+  heartRate         Int?     // Heart rate (bpm)
+  temperature       Float?   // Temperature (Celsius)
+  respiratoryRate   Int?     // Respiratory rate (breaths/min)
+  oxygenSaturation  Int?     // Oxygen saturation (%)
+  
+  // Additional measurements
+  height            Float?   // Height (cm)
+  weight            Float?   // Weight (kg)
+  bmi               Float?   // Body Mass Index
+  
+  // Pain and subjective measures
+  painLevel         Int?     // Pain scale 0-10
+  
+  // Notes and context
+  notes             String?
+  abnormalFindings  String?
+  
+  // Data source
+  deviceUsed        String?  // Device or method used
+  isVerified        Boolean  @default(true)
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([patientId, measuredAt])
+}
+
+model LabOrder {
+  id                String   @id @default(cuid())
+  consultationId    String
+  consultation      Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+  patientId         String
+  doctorId          String
+  
+  // Order details
+  testType          String
+  testName          String
+  testCode          String?
+  urgency           LabUrgency @default(ROUTINE)
+  
+  // Instructions
+  instructions      String?
+  specialRequirements String?
+  
+  // Scheduling
+  scheduledDate     DateTime?
+  location          String?
+  
+  // Status
+  status            LabOrderStatus @default(ORDERED)
+  
+  // Results
+  result            LabResult?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([consultationId])
+  @@index([patientId, scheduledDate])
+}
+
+model LabResult {
+  id                String   @id @default(cuid())
+  labOrderId        String   @unique
+  labOrder          LabOrder @relation(fields: [labOrderId], references: [id], onDelete: Cascade)
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  
+  // Result details
+  testDate          DateTime
+  results           Json     // Store test results as JSON
+  normalRanges      Json?    // Normal ranges for the tests
+  
+  // Interpretation
+  interpretation    String?
+  abnormalFindings  String[]
+  criticalValues    String[]
+  
+  // Lab information
+  labName           String?
+  labTechnician     String?
+  reportUrl         String?
+  
+  // Status and review
+  status            LabResultStatus @default(PENDING_REVIEW)
+  reviewedBy        String?  // Doctor who reviewed
+  reviewedAt        DateTime?
+  reviewNotes       String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, testDate])
+}
+
+model BillingRecord {
+  id                String   @id @default(cuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  appointmentId     String?  @unique
+  appointment       Appointment? @relation(fields: [appointmentId], references: [id])
+  
+  // Billing details
+  serviceDate       DateTime
+  serviceDescription String
+  serviceCode       String?  // CPT code
+  
+  // Financial information
+  amount            Float
+  currency          String   @default("USD")
+  insuranceCoverage Float    @default(0)
+  patientResponsibility Float
+  
+  // Insurance information
+  insuranceProvider String?
+  insuranceClaimNumber String?
+  preAuthNumber     String?
+  
+  // Payment information
+  paymentStatus     PaymentStatus @default(PENDING)
+  paymentMethod     String?
+  paymentDate       DateTime?
+  transactionId     String?
+  
+  // Billing status
+  billingStatus     BillingStatus @default(DRAFT)
+  invoiceNumber     String?
+  sentToInsurance   Boolean  @default(false)
+  sentToPatient     Boolean  @default(false)
+  
+  // Due dates
+  dueDate           DateTime?
+  overdue           Boolean  @default(false)
+  
+  // Notes
+  billingNotes      String?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([patientId, serviceDate])
+  @@index([paymentStatus, dueDate])
+  @@index([billingStatus])
+}
+
+// Enums for Healthcare System
+enum MedicalSpecialty {
+  GENERAL_PRACTICE
+  INTERNAL_MEDICINE
+  PEDIATRICS
+  CARDIOLOGY
+  DERMATOLOGY
+  ENDOCRINOLOGY
+  GASTROENTEROLOGY
+  HEMATOLOGY
+  INFECTIOUS_DISEASE
+  NEPHROLOGY
+  NEUROLOGY
+  ONCOLOGY
+  OPHTHALMOLOGY
+  ORTHOPEDICS
+  OTOLARYNGOLOGY
+  PSYCHIATRY
+  PULMONOLOGY
+  RADIOLOGY
+  RHEUMATOLOGY
+  UROLOGY
+  OBSTETRICS_GYNECOLOGY
+  ANESTHESIOLOGY
+  EMERGENCY_MEDICINE
+  FAMILY_MEDICINE
+  PATHOLOGY
+  PHYSICAL_MEDICINE
+  PLASTIC_SURGERY
+  PREVENTIVE_MEDICINE
+  SURGERY
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum BloodType {
+  A_POSITIVE
+  A_NEGATIVE
+  B_POSITIVE
+  B_NEGATIVE
+  AB_POSITIVE
+  AB_NEGATIVE
+  O_POSITIVE
+  O_NEGATIVE
+}
+
+enum AvailabilityType {
+  REGULAR
+  EXTENDED
+  EMERGENCY
+  BLOCKED
+}
+
+enum AppointmentType {
+  CONSULTATION
+  FOLLOW_UP
+  PHYSICAL_EXAM
+  VACCINATION
+  MENTAL_HEALTH
+  SPECIALIST_REFERRAL
+  EMERGENCY
+  TELEMEDICINE
+}
+
+enum AppointmentMethod {
+  IN_PERSON
+  TELEMEDICINE
+  PHONE_CALL
+  HOME_VISIT
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+  RESCHEDULED
+}
+
+enum MedicalRecordType {
+  CONSULTATION_NOTE
+  DISCHARGE_SUMMARY
+  LAB_REPORT
+  IMAGING_REPORT
+  PRESCRIPTION
+  VACCINATION_RECORD
+  SURGERY_REPORT
+  PROGRESS_NOTE
+  REFERRAL
+  INSURANCE_CLAIM
+}
+
+enum AttachmentType {
+  DOCUMENT
+  IMAGE
+  X_RAY
+  MRI
+  CT_SCAN
+  ULTRASOUND
+  ECG
+  LAB_REPORT
+  PRESCRIPTION
+  INSURANCE_CARD
+}
+
+enum AccessLevel {
+  PUBLIC
+  PATIENT_ONLY
+  DOCTOR_PATIENT
+  DOCTOR_ONLY
+  EMERGENCY_ONLY
+}
+
+enum PrescriptionStatus {
+  PENDING
+  SENT_TO_PHARMACY
+  FILLED
+  CANCELLED
+  EXPIRED
+}
+
+enum LabUrgency {
+  ROUTINE
+  URGENT
+  STAT
+  CRITICAL
+}
+
+enum LabOrderStatus {
+  ORDERED
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum LabResultStatus {
+  PENDING_REVIEW
+  REVIEWED
+  ABNORMAL
+  CRITICAL
+  FINAL
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  PARTIAL
+  OVERDUE
+  CANCELLED
+  REFUNDED
+}
+
+enum BillingStatus {
+  DRAFT
+  SENT
+  PAID
+  OVERDUE
+  DISPUTED
+  CANCELLED
 }

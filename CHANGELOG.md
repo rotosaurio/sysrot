@@ -1563,3 +1563,37 @@ Los keywords en NPM aún mostraban términos especulativos del roadmap anterior 
 - **Testing**: Jest, Cypress, React Testing Library, GitHub Actions
 - **Analytics**: Google Analytics 4, Vercel Analytics, Posthog
 - **Performance**: Core Web Vitals, bundle optimization
+
+## [1.0.6] - 2025-xx-xx
+
+### 🎨 MEJORAS VISUALES Y UX MASIVAS EN EJEMPLOS PREMIUM
+
+- 🚀 Gradientes premium y paleta de colores unificada en todas las cards, botones y badges
+- 🟦 Bordes y sombras suaves, modernas y consistentes en todos los componentes visuales
+- 🏷️ Badges y etiquetas con gradiente y mejor contraste en marketplace, portfolio, saas, ecommerce, landing-page
+- 🟢 Botones principales con gradiente, sombra, micro-interacciones y accesibilidad mejorada
+- 📱 Responsive mejorado (mobile-first, touch-friendly, breakpoints revisados)
+- 🧩 Micro-interacciones y animaciones en hover, focus y active en cards y botones
+- 📝 Formularios con loading states, feedback visual, validaciones y accesibilidad (contacto, checkout, onboarding)
+- 📊 DataTable con gradientes en headers, filas, loading state mejorado y micro-interacciones
+- 🧑‍🦽 Accesibilidad: roles, aria-labels, focus visible en botones, formularios y cards
+- ⏳ Loading states y feedback visual en operaciones asíncronas (spinners, skeletons)
+- 🏷️ Unificación de badges y etiquetas de estado/categoría en todos los ejemplos
+- 🏆 Consistencia visual y experiencia premium en todos los ejemplos de integración completa
+
+*Versión publicada en NPM y documentación actualizada en ambos idiomas*
+
+## [1.0.7] - 2025-01-29
+### Corregido
+- README.md y README.es.md corregidos para visualización en NPM (texto corrupto eliminado, formato mejorado)
+- Pequeños cambios para asegurar publicación exitosa en NPM
+
+### Mejorado
+- Consistencia visual y mejoras en ejemplos premium
+
+## [1.0.11] - 2025-01-29
+### Corregido
+- Error 'Cannot find module webpack-bundle-analyzer' en next.config.js del template
+- Agregada importación y devDependency para BundleAnalyzerPlugin
+
+</rewritten_file>

@@ -175,75 +175,71 @@ const reviews = [
 
 function ProductCard({ product, onToggleWishlist, isInWishlist }: any) {
   const [showReviews, setShowReviews] = useState(false);
-  
   const productReviews = reviews.filter(review => review.productId === product.id);
-  
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+    <div className="bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 rounded-2xl shadow-lg border border-blue-200/60 dark:border-blue-800/60 overflow-hidden hover:shadow-2xl transition-all duration-300 group">
       <div className="relative">
-        <div className="aspect-square bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-6xl">
+        <div className="aspect-square bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-blue-900/30 flex items-center justify-center text-6xl">
           {product.image}
         </div>
-        
         {/* Discount Badge */}
         {product.discount > 0 && (
-          <div className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded-full text-sm font-bold shadow-md border border-red-200 dark:border-red-800">
             -{product.discount}%
           </div>
         )}
-        
         {/* Tags */}
         <div className="absolute top-2 right-2 flex flex-col space-y-1">
           {product.tags.map((tag, index) => (
-            <span key={index} className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">
+            <span key={index} className="bg-gradient-to-r from-blue-100/60 to-purple-100/60 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-200 px-2 py-1 rounded-full text-xs font-semibold border border-blue-200 dark:border-blue-800 shadow-sm">
               {tag}
             </span>
           ))}
         </div>
-        
         {/* Wishlist Button */}
         <button
           onClick={() => onToggleWishlist(product.id)}
-          className="absolute bottom-2 right-2 p-2 bg-white/90 rounded-full hover:bg-white transition-colors"
+          className="absolute bottom-2 right-2 p-2 bg-white/90 dark:bg-gray-900/80 rounded-full shadow-md hover:bg-gradient-to-r hover:from-pink-100 hover:to-red-100 dark:hover:from-pink-900/30 dark:hover:to-red-900/30 transition-colors border border-gray-200 dark:border-gray-700"
+          aria-label={isInWishlist ? 'Quitar de favoritos' : 'Agregar a favoritos'}
         >
           {isInWishlist ? (
             <HeartSolidIcon className="w-5 h-5 text-red-500" />
           ) : (
-            <HeartIcon className="w-5 h-5 text-gray-600" />
+            <HeartIcon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
           )}
         </button>
       </div>
-      
       <div className="p-6">
         {/* Vendor Info */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
             <UserIcon className="w-4 h-4 text-gray-500" />
-            <span className="text-sm text-blue-600 font-medium">{product.vendor}</span>
+            <span className="text-sm font-bold px-3 py-1 rounded-full bg-gradient-to-r from-blue-100/60 to-purple-100/60 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-800 shadow-sm">
+              {product.vendor}
+            </span>
             {vendors.find(v => v.id === product.vendorId)?.verified && (
-              <span className="text-green-500 text-xs">✓</span>
+              <span className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-xs font-bold border border-green-200 dark:border-green-800 shadow-sm ml-1">
+                ✓
+              </span>
             )}
           </div>
-          <span className="text-sm text-gray-500">{product.category}</span>
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-gradient-to-r from-blue-100/60 to-purple-100/60 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-700 dark:text-blue-200 border border-blue-200 dark:border-blue-800 shadow-sm">
+            {product.category}
+          </span>
         </div>
-        
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
           {product.name}
         </h3>
-        
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-3">
           {product.description}
         </p>
-        
         {/* Rating */}
         <div className="flex items-center mb-3">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
               <StarSolidIcon
                 key={i}
-                className={`w-4 h-4 ${
-                  i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'
-                }`}
+                className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
               />
             ))}
           </div>
@@ -251,7 +247,6 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }: any) {
             {product.rating} ({product.reviews} reviews)
           </span>
         </div>
-        
         {/* Price */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
@@ -264,33 +259,32 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }: any) {
               </span>
             )}
           </div>
-          <div className={`px-2 py-1 rounded-full text-sm ${
+          <div className={`px-2 py-1 rounded-full text-sm font-bold shadow-sm ${
             product.inStock 
-              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-              : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+              ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+              : 'bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-800'
           }`}>
             {product.inStock ? 'En Stock' : 'Agotado'}
           </div>
         </div>
-        
         {/* Actions */}
         <div className="flex space-x-2 mb-4">
           <button
             disabled={!product.inStock}
-            className={`flex-1 py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 ${
+            className={`flex-1 py-2 px-4 rounded-lg shadow-md transition-colors flex items-center justify-center space-x-2 font-semibold ${
               product.inStock
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
+            aria-label="Agregar al carrito"
           >
             <ShoppingCartIcon className="w-4 h-4" />
             <span>Agregar al Carrito</span>
           </button>
-          <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <button className="px-4 py-2 border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-200 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors font-semibold">
             Ver Detalles
           </button>
         </div>
-        
         {/* Reviews Toggle */}
         <button
           onClick={() => setShowReviews(!showReviews)}
@@ -298,14 +292,13 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }: any) {
         >
           {showReviews ? 'Ocultar' : 'Ver'} Reseñas ({productReviews.length})
         </button>
-        
         {/* Reviews Section */}
         {showReviews && (
           <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             {productReviews.length > 0 ? (
               <div className="space-y-3">
                 {productReviews.slice(0, 2).map((review) => (
-                  <div key={review.id} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                  <div key={review.id} className="bg-gradient-to-r from-slate-100 via-white to-blue-100 dark:from-gray-800 dark:via-gray-900 dark:to-blue-900/30 rounded-lg p-3 shadow-sm">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
                         <span className="font-medium text-sm">{review.user}</span>
@@ -313,9 +306,7 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }: any) {
                           {[...Array(5)].map((_, i) => (
                             <StarSolidIcon
                               key={i}
-                              className={`w-3 h-3 ${
-                                i < review.rating ? 'text-yellow-400' : 'text-gray-300'
-                              }`}
+                              className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
                             />
                           ))}
                         </div>
@@ -343,19 +334,19 @@ function ProductCard({ product, onToggleWishlist, isInWishlist }: any) {
 
 function VendorCard({ vendor }: any) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+    <div className="bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 rounded-2xl shadow-lg border border-blue-200/60 dark:border-blue-800/60 p-6 hover:shadow-2xl transition-shadow">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
             {vendor.name.charAt(0)}
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 {vendor.name}
               </h3>
               {vendor.verified && (
-                <span className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-2 py-1 rounded-full text-xs">
+                <span className="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-xs font-bold border border-green-200 dark:border-green-800 shadow-sm">
                   Verificado ✓
                 </span>
               )}
@@ -367,7 +358,6 @@ function VendorCard({ vendor }: any) {
           </div>
         </div>
       </div>
-      
       <div className="grid grid-cols-3 gap-4 text-center mb-4">
         <div>
           <div className="text-2xl font-bold text-blue-600">{vendor.rating}</div>
@@ -382,8 +372,7 @@ function VendorCard({ vendor }: any) {
           <div className="text-sm text-gray-600 dark:text-gray-300">Productos</div>
         </div>
       </div>
-      
-      <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+      <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 transition-colors font-semibold">
         Ver Tienda
       </button>
     </div>

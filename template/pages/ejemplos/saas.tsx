@@ -66,22 +66,21 @@ const subscriptionPlans = [
 
 function TenantCard({ tenant }: { tenant: any }) {
   const statusColor = tenant.status === 'active' ? 'green' : 'yellow';
-  
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+    <div className="bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900/30 rounded-2xl shadow-lg border border-blue-200/60 dark:border-blue-800/60 p-6 hover:shadow-2xl transition-shadow">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-md">
             {/* BuildingOfficeIcon */}
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
               {tenant.name}
             </h3>
-            <span className={`text-sm px-2 py-1 rounded-full ${
+            <span className={`text-sm px-2 py-1 rounded-full font-bold shadow-sm ${
               statusColor === 'green' 
-                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800'
+                : 'bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 text-yellow-800 dark:text-yellow-200 border border-yellow-200 dark:border-yellow-800'
             }`}>
               {tenant.status === 'active' ? 'Activo' : 'Prueba'}
             </span>
@@ -91,7 +90,6 @@ function TenantCard({ tenant }: { tenant: any }) {
           {tenant.plan}
         </span>
       </div>
-      
       <div className="grid grid-cols-3 gap-4 text-center">
         <div>
           <div className="text-2xl font-bold text-blue-600">{tenant.users}</div>
@@ -106,12 +104,11 @@ function TenantCard({ tenant }: { tenant: any }) {
           <div className="text-sm text-gray-600 dark:text-gray-300">Facturación</div>
         </div>
       </div>
-      
       <div className="mt-4 flex space-x-2">
-        <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+        <button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg shadow-md hover:from-blue-700 hover:to-purple-700 transition-colors text-sm font-semibold">
           Administrar
         </button>
-        <button className="flex-1 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm">
+        <button className="flex-1 border-2 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-200 py-2 px-4 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors text-sm font-semibold">
           Configurar
         </button>
       </div>
@@ -121,13 +118,12 @@ function TenantCard({ tenant }: { tenant: any }) {
 
 function PlanCard({ plan }: { plan: any }) {
   const colorClasses = {
-    blue: 'border-blue-500 bg-blue-50 dark:bg-blue-900/20',
-    purple: 'border-purple-500 bg-purple-50 dark:bg-purple-900/20',
-    emerald: 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
+    blue: 'border-blue-500 bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-blue-900 dark:via-gray-900 dark:to-blue-900/30',
+    purple: 'border-purple-500 bg-gradient-to-br from-purple-50 via-white to-blue-100 dark:from-purple-900 dark:via-gray-900 dark:to-blue-900/30',
+    emerald: 'border-emerald-500 bg-gradient-to-br from-emerald-50 via-white to-blue-100 dark:from-emerald-900 dark:via-gray-900 dark:to-blue-900/30'
   };
-
   return (
-    <div className={`rounded-lg border-2 p-6 ${colorClasses[plan.color as keyof typeof colorClasses]}`}>
+    <div className={`rounded-2xl border-2 shadow-lg p-6 ${colorClasses[plan.color as keyof typeof colorClasses]}`}>
       <div className="text-center">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
           {plan.name}
@@ -144,13 +140,7 @@ function PlanCard({ plan }: { plan: any }) {
             </li>
           ))}
         </ul>
-        <button className={`w-full py-2 px-4 rounded-lg transition-colors ${
-          plan.color === 'purple' 
-            ? 'bg-purple-600 hover:bg-purple-700 text-white'
-            : plan.color === 'emerald'
-            ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
-            : 'bg-blue-600 hover:bg-blue-700 text-white'
-        }`}>
+        <button className={`w-full py-2 px-4 rounded-lg shadow-md transition-colors font-semibold bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700`}>
           Seleccionar Plan
         </button>
       </div>
