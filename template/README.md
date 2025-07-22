@@ -25,6 +25,21 @@ npx sysrot-hub my-project
 
 ---
 
+## 🌐 Repository & Documentation
+
+- **GitHub repository:** [https://github.com/rotosaurio/sysrot](https://github.com/rotosaurio/sysrot)
+- **Documentation (English):** [DOCUMENTACION.md](DOCUMENTACION.md)
+- **Read this README in Spanish:** [README.es.md](README.es.md)
+- **Other documentation:**
+  - [README-ECOMMERCE.md](README-ECOMMERCE.md) — E-commerce system
+  - [README-SAAS.md](README-SAAS.md) — SaaS multi-tenant
+  - [README-CHAT.md](README-CHAT.md) — Real-time chat
+  - [README-CHATBOT.md](README-CHATBOT.md) — AI chatbots
+  - [README-VIDEOS.md](README-VIDEOS.md) — Video streaming
+  - [CHANGELOG-PHASES.md](CHANGELOG-PHASES.md) — Roadmap & phases
+
+---
+
 ## ✨ Key Features
 
 - **Next.js 14+** with Pages Router, SSR/SSG, API routes
@@ -170,15 +185,16 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 
 ---
 
-## 📚 Documentation
+## 📚 Documentation & Resources
 
-- [DOCUMENTACION.md](DOCUMENTACION.md) (Spanish)
-- [README-ECOMMERCE.md](README-ECOMMERCE.md)
-- [README-SAAS.md](README-SAAS.md)
-- [README-CHAT.md](README-CHAT.md)
-- [README-CHATBOT.md](README-CHATBOT.md)
-- [README-VIDEOS.md](README-VIDEOS.md)
-- [CHANGELOG-PHASES.md](CHANGELOG-PHASES.md) (Roadmap)
+- [DOCUMENTACION.md](DOCUMENTACION.md) — Full documentation (Spanish)
+- [README.es.md](README.es.md) — Este README en español
+- [README-ECOMMERCE.md](README-ECOMMERCE.md) — E-commerce system
+- [README-SAAS.md](README-SAAS.md) — SaaS multi-tenant
+- [README-CHAT.md](README-CHAT.md) — Real-time chat
+- [README-CHATBOT.md](README-CHATBOT.md) — AI chatbots
+- [README-VIDEOS.md](README-VIDEOS.md) — Video streaming
+- [CHANGELOG-PHASES.md](CHANGELOG-PHASES.md) — Roadmap & phases
 
 ---
 
