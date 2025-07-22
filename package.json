@@ -1,6 +1,6 @@
 {
   "name": "sysrot-hub",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "private": false,
   "description": "CLI de nueva generación para proyectos Next.js 14+ con IA multi-modelo, Web3 integration, internacionalización completa y roadmap realista 2025-2026",
   "main": "cli.js",
